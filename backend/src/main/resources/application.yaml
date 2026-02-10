@@ -1,0 +1,21 @@
+spring:
+
+  application:
+    name: CareConnect
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${DB_NAME:care_connect_db}
+    username: ${DB_USER:care_user}
+    password: ${DB_PASSWORD:care_password}
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  flyway:
+    enabled: true
