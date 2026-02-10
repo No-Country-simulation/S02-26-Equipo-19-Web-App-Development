@@ -1,0 +1,10 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: CareConnectDB
+    environment:
+      - POSTGRES_USER=${DB_USER:-care_user}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-care_password}
+      - POSTGRES_DB=${DB_NAME:-care_connect_db}
+    ports:
+      - "5432:5432"
