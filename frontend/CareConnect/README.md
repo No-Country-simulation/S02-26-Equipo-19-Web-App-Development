@@ -1,16 +1,41 @@
-# React + Vite
+#  Guia de estilos
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+##  Tipografías
 
-Currently, two official plugins are available:
+| Variable         | Uso                   |
+| ---------------- | --------------------- |
+| `--font-heading` | Títulos y encabezados |
+| `--font-body`    | Texto general         |
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+##  Colores de texto
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Clase              | Uso                              |
+| ------------------ | -------------------------------- |
+| `text-f-primary`   | Texto principal                  |
+| `text-f-secondary` | Texto secundario / descripciones |
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+##  Colores de fondo
+
+| Clase             | Descripción                |
+| ----------------- | -------------------------- |
+| `bg-bg-primary`   | Fondo principal de la app  |
+| `bg-bg-secondary` | Fondos secundarios / cards |
+---
+| Página     | Clase                      |
+| ---------- | --------------------       |
+| Caregivers | `bg-page-caregivers`       |
+| Caregivers | `bg-page-caregivers-hover` |
+| Family     | `bg-page-family`           |
+| Family     | `bg-page-family-hover`     |
+| Admin      | `bg-page-admin`            |
+| Login      | `bg-page-login`            |
+
+##  otros
+
+| Clase           | Uso             |
+| --------------- | --------------- |
+| `-border` | Bordes estándar |
+| `-alert`  | Alertas         |
