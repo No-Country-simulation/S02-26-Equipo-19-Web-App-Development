@@ -2,6 +2,7 @@ package com.team19.CareConnect.core.domain.patient;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.team19.CareConnect.core.domain.PatientCaregiver;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Patient {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
@@ -29,11 +31,17 @@ public class Patient {
     private PatientStatus patientStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
     @ManyToOne
     @JoinColumn(name = "patient_id")
     @JsonBackReference
     private Guardian guardian;
+
     @OneToMany(mappedBy = "patient")
     @JsonManagedReference
     private List<PatientSecondaryContact> secondaryContacts = new ArrayList<>();
+
+    @OneToMany(mappedBy = "patient")
+    @JsonManagedReference
+    private List<PatientCaregiver> patientCaregiver = new ArrayList<>();
 }
