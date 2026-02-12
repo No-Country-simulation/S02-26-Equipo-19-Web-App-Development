@@ -8,3 +8,42 @@ services:
       - POSTGRES_DB=${DB_NAME:-care_connect_db}
     ports:
       - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DB_USER:-care_user} -d ${DB_NAME:-care_connect_db}" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    networks:
+      - careconnect-network
+
+  ngrok:
+    image: ngrok/ngrok:3
+    container_name: CareConnectTunnel
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    command:
+      - "http"
+      - "backend:8080"
+    ports:
+      - "4040:4040"
+    networks:
+      - careconnect-network
+
+  backend:
+    build: ./backend
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL:-jdbc:postgresql://db:5432/care_connect_db}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-care_user}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-care_password}
+    container_name: CareConnectApp
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - careconnect-network
+networks:
+  careconnect-network:
+    driver: bridge

@@ -1,0 +1,29 @@
+# Carpetas de compilación
+target/
+
+# Intellij IDEA
+.idea/
+*.iws
+*.iml
+*.ipr
+
+# Visual Studio Code
+.vscode/
+.history/
+*.code-workspace
+
+# Control de versiones
+.git
+.gitignore
+
+# Variables
+.env
+.env.example
+
+# Integración
+docker-compose*.yml
+README.md
+
+# SO
+.DS_Store
+Thumbs.db
