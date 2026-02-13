@@ -10,7 +10,7 @@ const Button = ({
     children,
     onClick,
     className = "",
-    variant = login,
+    variant = "login",
     icon = null,
     type = "button",
 }) => {
