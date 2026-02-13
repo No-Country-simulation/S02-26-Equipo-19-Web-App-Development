@@ -4,11 +4,13 @@ spring:
     name: CareConnect
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/${DB_NAME:care_connect_db}
-    username: ${DB_USER:care_user}
-    password: ${DB_PASSWORD:care_password}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/care_connect_db}
+    username: ${SPRING_DATASOURCE_USERNAME:care_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:care_password}
     driver-class-name: org.postgresql.Driver
-
+    hikari:
+      connection-timeout: 30000
+      initialization-fail-timeout: 30000
   jpa:
     hibernate:
       ddl-auto: validate
