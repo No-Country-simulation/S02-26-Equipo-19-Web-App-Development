@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,7 +17,8 @@ import java.time.LocalDateTime;
 public class PayRate {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "pay_rate_id")
     private Long id;
     
     @ManyToOne
@@ -24,9 +26,8 @@ public class PayRate {
     @JsonBackReference
     private Caregiver caregiver;
     
-    private Double rate;
+    private BigDecimal hourlyPayRate;
 
-    private Boolean isActive;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private LocalDateTime startDate;
+    private LocalDateTime endDate;
 }

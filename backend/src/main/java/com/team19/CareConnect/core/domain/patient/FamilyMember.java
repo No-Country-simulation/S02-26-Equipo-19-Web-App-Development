@@ -16,7 +16,8 @@ import java.util.List;
 @AllArgsConstructor
 public class FamilyMember {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "family_member_id")
     private Long id;
     private String firstName;
     private String lastName;

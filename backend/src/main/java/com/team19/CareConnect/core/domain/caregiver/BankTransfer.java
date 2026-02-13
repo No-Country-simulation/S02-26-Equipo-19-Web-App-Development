@@ -15,11 +15,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class BankTransfer {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bank_payment_method_id")
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "billing_information_id")
+    @JoinColumn(name = "billing_information_id", referencedColumnName = "billing_information_id")
     @JsonBackReference
     private BillingInformation billingInformation;
 
@@ -28,7 +29,6 @@ public class BankTransfer {
     private String cbu;
     private String cvu;
     private String alias;
-    private String isActive;
+    private Boolean isActive;
     private LocalDateTime createdAt;
-
 }

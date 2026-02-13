@@ -16,13 +16,13 @@ import java.util.List;
 @AllArgsConstructor
 public class BillingInformation {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "billing_information_id")
     private Long id;
-    private PreferredPayMethod preferredPayMethod;
+    @Enumerated(EnumType.STRING)
+    private PreferredPayMethod preferredPaymentMethod;
     private String currency;
-    private Boolean isActive;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+    private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "billingInformation")
     @JsonManagedReference

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,20 +19,24 @@ import java.util.List;
 @AllArgsConstructor
 public class Caregiver {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "caregiver_id")
     private Long id;
+    private String caregiverDni;
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
     private String phoneNumber;
+    private String password;
+    private LocalDateTime birthDate;
+    @Enumerated(EnumType.STRING)
+    private CaregiverStatus status;
     private String address;
-    private String status;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
     @OneToOne
-    @JoinColumn(name = "caregive_billing_info_id", referencedColumnName = "id")
+    @JoinColumn(name = "billing_information_id")
     private BillingInformation billingInformation;
 
     @OneToMany(mappedBy = "caregiver")

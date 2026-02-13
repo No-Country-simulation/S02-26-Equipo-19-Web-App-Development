@@ -17,14 +17,18 @@ import java.util.List;
 @AllArgsConstructor
 public class Guardian {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "guardian_id")
     private Long id;
+    private String guardianDni;
     private String firstName;
     private String lastName;
     private String email;
+    private LocalDateTime birthDate;
     private String password;
-    private String phone;
+    private String phoneNumber;
     private String address;
+    @Enumerated(EnumType.STRING)
     private GuardianStatus guardianStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

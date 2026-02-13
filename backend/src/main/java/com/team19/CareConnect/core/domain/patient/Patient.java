@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,20 +21,23 @@ import java.util.List;
 public class Patient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "patient_id")
     private Long id;
     private String patientDni;
+    private LocalDateTime birthDate;
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
     private String address;
+    @Enumerated(EnumType.STRING)
     private PatientStatus patientStatus;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id")
+    @JoinColumn(name = "guardian_patient_id")
     @JsonBackReference
     private Guardian guardian;
 

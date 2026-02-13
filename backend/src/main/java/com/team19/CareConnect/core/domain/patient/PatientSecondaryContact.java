@@ -13,14 +13,17 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PatientSecondaryContact {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "secondary_contact_id")
     private Long id;
     private Boolean isPreferredContact;
     private String relationshipType;
+
     @ManyToOne
-    @JoinColumn(name = "contact_id")
+    @JoinColumn(name = "family_member_id")
     @JsonBackReference
     private FamilyMember familyMember;
+
     @ManyToOne
     @JoinColumn(name = "patient_id")
     @JsonBackReference

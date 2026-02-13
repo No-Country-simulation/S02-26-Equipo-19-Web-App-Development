@@ -15,7 +15,8 @@ import lombok.Setter;
 @AllArgsConstructor
 public class PatientCaregiver {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "patient_caregiver_id")
     private Long id;
 
     @ManyToOne
