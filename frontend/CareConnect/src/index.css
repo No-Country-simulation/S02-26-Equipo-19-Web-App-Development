@@ -21,5 +21,10 @@ body {
   --color-page-admin: #155DFC;
 
   --color-border: #E5E5E5;
+  
   --color-alert:#FEF9C2;
+  --color-main-alert: #F0B100;
+
+  --color-rejected: #E7040E;
+
 }
