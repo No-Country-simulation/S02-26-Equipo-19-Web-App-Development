@@ -1,17 +1,7 @@
 import { User } from "lucide-react";
-import Patient from "../../components/common/Patient";
-import { useState } from "react";
-const PatientCard = () => {
-    const [activeId, setActiveId] = useState(1);
-    const patients = [
-        {
-            id: 1,
-            name: "Maria Garcia",
-            age: "60",
-            estable: true,
-        },
-        { id: 2, name: "Pepe", age: "70", estable: false },
-    ];
+import Patient from "../common/Patient";
+const DashBoard = ({patients, activeId, setActiveId}) => {
+
     return (
         <div className=" w-full p-4 bg-bg-secondary border border-border rounded-lg">
             <div className="mb-5 flex gap-3">
@@ -36,4 +26,4 @@ const PatientCard = () => {
     );
 };
 
-export default PatientCard;
+export default DashBoard;
