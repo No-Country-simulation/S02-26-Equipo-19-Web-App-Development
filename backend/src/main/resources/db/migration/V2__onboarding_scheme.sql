@@ -1,0 +1,61 @@
+CREATE TYPE application_status AS ENUM (
+    'PENDING',
+    'IN_REVIEW',
+    'APPROVED',
+    'REJECTED'
+);
+
+CREATE TYPE document_type AS ENUM (
+    'NATIONAL_ID',
+    'CUIL_CERTIFICATE',
+    'AFIP_REGISTRATION',
+    'CRIMINAL_RECORD',
+    'MEDICAL_FITNESS_CERT',
+    'OTHER'
+);
+
+CREATE TYPE availability_type AS ENUM (
+    'FULL_TIME',
+    'PART_TIME',
+    'WEEKENDS'
+);
+
+CREATE TABLE caregiver_request (
+    application_id      BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    application_status  application_status DEFAULT 'PENDING' NOT NULL,
+    submitted_at        TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    reviewed_at         TIMESTAMPTZ,
+    rejection_reason    TEXT,
+    spread_sheet_id     TEXT,
+    --FK
+    reviewed_by         BIGINT,
+    CONSTRAINT fk_admin_caregiver_request FOREIGN KEY (reviewed_by)
+        REFERENCES admin(admin_id) ON DELETE CASCADE
+);
+
+CREATE TABLE document (
+    document_id         BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+    document_type       document_type NOT NULL,
+    file_name           TEXT,
+    file_path           TEXT,
+    file_size           BIGINT,
+    mime_type           VARCHAR(100),
+    uploaded_at         TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+    is_verified         BOOLEAN DEFAULT FALSE,
+    --FK
+    application_id      BIGINT NOT NULL,
+    CONSTRAINT fk_document_caregiver_request FOREIGN KEY (application_id)
+        REFERENCES caregiver_request(application_id) ON DELETE CASCADE
+);
+
+CREATE TABLE form_information (
+    application_id      BIGINT PRIMARY KEY,
+    full_name           TEXT NOT NULL,
+    phone_number        VARCHAR(20),
+    date_of_birth       DATE,
+    availability_type   availability_type,
+    specializations     TEXT,
+    --FK
+    CONSTRAINT fk_form_caregiver_request FOREIGN KEY (application_id)
+        REFERENCES caregiver_request(application_id) ON DELETE CASCADE
+)
