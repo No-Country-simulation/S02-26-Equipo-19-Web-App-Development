@@ -1,5 +1,6 @@
 package com.team19.CareConnect.core.domain;
 
+import com.team19.CareConnect.onboarding.domain.CaregiverRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Setter @Getter
@@ -25,4 +28,8 @@ public class Admin {
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    // Relación con CaregiverRequest
+    @OneToMany(mappedBy = "reviewedBy")
+    private List<CaregiverRequest> caregiverRequests = new ArrayList<>();
 }
