@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class Guardian {
     private String firstName;
     private String lastName;
     private String email;
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     private String password;
     private String phoneNumber;
     private String address;
