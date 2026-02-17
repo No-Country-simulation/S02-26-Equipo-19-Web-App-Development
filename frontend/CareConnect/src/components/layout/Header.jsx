@@ -2,9 +2,9 @@ import IconRol from "./../common/IconRol";
 import LogOutButton from "./../common/LogOutButton"
 const Header = ({ rol }) => {
     const portalRol = {
-        family: "familiar",
-        admin: "de admin",
-        caregivers: "cuidadores",
+        family: "Familiar",
+        admin: "Administrador",
+        caregivers: "Cuidador",
     };
     return (
         <header className="bg-bg-secondary border-b border-border sticky top-0 z-10 shadow-sm">
@@ -20,7 +20,7 @@ const Header = ({ rol }) => {
                             CareConnect
                         </h2>
                         <p className="font-body text-f-secondary text-sm">
-                            portal {portalRol[rol]}
+                            Portal {portalRol[rol]}
                         </p>
                     </div>
                 </div>
