@@ -1,6 +1,9 @@
 import Header from "../../components/layout/Header";
 import DashBoard from "../../components/layout/DashBoard";
 import PatientCard from "../../components/layout/PatientCard";
+import ReportSection from "./components/ReportSection";
+import { FileText } from "lucide-react";
+
 import { useState } from "react";
 const Family = () => {
     const [activeId, setActiveId] = useState(1);
@@ -17,7 +20,7 @@ const Family = () => {
     return (
         <>
             <Header rol="family" />
-            <main className="p-4 grid gap-4 grid-cols-1 lg:grid-cols-4">
+            <main className="p-4 gap-4 grid grid-cols-1 lg:grid-cols-4">
                 <aside className="lg:col-span-1">
                     <DashBoard
                         patients={patients}
@@ -26,7 +29,9 @@ const Family = () => {
                     />
                 </aside>
                 <section className="lg:col-span-3">
-                    <PatientCard patient={patients[activeId - 1]}/>
+                    <PatientCard patient={patients[activeId - 1]} />
+                    <ReportSection />
+                    
                 </section>
             </main>
         </>
