@@ -4,18 +4,18 @@ import AdminLayout from './layouts/AdminLayout';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/Table';
 
-// Dummy data for users
-const usersData = [
-    { id: 1, name: 'Pablo', email: 'pablo@gmail.com', role: 'Cuidador', status: 'Activo' },
-    { id: 2, name: 'Juan', email: 'juan@gmail.com', role: 'Admin', status: 'Activo' },
-    { id: 3, name: 'Maria', email: 'maria@gmail.com', role: 'Familia', status: 'Inactivo' },
-    { id: 4, name: 'Pedro', email: 'pedro@gmail.com', role: 'Cuidador', status: 'Activo' },
+// Dummy data for patients
+const patientsData = [
+    { id: 1, name: 'Roberto Gómez', age: 35, dni: '32123456', representative: 'Mariana Pérez', status: 'Activo' },
+    { id: 2, name: 'Laura Martinez', age: 28, dni: '38654321', representative: '-', status: 'Activo' },
+    { id: 3, name: 'Carlos López', age: 42, dni: '28987654', representative: 'Juan Carlos', status: 'Inactivo' },
+    { id: 4, name: 'Ana Rodríguez', age: 50, dni: '20111222', representative: '-', status: 'Activo' },
 ];
 
-const AdminUsers = () => {
+const AdminPatients = () => {
     const [selectedFilter, setSelectedFilter] = useState('Todos');
 
-    const filters = ['Todos', 'Cuidadores', 'Pacientes', 'Familia'];
+    const filters = ['Todos', 'Activos', 'Inactivos'];
 
     const columns = [
         {
@@ -24,48 +24,38 @@ const AdminUsers = () => {
             cellClassName: 'font-body text-f-primary font-bold'
         },
         {
-            header: 'Correo',
-            accessor: 'email',
+            header: 'Edad',
+            accessor: 'age',
         },
         {
-            header: 'Rol',
-            accessor: 'role',
+            header: 'DNI',
+            accessor: 'dni',
         },
         {
-            header: 'Estado',
-            accessor: 'status',
-            render: (user) => (
-                user.status === 'Activo' ? (
-                    <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-page-caregivers-hover text-page-caregivers">
-                        Activo
-                    </span>
-                ) : (
-                    <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-500">
-                        Inactivo
-                    </span>
-                )
-            )
+            header: 'Representante',
+            accessor: 'representative',
+            render: (row) => row.representative || '-'
         }
     ];
 
-    const renderActions = (user, closeMenu) => (
+    const renderActions = (row, closeMenu) => (
         <>
             <button
-                onClick={() => { console.log('Edit', user); closeMenu(); }}
+                onClick={() => { console.log('Edit', row); closeMenu(); }}
                 className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
             >
                 <Edit2 size={16} />
                 Editar
             </button>
             <button
-                onClick={() => { console.log('Deactivate', user); closeMenu(); }}
+                onClick={() => { console.log('Deactivate', row); closeMenu(); }}
                 className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
             >
                 <Ban size={16} />
                 Desactivar
             </button>
             <button
-                onClick={() => { console.log('Delete', user); closeMenu(); }}
+                onClick={() => { console.log('Delete', row); closeMenu(); }}
                 className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
             >
                 <Trash2 size={16} />
@@ -75,18 +65,18 @@ const AdminUsers = () => {
     );
 
     return (
-        <AdminLayout activeItem="usuarios">
+        <AdminLayout activeItem="pacientes">
             <div className="max-w-6xl ml-auto mr-auto">
 
                 {/* Header Section: Title & Add Button */}
                 <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-heading font-semibold text-f-primary">Usuarios</h1>
+                    <h1 className="text-3xl font-heading font-semibold text-f-primary">Pacientes</h1>
                     <Button
                         variant="admin"
                         icon={<Plus size={20} />}
-                        className="h-10"
+                        className="h-10 truncate"
                     >
-                        Agregar Usuario
+                        Agregar Paciente
                     </Button>
                 </div>
 
@@ -113,16 +103,16 @@ const AdminUsers = () => {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                         <input
                             type="text"
-                            placeholder=""
+                            placeholder="Buscar paciente..."
                             className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-page-admin w-64"
                         />
                     </div>
                 </div>
 
-                {/* Users Table */}
+                {/* Caregivers Table */}
                 <Table
                     columns={columns}
-                    data={usersData}
+                    data={patientsData}
                     renderActions={renderActions}
                 />
             </div>
@@ -130,4 +120,4 @@ const AdminUsers = () => {
     );
 };
 
-export default AdminUsers;
+export default AdminPatients;
