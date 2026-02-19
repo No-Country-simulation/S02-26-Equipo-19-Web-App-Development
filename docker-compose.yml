@@ -32,13 +32,14 @@ services:
 
   backend:
     build: ./backend
+    image: care-connect-backend
+    container_name: CareConnectBackend
     ports:
       - "8080:8080"
     environment:
       - SPRING_DATASOURCE_URL=${SPRING_DATASOURCE_URL:-jdbc:postgresql://db:5432/care_connect_db}
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME:-care_user}
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD:-care_password}
-    container_name: CareConnectApp
     depends_on:
       db:
         condition: service_healthy

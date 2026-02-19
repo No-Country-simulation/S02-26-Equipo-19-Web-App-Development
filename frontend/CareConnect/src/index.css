@@ -9,6 +9,7 @@ body {
 
   --color-bg-primary: #F9FAFB;
   --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #ECECF0;
   
   --color-f-primary: #0A0A0A;
   --color-f-secondary: #717182;
@@ -19,6 +20,7 @@ body {
   --color-page-caregivers-hover: #F0FDF4;
   --color-page-login: #4F39F6;
   --color-page-admin: #155DFC;
+  --color-page-reports: #FF8A00;
 
   --color-border: #E5E5E5;
   
