@@ -1,7 +1,6 @@
 import { User } from "lucide-react";
 import Patient from "../common/Patient";
-const DashBoard = ({patients, activeId, setActiveId}) => {
-
+const DashBoard = ({ rol = "family", patients, activeId, setActiveId }) => {
     return (
         <div className=" w-full p-4 bg-bg-secondary border border-border rounded-lg">
             <div className="mb-5 flex gap-3">
@@ -19,6 +18,7 @@ const DashBoard = ({patients, activeId, setActiveId}) => {
                         key={patient.id}
                         isActive={patient.id === activeId}
                         onClick={() => setActiveId(patient.id)}
+                        rol={rol}
                     />
                 ))}
             </ul>

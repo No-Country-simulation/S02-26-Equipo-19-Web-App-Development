@@ -1,4 +1,4 @@
-const Patient = ({ name, age, estable, isActive, onClick}) => {
+const Patient = ({ name, age, estable, isActive, onClick, rol }) => {
     let info;
     if (!estable) {
         info = {
@@ -13,8 +13,9 @@ const Patient = ({ name, age, estable, isActive, onClick}) => {
     }
 
     return (
-        <li className={`p-5 ${isActive ?"bg-page-family-hover border-page-family ": "bg-bg-tertiary border-transparent " }  mb-3 rounded-xl text-f-secondary hover:bg-page-family-hover border-2 transition-all`}
-        onClick={onClick}
+        <li
+            className={`p-5 ${isActive ? `bg-page-${rol}-hover border-page-${rol}` : "bg-bg-tertiary border-transparent"}  mb-3 rounded-xl text-f-secondary hover:bg-page-${rol}-hover border-2 transition-all`}
+            onClick={onClick}
         >
             <h4 className="text-base text-f-primary font-heading">{name}</h4>
             <p className="text-sm font-body">{age} años</p>
@@ -22,7 +23,9 @@ const Patient = ({ name, age, estable, isActive, onClick}) => {
                 <div
                     className={`${info.circle} w-2 h-2  rounded-sm font-body`}
                 ></div>
-                <p className="text-xs font-f-secundray font-body">{info.text}</p>
+                <p className="text-xs font-f-secundray font-body">
+                    {info.text}
+                </p>
             </div>
         </li>
     );
