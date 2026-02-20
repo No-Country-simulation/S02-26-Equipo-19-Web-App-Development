@@ -1,6 +1,6 @@
 import IconRol from "./../common/IconRol";
 import LogOutButton from "./../common/LogOutButton"
-const Header = ({ rol }) => {
+const Header = ({ rol = "family" }) => {
     const portalRol = {
         family: "Familiar",
         admin: "Administrador",

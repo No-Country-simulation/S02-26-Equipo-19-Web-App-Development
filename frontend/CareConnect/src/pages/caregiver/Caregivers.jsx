@@ -1,12 +1,14 @@
 import Header from "../../components/layout/Header";
 import DashBoard from "../../components/layout/DashBoard";
 import PatientCard from "../../components/layout/PatientCard";
+import Button from "../../components/common/Button";
+import { Plus, Calendar } from "lucide-react";
 import ReportSection from "../../components/layout/ReportSection";
-import Report from "../../components/common/Report"
-import { FileText } from "lucide-react";
-
 import { useState } from "react";
-const Family = () => {
+import Report from "../../components/common/Report";
+
+const Caregivers = () => {
+    const [activeId, setActiveId] = useState(1);
     const reports = [
         {
             id: 1,
@@ -54,7 +56,6 @@ const Family = () => {
             vitals: null,
         },
     ];
-    const [activeId, setActiveId] = useState(1);
     const patients = [
         {
             id: 1,
@@ -67,21 +68,34 @@ const Family = () => {
 
     return (
         <>
-            <Header />
+            <Header rol="caregivers" />
             <main className="p-4 gap-4 grid grid-cols-1 lg:grid-cols-4">
-                <aside className="lg:col-span-1">
+                <aside className=" lg:col-span-1">
                     <DashBoard
                         patients={patients}
                         activeId={activeId}
                         setActiveId={setActiveId}
+                        rol="caregivers"
                     />
+                    <div className="w-full p-4 mt-4 bg-bg-secondary border-border border rounded-lg">
+                        <h3 className="text-f-primary text-lg font-bold font-heading">
+                            Acciones Rapidas
+                        </h3>
+                        <Button
+                            className=" w-full h-12 gap-1 mt-4 "
+                            variant="caregivers"
+                        >
+                            <Plus strokeWidth={"3px"} />
+                            <p className="font-body font-bold">Crear Reporte</p>
+                        </Button>
+                    </div>
                 </aside>
                 <section className="lg:col-span-3">
                     <PatientCard patient={patients[activeId - 1]} />
                     <ReportSection
+                        title="Mis Reportes"
                         length={reports.length}
-                        title={"Informes Recientes"}
-                        Icon={FileText}
+                        Icon={Calendar}
                     >
                         {reports.map((report) => (
                             <Report report={report} key={report.id} />
@@ -92,4 +106,4 @@ const Family = () => {
         </>
     );
 };
-export default Family;
+export default Caregivers;
