@@ -1,4 +1,4 @@
-package com.team19.CareConnect.core.domain.patient;
+package com.team19.CareConnect.core.domain.patient.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

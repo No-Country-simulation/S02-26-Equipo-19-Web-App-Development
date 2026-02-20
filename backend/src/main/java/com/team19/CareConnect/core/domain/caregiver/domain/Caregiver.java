@@ -1,4 +1,4 @@
-package com.team19.CareConnect.core.domain.caregiver;
+package com.team19.CareConnect.core.domain.caregiver.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team19.CareConnect.core.domain.PatientCaregiver;
