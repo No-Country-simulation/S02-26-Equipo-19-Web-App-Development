@@ -20,7 +20,7 @@ public class BillingInformation {
     @Column(name = "billing_information_id")
     private Long id;
     @Enumerated(EnumType.STRING)
-    private PreferredPayMethod preferredPaymentMethod;
+    private PreferredPaymentMethod preferredPaymentMethod;
     private String currency;
     private LocalDateTime updatedAt;
 
