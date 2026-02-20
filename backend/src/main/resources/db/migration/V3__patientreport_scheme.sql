@@ -24,3 +24,4 @@ CREATE TABLE caregiver_report_document
     CONSTRAINT fk_caregiver_report_document FOREIGN KEY (report_id)
         REFERENCES caregiver_report(report_id)
 );
+--4
