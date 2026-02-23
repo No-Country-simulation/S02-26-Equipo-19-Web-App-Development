@@ -5,17 +5,20 @@ import AdminUsers from "./pages/admin/AdminUsers";
 import Home from "./pages/home/Home";
 import Family from "./pages/family/Family";
 import Caregivers from "./pages/caregiver/Caregivers";
+import { ToastContainer } from "react-toastify";
+
 
 function App() {
 
 
   return (
     <>
+      <ToastContainer position="top-right" autoClose={3000} />
       {/* <Home /> */}
-      {/* <AdminHome /> */}
+      <AdminHome />
       {/* <AdminUsers /> */}
       {/* <Family /> */}
-      <Caregivers />
+      {/* <Caregivers /> */}
       {/* <AdminPatients /> */}
       {/* <AdminCaregivers /> */}
     </>
