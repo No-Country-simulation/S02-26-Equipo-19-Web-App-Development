@@ -31,6 +31,7 @@ export const adminService = {
                 });
             }, 800);
         });
+        // return Promise.reject(new Error("test")); // Uncomment to test error handling
     },
 
     // getCaregivers: () => apiFetch("/admin/caregivers"),
