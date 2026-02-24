@@ -1,8 +1,6 @@
-package com.team19.CareConnect.core.domain;
+package com.team19.CareConnect.core.domain.patient.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.team19.CareConnect.core.domain.caregiver.domain.Caregiver;
-import com.team19.CareConnect.core.domain.patient.domain.Patient;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,19 +11,21 @@ import lombok.Setter;
 @Setter @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PatientCaregiver {
+public class PatientSecondaryContact {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "patient_caregiver_id")
+    @Column(name = "secondary_contact_id")
     private Long id;
+    private Boolean isPreferredContact;
+    private String relationshipType;
 
     @ManyToOne
-    @JoinColumn(name = "caregiver_id", nullable = false)
+    @JoinColumn(name = "family_member_id")
     @JsonBackReference
-    private Caregiver caregiver;
+    private FamilyMember familyMember;
 
     @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+    @JoinColumn(name = "patient_id")
     @JsonBackReference
     private Patient patient;
 }

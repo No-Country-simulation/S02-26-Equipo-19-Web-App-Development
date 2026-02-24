@@ -1,14 +1,15 @@
 import { Activity, CircleAlert } from "lucide-react";
-const PatientCard = ({patient}) => {
+const PatientCard = ({rol = "family",patient}) => {
     return (
         <div className="p-5 bg-bg-secondary border border-border rounded-lg flex items-center justify-between">
-            <div >
+            <div>  
                 <h3 className="text-2xl font-heading text-f-primary font-medium  ">{patient.name}</h3>
-                <p className="mt-3 text-sm text-f-secondary flex items-baseline">
+                <p className="mt-3 text-sm text-f-secondary flex items-baseline ">
                     <Activity size={14}/>
                     {patient.estable !== true ? "Estable" : "Requiere Atencion" }
                 </p>
             </div>
+            
             <div className="p-1.5 text-main-alert bg-alert ">
                 <CircleAlert />
             </div>
