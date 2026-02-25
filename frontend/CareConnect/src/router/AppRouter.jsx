@@ -9,6 +9,7 @@ import AdminCaregivers from "../pages/admin/AdminCaregivers";
 import Home from "../pages/home/Home";
 import Family from "../pages/family/Family";
 import Caregivers from "../pages/caregiver/Caregivers";
+import AdminReports from "../pages/admin/AdminReports";
 
 const AppRouter = () => {
     return (
@@ -26,6 +27,7 @@ const AppRouter = () => {
                     <Route path="users" element={<AdminUsers />} />
                     <Route path="patients" element={<AdminPatients />} />
                     <Route path="caregivers" element={<AdminCaregivers />} />
+                    <Route path="reports" element={<AdminReports />} />
                 </Route>
 
             </Routes>

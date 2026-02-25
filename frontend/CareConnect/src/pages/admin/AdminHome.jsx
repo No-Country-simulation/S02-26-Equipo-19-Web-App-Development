@@ -13,7 +13,7 @@ const AdminHome = () => {
     const { metrics, loading } = useAdminMetrics();
 
     return (
-        <AdminLayout activeItem="inicio">
+        <>
             {loading && <LoadingSpinner message="Cargando métricas..." size="lg" />}
 
             {!loading && !metrics && (
@@ -66,7 +66,7 @@ const AdminHome = () => {
                     />
                 </div>
             )}
-        </AdminLayout>
+        </>
     );
 };
 

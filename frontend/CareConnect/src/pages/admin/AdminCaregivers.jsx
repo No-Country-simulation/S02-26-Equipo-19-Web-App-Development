@@ -93,7 +93,7 @@ const AdminCaregivers = () => {
     );
 
     return (
-        <AdminLayout activeItem="cuidadores">
+        
             <div className="max-w-6xl ml-auto mr-auto">
 
                 {/* Header Section: Title & Add Button */}
@@ -144,7 +144,7 @@ const AdminCaregivers = () => {
                     renderActions={renderActions}
                 />
             </div>
-        </AdminLayout>
+        
     );
 };
 

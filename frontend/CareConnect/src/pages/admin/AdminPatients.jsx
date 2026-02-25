@@ -65,7 +65,7 @@ const AdminPatients = () => {
     );
 
     return (
-        <AdminLayout activeItem="pacientes">
+        
             <div className="max-w-6xl ml-auto mr-auto">
 
                 {/* Header Section: Title & Add Button */}
@@ -116,7 +116,7 @@ const AdminPatients = () => {
                     renderActions={renderActions}
                 />
             </div>
-        </AdminLayout>
+        
     );
 };
 
