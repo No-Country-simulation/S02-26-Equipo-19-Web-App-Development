@@ -56,6 +56,10 @@ export const adminService = {
         });
     },
 
+    // ---------------------------------------------------------------------------
+    // Caregivers
+    // ---------------------------------------------------------------------------
+
     /**
      * Fetch all caregivers.
      * Merges base data (Table 1) with worked hours (Table 2) before returning.
@@ -123,7 +127,78 @@ export const adminService = {
         });
     },
 
-    // getPatients: () => apiFetch("/admin/patients"),
+    // ---------------------------------------------------------------------------
+    // Patients
+    // ---------------------------------------------------------------------------
+
+    /**
+     * Fetch all patients.
+     * TODO: replace mock with apiFetch("/admin/patients") when backend is ready.
+     * @returns {Promise<Array<{ id: string, fullName: string, age: number, dni: string, representative: string, status: string }>>}
+     */
+    getPatients: () => {
+        // TODO: replace with apiFetch("/admin/patients") when backend is ready
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve([
+                    { id: "p1", fullName: "Roberto Gómez", age: 75, dni: "12345678", representative: "Mariana Pérez", status: "Activo" },
+                    { id: "p2", fullName: "Laura Martinez", age: 68, dni: "23456789", representative: "-", status: "Activo" },
+                    { id: "p3", fullName: "Carlos López", age: 82, dni: "34567890", representative: "Juan Carlos", status: "Inactivo" },
+                    { id: "p4", fullName: "Ana Rodríguez", age: 71, dni: "45678901", representative: "-", status: "Activo" },
+                ]);
+            }, 800);
+        });
+    },
+
+    /**
+     * Create a new patient.
+     * TODO: replace with apiFetch("/admin/patients", { method: "POST", body: JSON.stringify(data) })
+     * @param {{ fullName: string, age: number, dni: string, representative?: string }} data
+     * @returns {Promise<void>}
+     */
+    createPatient: (data) => {
+        // TODO: replace with apiFetch("/admin/patients", { method: "POST", body: JSON.stringify(data) })
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, 600);
+        });
+    },
+
+    /**
+     * Update an existing patient.
+     * TODO: replace with apiFetch(`/admin/patients/${id}`, { method: "PUT", body: JSON.stringify(data) })
+     * @param {string} id
+     * @param {{ fullName?: string, age?: number, dni?: string, representative?: string }} data
+     * @returns {Promise<void>}
+     */
+    updatePatient: (id, data) => {
+        // TODO: replace with apiFetch(`/admin/patients/${id}`, { method: "PUT", body: JSON.stringify(data) })
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, 600);
+        });
+    },
+
+    /**
+     * Deactivate a patient (soft delete / status change).
+     * TODO: replace with apiFetch(`/admin/patients/${id}`, { method: "PATCH" })
+     * @param {string} id
+     * @returns {Promise<void>}
+     */
+    deactivatePatient: (id) => {
+        // TODO: replace with apiFetch(`/admin/patients/${id}`, { method: "PATCH" })
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, 600);
+        });
+    },
+
+    // ---------------------------------------------------------------------------
+    // Payments (pending backend)
+    // ---------------------------------------------------------------------------
 
     // getPayments: () => apiFetch("/admin/payments"),
 
