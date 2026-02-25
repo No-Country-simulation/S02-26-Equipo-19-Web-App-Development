@@ -1,32 +1,69 @@
 import { useState } from 'react';
-import { Plus, Search, Edit2, Ban, Trash2, CreditCard } from 'lucide-react';
-import AdminLayout from './layouts/AdminLayout';
+import { Plus, Search, Edit2, Ban, CreditCard } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/Table';
+import LoadingSpinner from '../../components/common/LoadingSpinner';
+import EmptyState from '../../components/common/EmptyState';
+import { useCaregivers } from '../../hooks/useCaregivers';
 
-// Dummy data for caregivers
-const caregiversData = [
-    { id: 1, name: 'Pedro Martinez', dni: '25123456', cbu_cvu: '0000003100012345678901', hoursWorked: 45, status: 'Activo' },
-    { id: 2, name: 'Ana Garcia', dni: '28654321', cbu_cvu: '0000003100098765432109', hoursWorked: 32, status: 'Activo' },
-    { id: 3, name: 'Lucas Rodriguez', dni: '30987654', cbu_cvu: '0000003100045612378904', hoursWorked: 0, status: 'Inactivo' },
-    { id: 4, name: 'Maria Lopez', dni: '22111222', cbu_cvu: '0000003100078945612307', hoursWorked: 50, status: 'Activo' },
-];
-
+/**
+ * AdminCaregivers – Admin view for managing caregivers.
+ *
+ * Responsibilities:
+ *  - Render the caregivers list via the Table component.
+ *  - Show LoadingSpinner while data is being fetched.
+ *  - Show EmptyState if the list is empty.
+ *  - Delegate all async logic to useCaregivers.
+ *
+ * Does NOT:
+ *  - Call the service directly.
+ *  - Manipulate caregiver arrays.
+ *  - Contain any async logic.
+ */
 const AdminCaregivers = () => {
+    // ── Server state via hook ──────────────────────────────────────────────
+    const {
+        caregivers,
+        loading,
+        createCaregiver,
+        updateCaregiver,
+        deactivateCaregiver,
+    } = useCaregivers();
+
+    // ── Local UI state ─────────────────────────────────────────────────────
     const [selectedFilter, setSelectedFilter] = useState('Todos');
+    const [searchQuery, setSearchQuery] = useState('');
 
     const filters = ['Todos', 'Activos', 'Inactivos'];
 
-    const handlePay = (caregiver) => {
-        console.log(`Paying to ${caregiver.name}`);
-        // Logic for payment modal or action
+    // ── Action handlers – delegate to hook, no inline async ───────────────
+    const handleCreate = () => {
+        // TODO: open create modal, then call createCaregiver(formData)
+        console.log('Open create caregiver modal');
     };
 
+    const handleEdit = (caregiver, closeMenu) => {
+        closeMenu();
+        // TODO: open edit modal pre-filled with caregiver data, then call updateCaregiver(caregiver.id, formData)
+        console.log('Edit caregiver:', caregiver.id);
+    };
+
+    const handleDeactivate = (caregiver, closeMenu) => {
+        closeMenu();
+        deactivateCaregiver(caregiver.id);
+    };
+
+    const handlePay = (caregiver) => {
+        // TODO: trigger payment flow via adminService.executePayment (future)
+        console.log('Pay caregiver:', caregiver.id);
+    };
+
+    // ── Table column definitions ───────────────────────────────────────────
     const columns = [
         {
             header: 'Nombre',
-            accessor: 'name',
-            cellClassName: 'font-body text-f-primary font-bold'
+            accessor: 'fullName',
+            cellClassName: 'font-body text-f-primary font-bold',
         },
         {
             header: 'DNI',
@@ -34,18 +71,18 @@ const AdminCaregivers = () => {
         },
         {
             header: 'CBU/CVU',
-            accessor: 'cbu_cvu',
-            cellClassName: 'font-mono text-sm'
+            accessor: 'cbu',
+            cellClassName: 'font-mono text-sm',
         },
         {
             header: 'Horas Trabajadas',
-            accessor: 'hoursWorked',
+            accessor: 'workedHours',
             cellClassName: 'text-center',
             render: (row) => (
                 <span className="font-semibold text-f-primary">
-                    {row.hoursWorked} hs
+                    {row.workedHours} hs
                 </span>
-            )
+            ),
         },
         {
             header: 'Pago',
@@ -57,41 +94,36 @@ const AdminCaregivers = () => {
                         handlePay(row);
                     }}
                     className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-green-50 text-green-700 hover:bg-green-100 transition-colors border border-green-200"
-                    disabled={row.hoursWorked === 0}
+                    disabled={row.workedHours === 0}
                 >
                     <CreditCard size={14} />
                     Pagar
                 </button>
-            )
-        }
+            ),
+        },
     ];
 
+    // ── Row action menu ────────────────────────────────────────────────────
     const renderActions = (caregiver, closeMenu) => (
         <>
             <button
-                onClick={() => { console.log('Edit', caregiver); closeMenu(); }}
+                onClick={() => handleEdit(caregiver, closeMenu)}
                 className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
             >
                 <Edit2 size={16} />
                 Editar
             </button>
             <button
-                onClick={() => { console.log('Deactivate', caregiver); closeMenu(); }}
+                onClick={() => handleDeactivate(caregiver, closeMenu)}
                 className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
             >
                 <Ban size={16} />
                 Desactivar
             </button>
-            <button
-                onClick={() => { console.log('Delete', caregiver); closeMenu(); }}
-                className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
-            >
-                <Trash2 size={16} />
-                Eliminar
-            </button>
         </>
     );
 
+    // ── Render ─────────────────────────────────────────────────────────────
     return (
         
             <div className="max-w-6xl ml-auto mr-auto">
@@ -103,6 +135,7 @@ const AdminCaregivers = () => {
                         variant="admin"
                         icon={<Plus size={20} />}
                         className="h-10 truncate"
+                        onClick={handleCreate}
                     >
                         Agregar Cuidador
                     </Button>
@@ -117,8 +150,8 @@ const AdminCaregivers = () => {
                                 key={filter}
                                 onClick={() => setSelectedFilter(filter)}
                                 className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedFilter === filter
-                                    ? 'bg-white text-f-primary shadow-sm border border-gray-200'
-                                    : 'bg-transparent text-f-secondary hover:text-f-primary hover:bg-gray-100'
+                                        ? 'bg-white text-f-primary shadow-sm border border-gray-200'
+                                        : 'bg-transparent text-f-secondary hover:text-f-primary hover:bg-gray-100'
                                     }`}
                             >
                                 {filter}
@@ -132,17 +165,25 @@ const AdminCaregivers = () => {
                         <input
                             type="text"
                             placeholder="Buscar cuidador..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-page-admin w-64"
                         />
                     </div>
                 </div>
 
-                {/* Caregivers Table */}
-                <Table
-                    columns={columns}
-                    data={caregiversData}
-                    renderActions={renderActions}
-                />
+                {/* Content: Spinner → EmptyState → Table */}
+                {loading ? (
+                    <LoadingSpinner message="Cargando cuidadores..." />
+                ) : caregivers.length === 0 ? (
+                    <EmptyState message="No hay cuidadores registrados." />
+                ) : (
+                    <Table
+                        columns={columns}
+                        data={caregivers}
+                        renderActions={renderActions}
+                    />
+                )}
             </div>
         
     );

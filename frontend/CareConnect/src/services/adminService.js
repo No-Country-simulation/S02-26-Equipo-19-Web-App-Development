@@ -4,6 +4,29 @@
  * adminService – Admin module endpoints.
  * Only defines API calls; no state, no side effects, no notifications.
  */
+
+// ---------------------------------------------------------------------------
+// Internal mock data – simulates two separate DB tables.
+// These mocks live ONLY in the service layer.
+// The Page and the Hook must never know about this separation.
+// ---------------------------------------------------------------------------
+
+/** Mock: Table 1 – caregiver base data (fullName, dni, cbu) */
+const mockCaregiversBase = [
+    { id: "c1", fullName: "Pedro Martinez", dni: "25123456", cbu: "0000003100012345678901" },
+    { id: "c2", fullName: "Ana Garcia", dni: "28654321", cbu: "0000003100098765432109" },
+    { id: "c3", fullName: "Lucas Rodriguez", dni: "30987654", cbu: "0000003100045612378904" },
+    { id: "c4", fullName: "Maria Lopez", dni: "22111222", cbu: "0000003100078945612307" },
+];
+
+/** Mock: Table 2 – worked hours per caregiver (keyed by caregiver id) */
+const mockWorkedHours = {
+    c1: 45,
+    c2: 32,
+    c3: 0,
+    c4: 50,
+};
+
 export const adminService = {
     /**
      * Fetch global admin metrics.
@@ -31,19 +54,74 @@ export const adminService = {
                 });
             }, 800);
         });
-        // return Promise.reject(new Error("test")); // Uncomment to test error handling
     },
 
-    // getCaregivers: () => apiFetch("/admin/caregivers"),
+    /**
+     * Fetch all caregivers.
+     * Merges base data (Table 1) with worked hours (Table 2) before returning.
+     * TODO: replace with apiFetch("/admin/caregivers") when backend is ready.
+     * @returns {Promise<Array<{ id: string, fullName: string, dni: string, cbu: string, workedHours: number }>>}
+     */
+    getCaregivers: () => {
+        // TODO: replace with apiFetch("/admin/caregivers") when backend is ready
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                // Merge: join the two mock tables on caregiver id
+                const unified = mockCaregiversBase.map((caregiver) => ({
+                    ...caregiver,
+                    workedHours: mockWorkedHours[caregiver.id] ?? 0,
+                }));
+                resolve(unified);
+            }, 800);
+        });
+    },
 
-    // createCaregiver: (data) =>
-    //   apiFetch("/admin/caregivers", { method: "POST", body: JSON.stringify(data) }),
+    /**
+     * Create a new caregiver.
+     * TODO: replace with apiFetch("/admin/caregivers", { method: "POST", body: JSON.stringify(data) })
+     * @param {{ fullName: string, dni: string, cbu: string }} data
+     * @returns {Promise<void>}
+     */
+    createCaregiver: (data) => {
+        // TODO: replace with apiFetch("/admin/caregivers", { method: "POST", body: JSON.stringify(data) })
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                // In real impl, backend handles persistence; mock just resolves
+                resolve();
+            }, 600);
+        });
+    },
 
-    // updateCaregiver: (id, data) =>
-    //   apiFetch(`/admin/caregivers/${id}`, { method: "PUT", body: JSON.stringify(data) }),
+    /**
+     * Update an existing caregiver.
+     * TODO: replace with apiFetch(`/admin/caregivers/${id}`, { method: "PUT", body: JSON.stringify(data) })
+     * @param {string} id
+     * @param {{ fullName?: string, dni?: string, cbu?: string }} data
+     * @returns {Promise<void>}
+     */
+    updateCaregiver: (id, data) => {
+        // TODO: replace with apiFetch(`/admin/caregivers/${id}`, { method: "PUT", body: JSON.stringify(data) })
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, 600);
+        });
+    },
 
-    // deactivateCaregiver: (id) =>
-    //   apiFetch(`/admin/caregivers/${id}`, { method: "PATCH" }),
+    /**
+     * Deactivate a caregiver (soft delete / status change).
+     * TODO: replace with apiFetch(`/admin/caregivers/${id}`, { method: "PATCH" })
+     * @param {string} id
+     * @returns {Promise<void>}
+     */
+    deactivateCaregiver: (id) => {
+        // TODO: replace with apiFetch(`/admin/caregivers/${id}`, { method: "PATCH" })
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve();
+            }, 600);
+        });
+    },
 
     // getPatients: () => apiFetch("/admin/patients"),
 
