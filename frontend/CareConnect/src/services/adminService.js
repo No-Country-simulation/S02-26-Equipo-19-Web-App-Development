@@ -27,6 +27,65 @@ const mockWorkedHours = {
     c4: 50,
 };
 
+/** Mock: Table 3 – Caregiver reports (mutable for simulation) */
+let mockReports = [
+    {
+        id: "r1",
+        type: "Medicacion",
+        caregiver: "Ana Garcia",
+        patient: "Roberto Gómez",
+        date: "2026-02-08",
+        time: "8:00",
+        notes: "Medicación matutina administrada correctamente. Paciente se encuentra en buen estado de ánimo.",
+        status: "pending",
+        vitals: { presion: "120/80 mmHg", temperatura: "36.5°C", pulso: "72 bpm" },
+    },
+    {
+        id: "r2",
+        type: "Control General",
+        caregiver: "Pedro Martinez",
+        patient: "Laura Martinez",
+        date: "2026-02-09",
+        time: "10:30",
+        notes: "Control de rutina realizado. El paciente descansó bien durante la noche.",
+        status: "pending",
+        vitals: { presion: "130/85 mmHg", temperatura: "37.0°C", pulso: "80 bpm" },
+    },
+    {
+        id: "r3",
+        type: "Higiene y Aseo",
+        caregiver: "Maria Lopez",
+        patient: "Ana Rodríguez",
+        date: "2026-02-10",
+        time: "9:00",
+        notes: "Aseo personal completo. Sin novedades durante la guardia.",
+        status: "approved",
+        vitals: null,
+    },
+    {
+        id: "r4",
+        type: "Alimentacion",
+        caregiver: "Lucas Rodriguez",
+        patient: "Carlos López",
+        date: "2026-02-11",
+        time: "13:00",
+        notes: "Paciente rechazó la comida al mediodía. Se informó a la familia.",
+        status: "rejected",
+        vitals: { presion: "110/70 mmHg", temperatura: "36.8°C", pulso: "68 bpm" },
+    },
+    {
+        id: "r5",
+        type: "Medicacion",
+        caregiver: "Ana Garcia",
+        patient: "Roberto Gómez",
+        date: "2026-02-12",
+        time: "20:00",
+        notes: "Medicación nocturna administrada sin inconvenientes. Paciente dormido.",
+        status: "pending",
+        vitals: { presion: "118/76 mmHg", temperatura: "36.3°C", pulso: "70 bpm" },
+    },
+];
+
 export const adminService = {
     /**
      * Fetch global admin metrics.
@@ -204,4 +263,68 @@ export const adminService = {
 
     // executePayment: (id) =>
     //   apiFetch(`/admin/payments/${id}/execute`, { method: "POST" }),
+
+    // ---------------------------------------------------------------------------
+    // Reports
+    // ---------------------------------------------------------------------------
+
+    /**
+     * Fetch all caregiver reports.
+     * TODO: replace mock with apiFetch("/admin/reports") when backend is ready.
+     * @returns {Promise<Array<{
+     *   id: string,
+     *   type: string,
+     *   caregiver: string,
+     *   patient: string,
+     *   date: string,
+     *   time: string,
+     *   notes: string,
+     *   status: 'pending' | 'approved' | 'rejected',
+     *   vitals?: { presion: string, temperatura: string, pulso: string }
+     * }>>}
+     */
+    getReports: () => {
+        // TODO: replace with apiFetch("/admin/reports") when backend is ready
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve([...mockReports]);
+            }, 800);
+        });
+    },
+
+    /**
+     * Approve a report.
+     * TODO: replace with apiFetch(`/admin/reports/${id}/approve`, { method: "PATCH" })
+     * @param {string} id
+     * @returns {Promise<void>}
+     */
+    approveReport: (id) => {
+        // TODO: replace with apiFetch(`/admin/reports/${id}/approve`, { method: "PATCH" })
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                mockReports = mockReports.map(r =>
+                    r.id === id ? { ...r, status: 'approved' } : r
+                );
+                resolve();
+            }, 500);
+        });
+    },
+
+    /**
+     * Reject a report.
+     * TODO: replace with apiFetch(`/admin/reports/${id}/reject`, { method: "PATCH" })
+     * @param {string} id
+     * @returns {Promise<void>}
+     */
+    rejectReport: (id) => {
+        // TODO: replace with apiFetch(`/admin/reports/${id}/reject`, { method: "PATCH" })
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                mockReports = mockReports.map(r =>
+                    r.id === id ? { ...r, status: 'rejected' } : r
+                );
+                resolve();
+            }, 500);
+        });
+    },
 };
