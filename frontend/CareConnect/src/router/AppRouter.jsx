@@ -1,10 +1,17 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import { ROLES } from "../constants/roles";
+
 import Login from "../pages/login/Login";
-import AdminDashboard from "../pages/admin/Dashboard";
-import CaregiverDashboard from "../pages/caregiver/Dashboard";
-import PatientDashboard from "../pages/patient/Dashboard";
+
+// ADMIN
+import AdminHome from "../pages/admin/AdminHome";
+
+// CAREGIVER
+import Caregivers from "../pages/caregiver/Caregivers";
+
+// PATIENT / FAMILY
+import Family from "../pages/family/Family";
 
 const AppRouter = () => {
   return (
@@ -14,30 +21,30 @@ const AppRouter = () => {
 
       {/* Admin */}
       <Route
-        path="/admin/*"
+        path="/admin"
         element={
           <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
-            <AdminDashboard />
+            <AdminHome />
           </ProtectedRoute>
         }
       />
 
       {/* Caregiver */}
       <Route
-        path="/caregiver/*"
+        path="/caregiver"
         element={
           <ProtectedRoute allowedRoles={[ROLES.CAREGIVER]}>
-            <CaregiverDashboard />
+            <Caregivers />
           </ProtectedRoute>
         }
       />
 
-      {/* Patient */}
+      {/* Patient / Family */}
       <Route
-        path="/patient/*"
+        path="/patient"
         element={
           <ProtectedRoute allowedRoles={[ROLES.PATIENT]}>
-            <PatientDashboard />
+            <Family />
           </ProtectedRoute>
         }
       />
