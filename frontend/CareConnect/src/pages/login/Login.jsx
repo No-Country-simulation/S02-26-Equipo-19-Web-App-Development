@@ -1,6 +1,15 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mail, Lock, Shield, User, Users, Eye, EyeOff } from "lucide-react";
+import {
+  Mail,
+  Lock,
+  Shield,
+  User,
+  Users,
+  Eye,
+  EyeOff,
+  LogIn,
+} from "lucide-react";
 import { toast } from "react-toastify";
 import { useAuthStore } from "../../store/authStore";
 import { ROLES } from "../../constants/roles";
@@ -206,11 +215,16 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl text-white font-semibold
-              bg-gradient-to-r from-indigo-500 to-purple-600
-              hover:opacity-90 transition-all disabled:opacity-50"
+            className="w-full py-3 rounded-xl text-sm text-white font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
           >
-            {loading ? "Ingresando..." : "Iniciar Sesión"}
+            {loading ? (
+              "Ingresando..."
+            ) : (
+              <>
+                <LogIn size={18} />
+                Iniciar Sesión
+              </>
+            )}
           </button>
         </form>
 
