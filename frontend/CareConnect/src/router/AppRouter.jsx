@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import { ROLES } from "../constants/roles";
+import ForgotPassword from "../pages/login/ForgotPassword";
+import ResetPassword from "../pages/login/ResetPassword";
 
 import Login from "../pages/login/Login";
 
@@ -18,7 +20,8 @@ const AppRouter = () => {
     <Routes>
       {/* Ruta pública */}
       <Route path="/" element={<Login />} />
-
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
       {/* Admin */}
       <Route
         path="/admin"

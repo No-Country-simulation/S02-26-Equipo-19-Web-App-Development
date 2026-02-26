@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Mail, Lock, Shield, User, Users } from "lucide-react";
+import { Mail, Lock, Shield, User, Users, Eye, EyeOff } from "lucide-react";
 import { toast } from "react-toastify";
-
 import { useAuthStore } from "../../store/authStore";
 import { ROLES } from "../../constants/roles";
 
@@ -21,17 +20,19 @@ const Login = () => {
     password: "",
     role: "",
   });
-
+  const [showPassword, setShowPassword] = useState(false);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    validateField("email", form.email);
+    validateField("password", form.password);
 
     if (!form.role) {
       toast.warning("Selecciona un rol");
       return;
     }
 
-    if (!form.email || !form.password) {
-      toast.warning("Completa todos los campos");
+    if (errors.email || errors.password || !form.email || !form.password) {
+      toast.error("Revisa los campos del formulario");
       return;
     }
 
@@ -55,7 +56,26 @@ const Login = () => {
       toast.error("Credenciales incorrectas");
     }
   };
+  const [errors, setErrors] = useState({
+    email: "",
+    password: "",
+  });
+  const validateField = (name, value) => {
+    let message = "";
 
+    if (!value) {
+      message = "Este campo es obligatorio";
+    } else if (name === "email" && !/\S+@\S+\.\S+/.test(value)) {
+      message = "Correo inválido";
+    } else if (name === "password" && value.length < 6) {
+      message = "Mínimo 6 caracteres";
+    }
+
+    setErrors((prev) => ({
+      ...prev,
+      [name]: message,
+    }));
+  };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200 px-4">
       <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-8 space-y-6">
@@ -103,46 +123,83 @@ const Login = () => {
             })}
           </div>
         </div>
-
-        {/* Texto ejemplo */}
-        <p className="text-center text-gray-400 text-sm">Lorem ipsum</p>
-
         {/* Formulario */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-2">
           {/* Email */}
           <div>
             <label className="text-sm text-gray-700">Correo Electrónico</label>
+
             <div className="relative mt-1">
               <Mail className="absolute left-3 top-3 text-gray-400" size={18} />
+
               <input
                 type="email"
-                placeholder="Correo@gmail.com"
-                className="w-full pl-10 pr-4 py-2 bg-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                placeholder="correo@ejemplo.com"
+                className={`w-full h-10 pl-10 pr-4 text-sm rounded-xl border focus:outline-none focus:ring-1 transition-all ${
+                  errors.email
+                    ? "bg-red-50 border-red-500 focus:ring-red-500"
+                    : "bg-gray-200 border-transparent focus:ring-indigo-500"
+                }`}
                 value={form.email}
-                onChange={(e) => setForm({ ...form, email: e.target.value })}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setForm({ ...form, email: value });
+                  validateField("email", value);
+                }}
+                onBlur={(e) => validateField("email", e.target.value)}
               />
             </div>
+
+            <p className="text-xs mt-1 min-h-[18px] text-red-500 transition-all">
+              {errors.email}
+            </p>
           </div>
 
           {/* Password */}
           <div>
             <div className="flex justify-between text-sm">
               <label className="text-gray-700">Contraseña</label>
-              <span className="text-indigo-600 cursor-pointer hover:underline">
-                ¿olvidaste tu contraseña?
-              </span>
+              <div>
+                <span
+                  onClick={() => navigate("/forgot-password")}
+                  className="text-indigo-600 cursor-pointer hover:underline text-xs"
+                >
+                  ¿Olvidaste tu contraseña?
+                </span>
+              </div>
             </div>
 
             <div className="relative mt-1">
               <Lock className="absolute left-3 top-3 text-gray-400" size={18} />
+
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 placeholder="********"
-                className="w-full pl-10 pr-4 py-2 bg-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                className={`w-full h-10 text-sm pl-10 pr-10 py-2 rounded-xl border focus:outline-none focus:ring-1 transition-all ${
+                  errors.password
+                    ? "bg-red-50 border-red-500 focus:ring-red-500"
+                    : "bg-gray-200 border-transparent focus:ring-indigo-500"
+                }`}
                 value={form.password}
-                onChange={(e) => setForm({ ...form, password: e.target.value })}
+                onChange={(e) => {
+                  const value = e.target.value;
+                  setForm({ ...form, password: value });
+                  validateField("password", value);
+                }}
               />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-2.5 text-gray-400 hover:text-indigo-600 transition"
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
             </div>
+
+            <p className="text-xs mt-1 min-h-[18px] text-red-500 transition-all">
+              {errors.password}
+            </p>
           </div>
 
           {/* Botón */}
@@ -159,7 +216,7 @@ const Login = () => {
 
         {/* Nota inferior */}
         <p className="text-xs text-center text-gray-400">
-          Nota: para crear una cuenta se necesita contactar con un administrador
+          Nota: contacta al administrador para crear cuenta
         </p>
       </div>
     </div>
