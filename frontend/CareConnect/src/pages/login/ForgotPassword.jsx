@@ -37,7 +37,7 @@ const ForgotPassword = () => {
     let message = "";
 
     if (!value) {
-      message = "Este campo es obligatorio";
+      message = "Debe ingresar correo";
     } else if (!/\S+@\S+\.\S+/.test(value)) {
       message = "Correo inválido";
     }
@@ -67,19 +67,24 @@ const ForgotPassword = () => {
           <h1 className="text-2xl font-bold text-gray-800">
             Recuperar contraseña
           </h1>
+          <p className="text-xs text-gray-500 pt-2">
+            Por favor ingresa tu correo electrónico
+          </p>
         </div>
 
         {/* Formulario */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="text-sm text-gray-700">Correo Electrónico</label>
+            <label className="text-xs text-gray-700 font-medium">
+              Correo Electrónico
+            </label>
 
             <div className="relative mt-1">
               <Mail className="absolute left-3 top-3 text-gray-400" size={18} />
 
               <input
                 type="email"
-                placeholder="correo@gmail.com"
+                placeholder="correo@ejemplo.com"
                 className={`w-full h-10 text-sm pl-10 pr-4 py-2 rounded-xl focus:outline-none focus:ring-1 transition-all ${
                   error
                     ? "bg-red-50 border border-red-500 focus:ring-red-500"
@@ -103,7 +108,7 @@ const ForgotPassword = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl text-white text-sm font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-xl text-white text-xs font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               "Enviando..."
