@@ -1,41 +1,69 @@
-#  Guia de estilos
+# CareConnect — Frontend
 
-##  Tipografías
+Frontend de la aplicación CareConnect (Vite + React). Este README explica cómo levantar el proyecto en desarrollo, configurar variables y consumir el backend local.
 
-| Variable         | Uso                   |
-| ---------------- | --------------------- |
-| `--font-heading` | Títulos y encabezados |
-| `--font-body`    | Texto general         |
+## Requisitos
+- Node.js 18+ y npm o yarn
+- Git
+- Backend corriendo en `http://localhost:8080` (ver `../backend`)
 
+## Instalación
 
-##  Colores de texto
+1. Clonar el repositorio (si no está):
 
-| Clase              | Uso                              |
-| ------------------ | -------------------------------- |
-| `text-f-primary`   | Texto principal                  |
-| `text-f-secondary` | Texto secundario / descripciones |
+```bash
+git clone <repo-url>
+cd <repo-folder>/frontend/CareConnect
+```
 
----
+2. Instalar dependencias:
 
-##  Colores de fondo
+```bash
+npm install
 
-| Clase             | Descripción                |
-| ----------------- | -------------------------- |
-| `bg-bg-primary`   | Fondo principal de la app  |
-| `bg-bg-secondary` | Fondos secundarios / cards |
----
-| Página     | Clase                      |
-| ---------- | --------------------       |
-| Caregivers | `bg-page-caregivers`       |
-| Caregivers | `bg-page-caregivers-hover` |
-| Family     | `bg-page-family`           |
-| Family     | `bg-page-family-hover`     |
-| Admin      | `bg-page-admin`            |
-| Login      | `bg-page-login`            |
+# o yarn
+# yarn install
+```
 
-##  otros
+## Scripts útiles
 
-| Clase           | Uso             |
-| --------------- | --------------- |
-| `-border` | Bordes estándar |
-| `-alert`  | Alertas         |
+- `npm run dev` — Inicia el servidor de desarrollo (Vite) en `http://localhost:5173` por defecto.
+- `npm run build` — Genera la carpeta `dist` para producción.
+- `npm run preview` — Sirve la build localmente para pruebas.
+- `npm run lint` — Ejecuta ESLint (si está configurado).
+
+Ejecutar desarrollo:
+
+```bash
+npm run dev
+```
+
+## Variables de entorno
+
+El frontend puede necesitar apuntar al backend local. Por conveniencia el proyecto puede usar una variable `VITE_API_BASE_URL`.
+
+Crear un archivo `.env` en la raíz de `frontend/CareConnect` con:
+
+```
+VITE_API_BASE_URL=http://localhost:8080
+```
+
+En el código, el baseURL se obtiene con `import.meta.env.VITE_API_BASE_URL`.
+
+## Estructura del proyecto
+
+- `src/main.jsx` — punto de entrada
+- `src/App.jsx` — componente raíz
+- `src/components` — componentes reutilizables
+- `src/pages` — vistas por rol/página
+- `src/services` — llamadas a API
+
+## Recomendaciones
+
+- Usar la variable `VITE_API_BASE_URL` para apuntar al backend.
+- Habilitar CORS en backend si haces peticiones desde otro origen (en dev usualmente `localhost:5173`).
+
+## Problemas comunes
+
+- Si ves respuestas vacías: la base de datos puede no tener datos seed (chequear migraciones y crear datos de prueba).
+- Errores 409/500: revisar la respuesta JSON del backend (`ErrorResponse`) para mensaje y timestamp.
