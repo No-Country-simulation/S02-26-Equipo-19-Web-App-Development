@@ -1,38 +1,58 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
+import { ROLES } from "../constants/roles";
+import ForgotPassword from "../pages/login/ForgotPassword";
+import ResetPassword from "../pages/login/ResetPassword";
 
-import AdminLayout from "../pages/admin/layouts/AdminLayout";
+import Login from "../pages/login/Login";
+
+// ADMIN
 import AdminHome from "../pages/admin/AdminHome";
-import AdminUsers from "../pages/admin/AdminUsers";
-import AdminPatients from "../pages/admin/AdminPatients";
-import AdminCaregivers from "../pages/admin/AdminCaregivers";
 
-import Home from "../pages/home/Home";
-import Family from "../pages/family/Family";
+// CAREGIVER
 import Caregivers from "../pages/caregiver/Caregivers";
-import AdminReports from "../pages/admin/AdminReports";
+
+// PATIENT / FAMILY
+import Family from "../pages/family/Family";
 
 const AppRouter = () => {
-    return (
-        <BrowserRouter>
-            <Routes>
+  return (
+    <Routes>
+      {/* Ruta pública */}
+      <Route path="/" element={<Login />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/reset-password" element={<ResetPassword />} />
+      {/* Admin */}
+      <Route
+        path="/admin"
+        element={
+          <ProtectedRoute allowedRoles={[ROLES.ADMIN]}>
+            <AdminHome />
+          </ProtectedRoute>
+        }
+      />
 
-                {/* Public routes */}
-                <Route path="/" element={<Home />} />
-                <Route path="/family" element={<Family />} />
-                <Route path="/caregivers" element={<Caregivers />} />
+      {/* Caregiver */}
+      <Route
+        path="/caregiver"
+        element={
+          <ProtectedRoute allowedRoles={[ROLES.CAREGIVER]}>
+            <Caregivers />
+          </ProtectedRoute>
+        }
+      />
 
-                {/* Admin routes */}
-                <Route path="/admin" element={<AdminLayout />}>
-                    <Route index element={<AdminHome />} />
-                    <Route path="users" element={<AdminUsers />} />
-                    <Route path="patients" element={<AdminPatients />} />
-                    <Route path="caregivers" element={<AdminCaregivers />} />
-                    <Route path="reports" element={<AdminReports />} />
-                </Route>
-
-            </Routes>
-        </BrowserRouter>
-    );
+      {/* Patient / Family */}
+      <Route
+        path="/patient"
+        element={
+          <ProtectedRoute allowedRoles={[ROLES.PATIENT]}>
+            <Family />
+          </ProtectedRoute>
+        }
+      />
+    </Routes>
+  );
 };
 
 export default AppRouter;
