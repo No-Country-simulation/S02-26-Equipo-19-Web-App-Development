@@ -9,6 +9,7 @@ public interface IBillingInformationService {
 
     public void createBillingInformation(BillingInformation billingInformation);
     public BillingInformation findBillingInformationById(Long billingInfoId);
+    public BillingInformation findBillingInformationByCaregiverId(Long caregiverId);
     public void updateBillingInformation (
             Long billingInfoId,
             PreferredPaymentMethod preferredPaymentMethod,

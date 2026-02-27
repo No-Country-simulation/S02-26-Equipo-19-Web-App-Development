@@ -1,20 +1,17 @@
-import Header from '../../../components/layout/Header';
-import Sidebar from '../components/Sidebar';
+import { Outlet } from "react-router-dom";
+import Header from "../../../components/layout/Header";
+import Sidebar from "../components/Sidebar";
 
-const AdminLayout = ({ children, activeItem }) => {
+const AdminLayout = () => {
     return (
         <div className="min-h-screen bg-bg-primary flex flex-col">
-            {/* Header - Full Width at Top */}
             <Header rol="admin" />
 
-            {/* Content Area with Sidebar */}
             <div className="flex flex-1">
-                {/* Sidebar */}
-                <Sidebar activeItem={activeItem} />
+                <Sidebar />
 
-                {/* Main Content */}
                 <main className="flex-1 p-8">
-                    {children}
+                    <Outlet />
                 </main>
             </div>
         </div>

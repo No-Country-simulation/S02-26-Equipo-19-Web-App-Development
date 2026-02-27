@@ -15,21 +15,21 @@ public class PayRateService implements IPayRateService {
 
     @Override
     public void createPayRate(PayRate payRate) {
-
+        payRateRepository.save(payRate);
     }
 
     @Override
     public PayRate findPayRateById(Long payRateId) {
-        return null;
+        return payRateRepository.findById(payRateId).orElse(null);
     }
 
     @Override
     public List<PayRate> findPayRateByCaregiverId(Long caregiverId) {
-        return List.of();
+        return payRateRepository.findAllByCaregiverId(caregiverId);
     }
 
     @Override
     public void deletePayRate(Long payRateId) {
-
+        payRateRepository.deleteById(payRateId);
     }
 }
