@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IBillingInformationRepository extends JpaRepository<BillingInformation, Long> {
+    BillingInformation findByCaregiverId(Long caregiverId);
 }

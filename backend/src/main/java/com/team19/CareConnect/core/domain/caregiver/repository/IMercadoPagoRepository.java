@@ -4,6 +4,9 @@ import com.team19.CareConnect.core.domain.caregiver.domain.MercadoPago;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IMercadoPagoRepository extends JpaRepository<MercadoPago, Long> {
+    List<MercadoPago> findAllByCaregiverId(Long caregiverId);
 }

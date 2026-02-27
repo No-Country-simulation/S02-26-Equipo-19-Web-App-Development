@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface IGuardianRepository extends JpaRepository<Guardian, Long> {
+    Guardian findGuardianByPatientId(Long patientId);
 }

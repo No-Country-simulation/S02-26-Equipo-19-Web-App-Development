@@ -4,6 +4,9 @@ import com.team19.CareConnect.core.domain.caregiver.domain.PayRate;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface IPayRateRepository extends JpaRepository<PayRate, Long> {
+    List<PayRate> findAllByCaregiverId(Long caregiverId);
 }
