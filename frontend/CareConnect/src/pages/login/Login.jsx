@@ -87,7 +87,7 @@ const Login = () => {
   };
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-200 px-4">
-      <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-8 space-y-4">
+      <div className="w-full max-w-sm bg-white rounded-2xl shadow-lg p-8 space-y-6">
         {/* Icono superior */}
         <div className="flex justify-center">
           <div className="bg-gradient-to-r from-indigo-500 to-purple-600 p-3 rounded-xl">
@@ -98,14 +98,14 @@ const Login = () => {
         {/* Título */}
         <div className="text-center">
           <h1 className="text-2xl font-bold text-gray-800">CareConnect</h1>
-          <p className="text-[12px] text-gray-500 py-2">
+          <p className="text-sm text-gray-500 pt-2">
             Sistema de Gestión de Cuidados
           </p>
         </div>
 
         {/* Selector Rol */}
         <div>
-          <p className="text-xs font-medium text-gray-700 mb-2 mt-[-9px]">
+          <p className="text-sm font-medium text-gray-700 mb-2 mt-[-9px]">
             Seleccionar Rol
           </p>
 
@@ -136,9 +136,7 @@ const Login = () => {
         <form onSubmit={handleSubmit} className="space-y-2">
           {/* Email */}
           <div>
-            <label className="text-xs text-gray-700 font-medium">
-              Correo Electrónico
-            </label>
+            <label className="text-sm text-gray-700">Correo Electrónico</label>
 
             <div className="relative mt-1">
               <Mail className="absolute left-3 top-3 text-gray-400" size={18} />
@@ -169,9 +167,7 @@ const Login = () => {
           {/* Password */}
           <div>
             <div className="flex justify-between text-sm">
-              <label className="text-gray-700 font-medium text-xs">
-                Contraseña
-              </label>
+              <label className="text-gray-700">Contraseña</label>
               <div>
                 <span
                   onClick={() => navigate("/forgot-password")}
@@ -219,7 +215,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 rounded-xl text-xs text-white font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
+            className="w-full py-3 rounded-xl text-sm text-white font-semibold bg-gradient-to-r from-indigo-500 to-purple-600 hover:opacity-90 transition-all disabled:opacity-50 flex items-center justify-center gap-2"
           >
             {loading ? (
               "Ingresando..."
@@ -233,8 +229,8 @@ const Login = () => {
         </form>
 
         {/* Nota inferior */}
-        <p className="text-xs text-center text-gray-400 font-style: italic">
-          Nota: solo el administrador puede crear cuentas
+        <p className="text-xs text-center text-gray-400">
+          Nota: contacta al administrador para crear cuenta
         </p>
       </div>
     </div>
