@@ -1,4 +1,4 @@
-package com.team19.CareConnect.onboarding.domain;
+package com.team19.CareConnect.onboarding.enums;
 
 public enum ApplicationStatus {
     PENDING,

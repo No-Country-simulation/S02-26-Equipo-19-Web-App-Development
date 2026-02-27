@@ -1,9 +1,8 @@
-package com.team19.CareConnect.onboarding.domain;
+package com.team19.CareConnect.onboarding.enums;
 
 public enum DocumentType {
     NATIONAL_ID,
     CUIL_CERTIFICATE,
-    AFIP_REGISTRATION,
     CRIMINAL_RECORD,
     MEDICAL_FITNESS_CERT,
     OTHER

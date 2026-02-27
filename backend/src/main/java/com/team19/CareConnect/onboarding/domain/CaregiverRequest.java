@@ -1,6 +1,7 @@
 package com.team19.CareConnect.onboarding.domain;
 
 import com.team19.CareConnect.core.domain.Admin;
+import com.team19.CareConnect.onboarding.enums.ApplicationStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
