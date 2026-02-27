@@ -75,7 +75,7 @@ const AdminUsers = () => {
     );
 
     return (
-        <AdminLayout activeItem="usuarios">
+        
             <div className="max-w-6xl ml-auto mr-auto">
 
                 {/* Header Section: Title & Add Button */}
@@ -126,7 +126,7 @@ const AdminUsers = () => {
                     renderActions={renderActions}
                 />
             </div>
-        </AdminLayout>
+        
     );
 };
 
