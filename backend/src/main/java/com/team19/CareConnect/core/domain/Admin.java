@@ -26,6 +26,8 @@ public class Admin {
     private String email;
     private String password;
     private Boolean isActive;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

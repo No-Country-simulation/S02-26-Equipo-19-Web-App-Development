@@ -1,6 +1,7 @@
 package com.team19.CareConnect.core.domain.patient.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.team19.CareConnect.core.domain.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -30,6 +31,8 @@ public class Guardian {
     private String address;
     @Enumerated(EnumType.STRING)
     private GuardianStatus guardianStatus;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 

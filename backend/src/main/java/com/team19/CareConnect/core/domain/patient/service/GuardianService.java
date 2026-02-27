@@ -49,9 +49,9 @@ public class GuardianService implements IGuardianService{
                                String address,
                                GuardianStatus status,
                                LocalDateTime updatedAt) {
-        Guardian guardian = guardianRepository.findById(guardianId).orElse(null);
+        Guardian guardian = guardianRepository.findById(guardianId)
+                .orElseThrow(()-> new RuntimeException("Guardian no encontrado"));
 
-        assert  guardian != null;
         Optional.ofNullable(guardianDni).ifPresent(guardian::setGuardianDni);
         Optional.ofNullable(firstName).ifPresent(guardian::setFirstName);
         Optional.ofNullable(lastName).ifPresent(guardian::setLastName);

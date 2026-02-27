@@ -2,6 +2,7 @@ package com.team19.CareConnect.core.domain.caregiver.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.team19.CareConnect.core.domain.PatientCaregiver;
+import com.team19.CareConnect.core.domain.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,6 +32,8 @@ public class Caregiver {
     private LocalDate birthDate;
     @Enumerated(EnumType.STRING)
     private CaregiverStatus caregiverStatus;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private String address;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
