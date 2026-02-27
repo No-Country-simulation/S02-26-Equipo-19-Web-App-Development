@@ -1,9 +1,8 @@
 package com.team19.CareConnect.onboarding.domain;
 
+import com.team19.CareConnect.onboarding.enums.AvailabilityType;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
@@ -41,4 +40,18 @@ public class FormInformation {
     @MapsId
     @JoinColumn(name = "application_id")
     private CaregiverRequest application;
+
+    public FormInformation(
+            String fullName,
+            String phoneNumber,
+            LocalDate dateOfBirth,
+            AvailabilityType availabilityType,
+            String specializations) {
+
+        this.fullName = fullName;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.availabilityType = availabilityType;
+        this.specializations = specializations;
+    }
 }
