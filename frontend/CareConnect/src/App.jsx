@@ -1,20 +1,13 @@
-import AdminCaregivers from "./pages/admin/AdminCaregivers";
-import AdminHome from "./pages/admin/AdminHome";
-import AdminPatients from "./pages/admin/AdminPatients";
-import AdminUsers from "./pages/admin/AdminUsers";
-import Home from "./pages/home/Home";
-
+import { ToastContainer } from "react-toastify";
+import AppRouter from "./router/AppRouter";
 
 function App() {
 
 
   return (
     <>
-      <Home />
-      {/* <AdminHome /> */}
-      {/* <AdminUsers /> */}
-      {/* <AdminPatients /> */}
-      {/* <AdminCaregivers /> */}
+    <AppRouter/>
+    <ToastContainer position="top-right" autoClose={3000} />
     </>
   )
 }
