@@ -117,7 +117,7 @@ const ReportCard = ({ report, onApprove, onReject }) => {
                 <div className="flex gap-3 mt-2">
                     <button
                         onClick={() => onApprove(report.id)}
-                        className="flex-1 flex items-center justify-center gap-2 py-2.5 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
+                        className="flex-2 flex items-center justify-center gap-2 py-2.5 bg-green-500 hover:bg-green-600 active:bg-green-700 text-white text-sm font-medium rounded-lg transition-colors"
                     >
                         <CheckCircle size={18} />
                         Aprobar Reporte
