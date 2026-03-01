@@ -327,4 +327,61 @@ export const adminService = {
             }, 500);
         });
     },
+
+    // ---------------------------------------------------------------------------
+    // Users
+    // ---------------------------------------------------------------------------
+
+    /**
+     * Fetch all users.
+     * TODO: replace mock with apiFetch("/admin/users") when backend is ready.
+     * @returns {Promise<Array<{ id: string, name: string, email: string, role: string, status: string }>>}
+     */
+    getUsers: () => {
+        // TODO: replace with apiFetch("/admin/users") when backend is ready
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve([
+                    { id: "u1", name: "Pablo", email: "pablo@gmail.com", role: "Cuidador", status: "Activo" },
+                    { id: "u2", name: "Juan", email: "juan@gmail.com", role: "Admin", status: "Activo" },
+                    { id: "u3", name: "Maria", email: "maria@gmail.com", role: "Familia", status: "Inactivo" },
+                    { id: "u4", name: "Pedro", email: "pedro@gmail.com", role: "Cuidador", status: "Activo" },
+                ]);
+            }, 800);
+        });
+    },
+
+    /**
+     * Create a new user.
+     * @param {object} data 
+     * @returns {Promise<void>}
+     */
+    createUser: (data) => {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(), 600);
+        });
+    },
+
+    /**
+     * Update an existing user.
+     * @param {string} id 
+     * @param {object} data 
+     * @returns {Promise<void>}
+     */
+    updateUser: (id, data) => {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(), 600);
+        });
+    },
+
+    /**
+     * Deactivate a user.
+     * @param {string} id 
+     * @returns {Promise<void>}
+     */
+    deactivateUser: (id) => {
+        return new Promise((resolve) => {
+            setTimeout(() => resolve(), 600);
+        });
+    },
 };

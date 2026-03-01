@@ -51,7 +51,7 @@ const AdminReports = () => {
     // Render
     // -----------------------------------------------------------------
     return (
-        <div className="max-w-3xl ml-auto mr-auto">
+        <div className="max-w-6xl ml-auto mr-auto">
 
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
