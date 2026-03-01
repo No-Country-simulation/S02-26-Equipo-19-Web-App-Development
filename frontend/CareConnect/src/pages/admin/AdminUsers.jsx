@@ -4,13 +4,24 @@ import Button from '../../components/common/Button';
 import Table from '../../components/common/Table';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import EmptyState from '../../components/common/EmptyState';
+import Input from '../../components/common/Input';
 import { useUsers } from '../../hooks/useUsers';
 import SearchInput from './components/SearchInput';
+import AdminModal from './components/AdminModal';
 
 const AdminUsers = () => {
     const { users, loading, deactivateUser } = useUsers();
     const [selectedFilter, setSelectedFilter] = useState('Todos');
     const [searchQuery, setSearchQuery] = useState('');
+
+    // -- Modal and Form State --
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        role: 'Cuidador',
+        password: ''
+    });
 
     const filters = ['Todos', 'Cuidadores', 'Pacientes', 'Familia'];
 
@@ -62,7 +73,6 @@ const AdminUsers = () => {
             )
         }
     ];
-
     const renderActions = (user, closeMenu) => (
         <>
             <button
@@ -82,6 +92,22 @@ const AdminUsers = () => {
         </>
     );
 
+    const handleCreate = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setFormData({ name: '', email: '', role: 'Cuidador', password: '' });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // UI Only - no backend call yet
+        console.log('Creating user:', formData);
+        handleCloseModal();
+    };
+
     return (
         <div className="max-w-6xl ml-auto mr-auto">
             {/* Header Section: Title & Add Button */}
@@ -91,6 +117,7 @@ const AdminUsers = () => {
                     variant="admin"
                     icon={<Plus size={20} />}
                     className="h-10"
+                    onClick={handleCreate}
                 >
                     Agregar Usuario
                 </Button>
@@ -139,6 +166,76 @@ const AdminUsers = () => {
                     renderActions={renderActions}
                 />
             )}
+
+            {/* Modal de Creación */}
+            <AdminModal
+                title="Agregar Nuevo Usuario"
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+            >
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Nombre Completo</label>
+                        <Input
+                            placeholder="Ej: Juan Pérez"
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Correo Electrónico</label>
+                        <Input
+                            type="email"
+                            placeholder="correo@ejemplo.com"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Rol</label>
+                        <select
+                            className="w-full px-4 py-3.5 rounded-lg border border-border bg-bg-secondary text-f-primary font-body focus:outline-none focus:ring-2 focus:ring-page-admin transition-all"
+                            value={formData.role}
+                            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                        >
+                            <option value="Cuidador">Cuidador</option>
+                            <option value="Paciente">Paciente</option>
+                            <option value="Familia">Familia</option>
+                            <option value="ADMIN">ADMIN</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Contraseña</label>
+                        <Input
+                            type="password"
+                            placeholder="********"
+                            value={formData.password}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            required
+                        />
+                    </div>
+
+                    <div className="flex justify-end gap-3 mt-8">
+                        <Button
+                            type="button"
+                            variant="danger"
+                            onClick={handleCloseModal}
+                            className="h-11"
+                        >
+                            Cancelar
+                        </Button>
+                        <Button
+                            type="submit"
+                            variant="admin"
+                            className="h-11"
+                        >
+                            Guardar Usuario
+                        </Button>
+                    </div>
+                </form>
+            </AdminModal>
         </div>
     );
 };
