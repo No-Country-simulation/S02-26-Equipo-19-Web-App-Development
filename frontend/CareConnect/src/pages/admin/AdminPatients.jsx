@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Plus, Search, Edit2, Ban } from 'lucide-react';
+import { Plus, Edit2, Ban } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/Table';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import EmptyState from '../../components/common/EmptyState';
 import { usePatients } from '../../hooks/usePatients';
+import SearchInput from './components/SearchInput';
 
 const AdminPatients = () => {
     const { patients, loading, updatePatient, deactivatePatient } = usePatients();
@@ -126,16 +127,12 @@ const AdminPatients = () => {
                 </div>
 
                 {/* Search Input */}
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                    <input
-                        type="text"
-                        placeholder="Buscar paciente..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-page-admin w-64"
-                    />
-                </div>
+                <SearchInput
+                    placeholder="Buscar paciente..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-64"
+                />
             </div>
 
             {/* Loading */}

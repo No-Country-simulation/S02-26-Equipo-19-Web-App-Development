@@ -13,10 +13,10 @@
 
 /** Mock: Table 1 – caregiver base data (fullName, dni, cbu) */
 const mockCaregiversBase = [
-    { id: "c1", fullName: "Pedro Martinez", dni: "25123456", cbu: "0000003100012345678901" },
-    { id: "c2", fullName: "Ana Garcia", dni: "28654321", cbu: "0000003100098765432109" },
-    { id: "c3", fullName: "Lucas Rodriguez", dni: "30987654", cbu: "0000003100045612378904" },
-    { id: "c4", fullName: "Maria Lopez", dni: "22111222", cbu: "0000003100078945612307" },
+    { id: "c1", fullName: "Pedro Martinez", dni: "25123456", cbu: "0000003100012345678901", status: "Activo" },
+    { id: "c2", fullName: "Ana Garcia", dni: "28654321", cbu: "0000003100098765432109", status: "Activo" },
+    { id: "c3", fullName: "Lucas Rodriguez", dni: "30987654", cbu: "0000003100045612378904", status: "Inactivo" },
+    { id: "c4", fullName: "Maria Lopez", dni: "22111222", cbu: "0000003100078945612307", status: "Activo" },
 ];
 
 /** Mock: Table 2 – worked hours per caregiver (keyed by caregiver id) */

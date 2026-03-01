@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Plus, Search, Edit2, Ban } from 'lucide-react';
+import { Plus, Edit2, Ban } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/Table';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import EmptyState from '../../components/common/EmptyState';
 import { useUsers } from '../../hooks/useUsers';
+import SearchInput from './components/SearchInput';
 
 const AdminUsers = () => {
     const { users, loading, deactivateUser } = useUsers();
@@ -52,8 +53,8 @@ const AdminUsers = () => {
             render: (user) => (
                 <span
                     className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${user.status === 'Activo'
-                            ? 'bg-page-caregivers-hover text-page-caregivers'
-                            : 'bg-gray-100 text-gray-500'
+                        ? 'bg-page-caregivers-hover text-page-caregivers'
+                        : 'bg-gray-100 text-gray-500'
                         }`}
                 >
                     {user.status}
@@ -104,8 +105,8 @@ const AdminUsers = () => {
                             key={filter}
                             onClick={() => setSelectedFilter(filter)}
                             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedFilter === filter
-                                    ? 'bg-white text-f-primary shadow-sm border border-gray-200'
-                                    : 'bg-transparent text-f-secondary hover:text-f-primary hover:bg-gray-100'
+                                ? 'bg-white text-f-primary shadow-sm border border-gray-200'
+                                : 'bg-transparent text-f-secondary hover:text-f-primary hover:bg-gray-100'
                                 }`}
                         >
                             {filter}
@@ -114,16 +115,12 @@ const AdminUsers = () => {
                 </div>
 
                 {/* Search Input */}
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                    <input
-                        type="text"
-                        placeholder="Buscar usuario..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-page-admin w-64"
-                    />
-                </div>
+                <SearchInput
+                    placeholder="Buscar usuario..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-64"
+                />
             </div>
 
             {/* Loading Spinner */}
