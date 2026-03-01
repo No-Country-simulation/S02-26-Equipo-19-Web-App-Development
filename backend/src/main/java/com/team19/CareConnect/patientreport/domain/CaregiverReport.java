@@ -42,6 +42,15 @@ public class CaregiverReport {
     @Column(name = "created_at", updatable = false)
     private OffsetDateTime createdAt;
 
+    @Column(name = "blood_pressure")
+    private String bloodPressure;
+
+    @Column(name = "temperature")
+    private String temperature;
+
+    @Column(name = "pulse")
+    private String pulse;
+
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "status", columnDefinition = "report_status")
