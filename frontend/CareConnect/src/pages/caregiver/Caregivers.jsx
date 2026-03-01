@@ -110,6 +110,9 @@ const Caregivers = () => {
 
     return (
         <>
+            {modalOpen && (
+                <div  className="w-screen h-screen fixed bg-black/40   z-20" > </div>
+            )}
             <ModalForm isOpen={modalOpen} setOpen={setModalOpen} />
             <Header rol="caregivers" />
             <main className="p-4 gap-4 grid grid-cols-1 lg:grid-cols-4">
