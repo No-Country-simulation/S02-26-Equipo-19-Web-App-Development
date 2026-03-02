@@ -3,6 +3,17 @@
 body {
   background-color: #F9FAFB;
 }
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
 @theme {
   --font-heading: "spline-sans", sans-serif;
   --font-body: "Inter", sans-serif;
