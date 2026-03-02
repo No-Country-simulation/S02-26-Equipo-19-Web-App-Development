@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+#Personal, para que no volver a asubirlo por error#
+docker-compose.yml

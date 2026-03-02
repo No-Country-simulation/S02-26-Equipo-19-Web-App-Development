@@ -1,16 +1,28 @@
 import { useState } from 'react';
-import { Plus, Search, Edit2, Ban } from 'lucide-react';
+import { Plus, Edit2, Ban } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/Table';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
 import EmptyState from '../../components/common/EmptyState';
+import Input from '../../components/common/Input';
 import { usePatients } from '../../hooks/usePatients';
+import SearchInput from './components/SearchInput';
+import AdminModal from './components/AdminModal';
 
 const AdminPatients = () => {
     const { patients, loading, updatePatient, deactivatePatient } = usePatients();
 
     const [selectedFilter, setSelectedFilter] = useState('Todos');
     const [searchQuery, setSearchQuery] = useState('');
+
+    // -- Modal and Form State --
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        fullName: '',
+        age: '',
+        dni: '',
+        representative: ''
+    });
 
     const filters = ['Todos', 'Activos', 'Inactivos'];
 
@@ -69,7 +81,6 @@ const AdminPatients = () => {
             ),
         },
     ];
-
     const renderActions = (row, closeMenu) => (
         <>
             <button
@@ -89,6 +100,22 @@ const AdminPatients = () => {
         </>
     );
 
+    const handleCreate = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setFormData({ fullName: '', age: '', dni: '', representative: '' });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // UI Only - no backend call yet
+        console.log('Creating patient:', formData);
+        handleCloseModal();
+    };
+
     // -----------------------------------------------------------------
     // Render
     // -----------------------------------------------------------------
@@ -102,6 +129,7 @@ const AdminPatients = () => {
                     variant="admin"
                     icon={<Plus size={20} />}
                     className="h-10 truncate"
+                    onClick={handleCreate}
                 >
                     Agregar Paciente
                 </Button>
@@ -126,16 +154,12 @@ const AdminPatients = () => {
                 </div>
 
                 {/* Search Input */}
-                <div className="relative">
-                    <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                    <input
-                        type="text"
-                        placeholder="Buscar paciente..."
-                        value={searchQuery}
-                        onChange={(e) => setSearchQuery(e.target.value)}
-                        className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-page-admin w-64"
-                    />
-                </div>
+                <SearchInput
+                    placeholder="Buscar paciente..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-64"
+                />
             </div>
 
             {/* Loading */}
@@ -154,6 +178,72 @@ const AdminPatients = () => {
                     renderActions={renderActions}
                 />
             )}
+
+            {/* Modal de Creación */}
+            <AdminModal
+                title="Agregar Nuevo Paciente"
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+            >
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Nombre Completo</label>
+                        <Input
+                            placeholder="Ej: Pedro Gómez"
+                            value={formData.fullName}
+                            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Edad</label>
+                            <Input
+                                type="number"
+                                placeholder="Ej: 75"
+                                value={formData.age}
+                                onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">DNI</label>
+                            <Input
+                                placeholder="8 dígitos"
+                                value={formData.dni}
+                                onChange={(e) => setFormData({ ...formData, dni: e.target.value })}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Representante / Familiar</label>
+                        <Input
+                            placeholder="Nombre del contacto principal"
+                            value={formData.representative}
+                            onChange={(e) => setFormData({ ...formData, representative: e.target.value })}
+                        />
+                    </div>
+
+                    <div className="flex justify-end gap-3 mt-8">
+                        <Button
+                            type="button"
+                            variant="danger"
+                            onClick={handleCloseModal}
+                            className="h-11"
+                        >
+                            Cancelar
+                        </Button>
+                        <Button
+                            type="submit"
+                            variant="admin"
+                            className="h-11"
+                        >
+                            Guardar Paciente
+                        </Button>
+                    </div>
+                </form>
+            </AdminModal>
         </div>
     );
 };

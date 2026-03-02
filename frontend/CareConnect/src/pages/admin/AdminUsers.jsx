@@ -1,21 +1,48 @@
 import { useState } from 'react';
-import { Plus, Search, Edit2, Ban, Trash2 } from 'lucide-react';
-import AdminLayout from './layouts/AdminLayout';
+import { Plus, Edit2, Ban } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/Table';
-
-// Dummy data for users
-const usersData = [
-    { id: 1, name: 'Pablo', email: 'pablo@gmail.com', role: 'Cuidador', status: 'Activo' },
-    { id: 2, name: 'Juan', email: 'juan@gmail.com', role: 'Admin', status: 'Activo' },
-    { id: 3, name: 'Maria', email: 'maria@gmail.com', role: 'Familia', status: 'Inactivo' },
-    { id: 4, name: 'Pedro', email: 'pedro@gmail.com', role: 'Cuidador', status: 'Activo' },
-];
+import LoadingSpinner from '../../components/common/LoadingSpinner';
+import EmptyState from '../../components/common/EmptyState';
+import Input from '../../components/common/Input';
+import { useUsers } from '../../hooks/useUsers';
+import SearchInput from './components/SearchInput';
+import AdminModal from './components/AdminModal';
 
 const AdminUsers = () => {
+    const { users, loading, deactivateUser } = useUsers();
     const [selectedFilter, setSelectedFilter] = useState('Todos');
+    const [searchQuery, setSearchQuery] = useState('');
+
+    // -- Modal and Form State --
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        role: 'Cuidador',
+        password: ''
+    });
 
     const filters = ['Todos', 'Cuidadores', 'Pacientes', 'Familia'];
+
+    // -----------------------------------------------------------------
+    // Derived list: filter by role pill + search input
+    // -----------------------------------------------------------------
+    const filteredUsers = users.filter((user) => {
+        const matchesFilter =
+            selectedFilter === 'Todos' ||
+            (selectedFilter === 'Cuidadores' && user.role === 'Cuidador') ||
+            (selectedFilter === 'Pacientes' && user.role === 'Paciente') ||
+            (selectedFilter === 'Familia' && user.role === 'Familia');
+
+        const query = searchQuery.toLowerCase();
+        const matchesSearch =
+            !query ||
+            user.name.toLowerCase().includes(query) ||
+            user.email.toLowerCase().includes(query);
+
+        return matchesFilter && matchesSearch;
+    });
 
     const columns = [
         {
@@ -35,19 +62,17 @@ const AdminUsers = () => {
             header: 'Estado',
             accessor: 'status',
             render: (user) => (
-                user.status === 'Activo' ? (
-                    <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-page-caregivers-hover text-page-caregivers">
-                        Activo
-                    </span>
-                ) : (
-                    <span className="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-500">
-                        Inactivo
-                    </span>
-                )
+                <span
+                    className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${user.status === 'Activo'
+                        ? 'bg-page-caregivers-hover text-page-caregivers'
+                        : 'bg-gray-100 text-gray-500'
+                        }`}
+                >
+                    {user.status}
+                </span>
             )
         }
     ];
-
     const renderActions = (user, closeMenu) => (
         <>
             <button
@@ -58,75 +83,160 @@ const AdminUsers = () => {
                 Editar
             </button>
             <button
-                onClick={() => { console.log('Deactivate', user); closeMenu(); }}
+                onClick={() => { deactivateUser(user.id); closeMenu(); }}
                 className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
             >
                 <Ban size={16} />
                 Desactivar
             </button>
-            <button
-                onClick={() => { console.log('Delete', user); closeMenu(); }}
-                className="w-full px-4 py-3 text-left text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"
-            >
-                <Trash2 size={16} />
-                Eliminar
-            </button>
         </>
     );
 
+    const handleCreate = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setFormData({ name: '', email: '', role: 'Cuidador', password: '' });
+    };
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        // UI Only - no backend call yet
+        console.log('Creating user:', formData);
+        handleCloseModal();
+    };
+
     return (
-        
-            <div className="max-w-6xl ml-auto mr-auto">
+        <div className="max-w-6xl ml-auto mr-auto">
+            {/* Header Section: Title & Add Button */}
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-3xl font-heading font-semibold text-f-primary">Usuarios</h1>
+                <Button
+                    variant="admin"
+                    icon={<Plus size={20} />}
+                    className="h-10"
+                    onClick={handleCreate}
+                >
+                    Agregar Usuario
+                </Button>
+            </div>
 
-                {/* Header Section: Title & Add Button */}
-                <div className="flex justify-between items-center mb-8">
-                    <h1 className="text-3xl font-heading font-semibold text-f-primary">Usuarios</h1>
-                    <Button
-                        variant="admin"
-                        icon={<Plus size={20} />}
-                        className="h-10"
-                    >
-                        Agregar Usuario
-                    </Button>
+            {/* Filters & Search Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
+                {/* Filter Pills */}
+                <div className="flex gap-2">
+                    {filters.map((filter) => (
+                        <button
+                            key={filter}
+                            onClick={() => setSelectedFilter(filter)}
+                            className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedFilter === filter
+                                ? 'bg-white text-f-primary shadow-sm border border-gray-200'
+                                : 'bg-transparent text-f-secondary hover:text-f-primary hover:bg-gray-100'
+                                }`}
+                        >
+                            {filter}
+                        </button>
+                    ))}
                 </div>
 
-                {/* Filters & Search Bar */}
-                <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
-                    {/* Filter Pills */}
-                    <div className="flex gap-2">
-                        {filters.map((filter) => (
-                            <button
-                                key={filter}
-                                onClick={() => setSelectedFilter(filter)}
-                                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedFilter === filter
-                                    ? 'bg-white text-f-primary shadow-sm border border-gray-200'
-                                    : 'bg-transparent text-f-secondary hover:text-f-primary hover:bg-gray-100'
-                                    }`}
-                            >
-                                {filter}
-                            </button>
-                        ))}
-                    </div>
-
-                    {/* Search Input */}
-                    <div className="relative">
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                        <input
-                            type="text"
-                            placeholder=""
-                            className="pl-10 pr-4 py-2 bg-white border border-gray-200 rounded-full focus:outline-none focus:ring-2 focus:ring-page-admin w-64"
-                        />
-                    </div>
-                </div>
-
-                {/* Users Table */}
-                <Table
-                    columns={columns}
-                    data={usersData}
-                    renderActions={renderActions}
+                {/* Search Input */}
+                <SearchInput
+                    placeholder="Buscar usuario..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-64"
                 />
             </div>
-        
+
+            {/* Loading Spinner */}
+            {loading && <LoadingSpinner message="Cargando usuarios..." />}
+
+            {/* Empty State */}
+            {!loading && filteredUsers.length === 0 && (
+                <EmptyState message="No se encontraron usuarios." />
+            )}
+
+            {/* Users Table */}
+            {!loading && filteredUsers.length > 0 && (
+                <Table
+                    columns={columns}
+                    data={filteredUsers}
+                    renderActions={renderActions}
+                />
+            )}
+
+            {/* Modal de Creación */}
+            <AdminModal
+                title="Agregar Nuevo Usuario"
+                isOpen={isModalOpen}
+                onClose={handleCloseModal}
+            >
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <div>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Nombre Completo</label>
+                        <Input
+                            placeholder="Ej: Juan Pérez"
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Correo Electrónico</label>
+                        <Input
+                            type="email"
+                            placeholder="correo@ejemplo.com"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Rol</label>
+                        <select
+                            className="w-full px-4 py-3.5 rounded-lg border border-border bg-bg-secondary text-f-primary font-body focus:outline-none focus:ring-2 focus:ring-page-admin transition-all"
+                            value={formData.role}
+                            onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+                        >
+                            <option value="Cuidador">Cuidador</option>
+                            <option value="Paciente">Paciente</option>
+                            <option value="Familia">Familia</option>
+                            <option value="ADMIN">ADMIN</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Contraseña</label>
+                        <Input
+                            type="password"
+                            placeholder="********"
+                            value={formData.password}
+                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                            required
+                        />
+                    </div>
+
+                    <div className="flex justify-end gap-3 mt-8">
+                        <Button
+                            type="button"
+                            variant="danger"
+                            onClick={handleCloseModal}
+                            className="h-11"
+                        >
+                            Cancelar
+                        </Button>
+                        <Button
+                            type="submit"
+                            variant="admin"
+                            className="h-11"
+                        >
+                            Guardar Usuario
+                        </Button>
+                    </div>
+                </form>
+            </AdminModal>
+        </div>
     );
 };
 
