@@ -61,6 +61,17 @@ const Family = () => {
             name: "Maria Garcia",
             age: "60",
             estable: true,
+            reports_:      {
+            id: 3,
+            date: "2026-02-04",
+            time: "14:00",
+            caregiver: "Maria",
+            type: "Medicación",
+            notes: "Aseo personal realizado. Cambio de ropa. Paciente colaborador durante todo el proceso.",
+            vitals: null,
+        },
+
+            
         },
         { id: 2, name: "Pepe", age: "70", estable: false },
     ];

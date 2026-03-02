@@ -1,4 +1,4 @@
-const Patient = ({ name, age, estable, isActive, onClick, rol }) => {
+const Patient = ({ name, age, estable, isActive, onClick, rol = "family" }) => {
     let info;
     if (!estable) {
         info = {
@@ -12,9 +12,17 @@ const Patient = ({ name, age, estable, isActive, onClick, rol }) => {
         };
     }
 
+    const getHoverClass = () => {
+        return rol === "family" ? "bg-page-family-hover border-page-family" : "bg-page-caregivers-hover border-page-caregivers";
+    };
+
+    const getBgClass = () => {
+        return isActive ? getHoverClass() : "bg-bg-tertiary border-transparent";
+    };
+
     return (
         <li
-            className={`p-5 ${isActive ? `bg-page-${rol}-hover border-page-${rol}` : "bg-bg-tertiary border-transparent"}  mb-3 rounded-xl text-f-secondary hover:bg-page-${rol}-hover border-2 transition-all`}
+            className={`p-5 ${getBgClass()} mb-3 rounded-xl text-f-secondary hover:${getHoverClass()} border-2 transition-all`}
             onClick={onClick}
         >
             <h4 className="text-base text-f-primary font-heading">{name}</h4>

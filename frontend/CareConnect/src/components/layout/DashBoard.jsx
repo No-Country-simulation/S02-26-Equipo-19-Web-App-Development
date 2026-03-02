@@ -1,6 +1,6 @@
 import { User } from "lucide-react";
 import Patient from "../common/Patient";
-const DashBoard = ({ rol = "family", patients, activeId, setActiveId }) => {
+const DashBoard = ({ rol, patients, activeId, setActiveId }) => {
     return (
         <div className=" w-full p-4 bg-bg-secondary border border-border rounded-lg">
             <div className="mb-5 flex gap-3">
