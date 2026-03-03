@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { ShieldCheck, User, Users, LogIn } from 'lucide-react';
 import LogoHome from './components/LogoHome';
 import RoleCard from './components/RoleCard';
@@ -7,6 +8,7 @@ import Link from '../../components/common/Link';
 import Button from '../../components/common/Button';
 
 const Home = () => {
+    const navigate = useNavigate();
     const [selectedRole, setSelectedRole] = useState(null);
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -18,7 +20,25 @@ const Home = () => {
     ];
 
     const handleLogin = () => {
-        console.log('Login attempt:', { selectedRole, email, password });
+        if (!selectedRole) {
+            alert('Por favor, selecciona un rol primero.');
+            return;
+        }
+
+        // Modificación temporal: Bypass de login basado en rol
+        switch (selectedRole) {
+            case 'admin':
+                navigate('/admin');
+                break;
+            case 'cuidador':
+                navigate('/caregivers');
+                break;
+            case 'familia':
+                navigate('/family');
+                break;
+            default:
+                console.log('Role not mapped:', selectedRole);
+        }
     };
 
     return (

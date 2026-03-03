@@ -28,9 +28,9 @@ public class Caregiver {
     private String email;
     private String phoneNumber;
     private String password;
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     @Enumerated(EnumType.STRING)
-    private CaregiverStatus status;
+    private CaregiverStatus caregiverStatus;
     private String address;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

@@ -25,7 +25,7 @@ public class Patient {
     @Column(name = "patient_id")
     private Long id;
     private String patientDni;
-    private LocalDateTime birthDate;
+    private LocalDate birthDate;
     private String firstName;
     private String lastName;
     private String email;
