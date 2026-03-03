@@ -15,10 +15,11 @@ public enum AvailabilityType {
     private final String label;
 
     public static AvailabilityType fromLabel(String label) {
+        if (label == null || label.isBlank()) return null;
+
         return Arrays.stream(values())
-                .filter(e -> e.label.equalsIgnoreCase(label))
+                .filter(e -> e.label.equalsIgnoreCase(label.trim()))
                 .findFirst()
-                .orElseThrow(() ->
-                        new IllegalArgumentException("No existe dicha disponibilidad."));
+                .orElse(null);
     }
 }

@@ -18,6 +18,7 @@ import java.util.List;
 @Setter @Getter
 @NoArgsConstructor
 public class CaregiverRequest {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "application_id")
@@ -45,7 +46,10 @@ public class CaregiverRequest {
     private Admin reviewedBy;
 
     // Relación con Document
-    @OneToMany(mappedBy = "application")
+    @OneToMany(
+            mappedBy = "application",
+            cascade = CascadeType.ALL
+    )
     private List<Document> documents = new ArrayList<>();
 
     // Relación con FormInformation

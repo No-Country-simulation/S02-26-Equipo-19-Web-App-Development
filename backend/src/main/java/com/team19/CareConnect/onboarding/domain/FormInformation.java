@@ -31,7 +31,7 @@ public class FormInformation {
     @Enumerated(EnumType.STRING)
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     @Column(name = "availability_type", columnDefinition = "availability_type")
-    private AvailabilityType availabilityType;
+    private AvailabilityType availabilityTime;
 
     private String specializations;
 
@@ -45,13 +45,13 @@ public class FormInformation {
             String fullName,
             String phoneNumber,
             LocalDate dateOfBirth,
-            AvailabilityType availabilityType,
+            AvailabilityType availabilityTime,
             String specializations) {
 
         this.fullName = fullName;
         this.phoneNumber = phoneNumber;
         this.dateOfBirth = dateOfBirth;
-        this.availabilityType = availabilityType;
+        this.availabilityTime = availabilityTime;
         this.specializations = specializations;
     }
 }
