@@ -18,7 +18,6 @@ import org.springframework.core.io.Resource;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
-
 @Configuration
 public class GoogleServicesConfig {
 
@@ -31,13 +30,12 @@ public class GoogleServicesConfig {
     @Value("${google.drive.refresh-token}")
     private String refreshToken;
 
-    private GoogleCredentials getCredentials() throws IOException {
-        Resource resource = new ClassPathResource("service-account.json");
-        return GoogleCredentials.fromStream(resource.getInputStream())
-                .createScoped(Arrays.asList(
-                        SheetsScopes.SPREADSHEETS,
-                        DriveScopes.DRIVE_FILE
-                ));
+    private UserCredentials getUserCredentials() {
+        return UserCredentials.newBuilder()
+                .setClientId(clientId)
+                .setClientSecret(clientSecret)
+                .setRefreshToken(refreshToken)
+                .build();
     }
 
     @Bean
@@ -45,24 +43,17 @@ public class GoogleServicesConfig {
         return new Sheets.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
                 GsonFactory.getDefaultInstance(),
-                new HttpCredentialsAdapter(getCredentials()))
+                new HttpCredentialsAdapter(getUserCredentials())) // Cambiado a getUserCredentials
                 .setApplicationName("CareConnect")
                 .build();
     }
 
     @Bean
     public Drive getDriveService() throws IOException, GeneralSecurityException {
-        // Importante: Usamos UserCredentials para actuar en tu nombre
-        UserCredentials credentials = UserCredentials.newBuilder()
-                .setClientId(clientId)
-                .setClientSecret(clientSecret)
-                .setRefreshToken(refreshToken)
-                .build();
-
         return new Drive.Builder(
                 GoogleNetHttpTransport.newTrustedTransport(),
                 GsonFactory.getDefaultInstance(),
-                new HttpCredentialsAdapter(credentials))
+                new HttpCredentialsAdapter(getUserCredentials())) // Unificado
                 .setApplicationName("CareConnect")
                 .build();
     }
