@@ -9,6 +9,10 @@ spring:
     password: ${SPRING_DATASOURCE_PASSWORD:care_password}
     driver-class-name: org.postgresql.Driver
     hikari:
+      maximum-pool-size: 2
+      minimum-idle: 0
+      idle-timeout: 30000
+      max-lifetime: 600000
       connection-timeout: 10000
       initialization-fail-timeout: 10000
   jpa:
