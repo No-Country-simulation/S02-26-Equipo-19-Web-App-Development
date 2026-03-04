@@ -27,7 +27,6 @@ public class PayRate {
     private Caregiver caregiver;
     
     private BigDecimal hourlyPayRate;
-
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 }

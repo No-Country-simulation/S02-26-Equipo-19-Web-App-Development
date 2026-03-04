@@ -1,16 +1,15 @@
-package com.team19.CareConnect.core.domain.patient.dto.request;
+package com.team19.CareConnect.core.domain.admin.dto.update;
 
+import com.team19.CareConnect.core.domain.patient.domain.GuardianStatus;
 import lombok.*;
 
 import java.time.LocalDate;
-
 
 @Setter
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-public class CreateGuardianRequestDto {
+public class UpdateGuardianDto {
     private String guardianDni;
     private String firstName;
     private String lastName;
@@ -19,4 +18,6 @@ public class CreateGuardianRequestDto {
     private String password;
     private String phoneNumber;
     private String address;
+    private GuardianStatus guardianStatus;
+
 }

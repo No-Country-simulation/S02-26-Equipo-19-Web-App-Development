@@ -1,16 +1,13 @@
 package com.team19.CareConnect.core.domain.admin.controller;
 
-import com.team19.CareConnect.core.domain.admin.dto.UpdateGuardianDto;
+import com.team19.CareConnect.core.domain.admin.dto.update.UpdateGuardianDto;
 import com.team19.CareConnect.core.domain.admin.service.GuardianAdminService;
-import com.team19.CareConnect.core.domain.patient.domain.GuardianStatus;
-import com.team19.CareConnect.core.domain.patient.dto.request.CreateGuardianRequestDto;
-import com.team19.CareConnect.core.domain.patient.dto.request.CreatePatientRequestDto;
+import com.team19.CareConnect.core.domain.admin.dto.create.CreateGuardianRequestDto;
 import com.team19.CareConnect.core.domain.patient.dto.response.GuardianResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @RestController

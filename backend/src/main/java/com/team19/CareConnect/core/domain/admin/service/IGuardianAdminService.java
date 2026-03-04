@@ -1,7 +1,7 @@
 package com.team19.CareConnect.core.domain.admin.service;
 
-import com.team19.CareConnect.core.domain.admin.dto.UpdateGuardianDto;
-import com.team19.CareConnect.core.domain.patient.dto.request.CreateGuardianRequestDto;
+import com.team19.CareConnect.core.domain.admin.dto.update.UpdateGuardianDto;
+import com.team19.CareConnect.core.domain.admin.dto.create.CreateGuardianRequestDto;
 import com.team19.CareConnect.core.domain.patient.dto.response.GuardianResponseDto;
 
 import java.util.List;

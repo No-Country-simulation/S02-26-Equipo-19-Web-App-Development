@@ -7,7 +7,7 @@ import com.team19.CareConnect.core.domain.patient.dto.response.GuardianResponseD
 import com.team19.CareConnect.core.domain.patient.dto.response.PatientBasicResponseDto;
 import com.team19.CareConnect.core.domain.patient.dto.response.PatientResponseDto;
 
-public class Mapper {
+public class PatientMapper {
 
     //Mapeo de Guardian a GuardianResponseDto
 
@@ -23,7 +23,7 @@ public class Mapper {
                 .birthDate(guardian.getBirthDate())
                 .phoneNumber(guardian.getPhoneNumber())
                 .address(guardian.getAddress())
-                .patientList(guardian.getPatients().stream().map(Mapper::toBasicDto).toList())
+                .patientList(guardian.getPatients().stream().map(PatientMapper::toBasicDto).toList())
                 .build();
     }
 
@@ -52,7 +52,7 @@ public class Mapper {
                 .email(patient.getEmail())
                 .phoneNumber(patient.getPhoneNumber())
                 .address(patient.getAddress())
-                .guardian(Mapper.toBasicDto(patient.getGuardian()))
+                .guardian(PatientMapper.toBasicDto(patient.getGuardian()))
                 .build();
     }
 
@@ -66,10 +66,6 @@ public class Mapper {
                 .patientStatus(patient.getPatientStatus())
                 .build();
     }
-
-    //Mapeo de Caregiver a CaregiverResponseDto
-
-    //Mapeo de Admin a AdminResponseDto
 
 
 }

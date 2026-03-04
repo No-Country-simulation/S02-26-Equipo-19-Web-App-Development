@@ -3,7 +3,7 @@ package com.team19.CareConnect.core.domain.patient.service;
 import com.team19.CareConnect.core.domain.patient.domain.Guardian;
 import com.team19.CareConnect.core.domain.patient.domain.GuardianStatus;
 import com.team19.CareConnect.core.domain.patient.dto.response.GuardianResponseDto;
-import com.team19.CareConnect.core.domain.patient.mapper.Mapper;
+import com.team19.CareConnect.core.domain.patient.mapper.PatientMapper;
 import com.team19.CareConnect.core.domain.patient.repository.IGuardianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,13 +21,13 @@ public class GuardianService implements IGuardianService{
 
     @Override
     public GuardianResponseDto findGuardianById(Long guardianId) {
-        return guardianRepository.findById(guardianId).map(Mapper::toDto)
+        return guardianRepository.findById(guardianId).map(PatientMapper::toDto)
                 .orElse(null);
     }
 
     @Override
     public List<GuardianResponseDto> findAllGuardians() {
-        return guardianRepository.findAll().stream().map(Mapper::toDto).toList();
+        return guardianRepository.findAll().stream().map(PatientMapper::toDto).toList();
     }
 
     @Override

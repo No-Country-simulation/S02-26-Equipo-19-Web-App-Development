@@ -1,13 +1,13 @@
 package com.team19.CareConnect.core.domain.admin.service;
 
 import com.team19.CareConnect.core.domain.Role;
-import com.team19.CareConnect.core.domain.admin.dto.UpdateGuardianDto;
+import com.team19.CareConnect.core.domain.admin.dto.update.UpdateGuardianDto;
 import com.team19.CareConnect.core.domain.exception.ResourceNotFoundException;
 import com.team19.CareConnect.core.domain.patient.domain.Guardian;
 import com.team19.CareConnect.core.domain.patient.domain.GuardianStatus;
-import com.team19.CareConnect.core.domain.patient.dto.request.CreateGuardianRequestDto;
+import com.team19.CareConnect.core.domain.admin.dto.create.CreateGuardianRequestDto;
 import com.team19.CareConnect.core.domain.patient.dto.response.GuardianResponseDto;
-import com.team19.CareConnect.core.domain.patient.mapper.Mapper;
+import com.team19.CareConnect.core.domain.patient.mapper.PatientMapper;
 import com.team19.CareConnect.core.domain.patient.repository.IGuardianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,13 +46,13 @@ public class GuardianAdminService implements IGuardianAdminService {
     @Override
     public GuardianResponseDto getGuardianById(Long guardianId) {
         return guardianRepository.findById(guardianId)
-                .map(Mapper::toDto)
+                .map(PatientMapper::toDto)
                 .orElseThrow(()-> new ResourceNotFoundException("Guardian with id: " + guardianId + " does not exist"));
     }
 
     @Override
     public List<GuardianResponseDto> getAllGuardians() {
-        return guardianRepository.findAll().stream().map(Mapper::toDto).toList();
+        return guardianRepository.findAll().stream().map(PatientMapper::toDto).toList();
     }
 
     @Override

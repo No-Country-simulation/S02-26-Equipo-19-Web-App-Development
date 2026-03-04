@@ -1,13 +1,13 @@
 package com.team19.CareConnect.core.domain.admin.service;
 
-import com.team19.CareConnect.core.domain.admin.dto.UpdatePatientDto;
+import com.team19.CareConnect.core.domain.admin.dto.update.UpdatePatientDto;
 import com.team19.CareConnect.core.domain.exception.ResourceNotFoundException;
 import com.team19.CareConnect.core.domain.patient.domain.Guardian;
 import com.team19.CareConnect.core.domain.patient.domain.Patient;
 import com.team19.CareConnect.core.domain.patient.domain.PatientStatus;
-import com.team19.CareConnect.core.domain.patient.dto.request.CreatePatientRequestDto;
+import com.team19.CareConnect.core.domain.admin.dto.create.CreatePatientRequestDto;
 import com.team19.CareConnect.core.domain.patient.dto.response.PatientResponseDto;
-import com.team19.CareConnect.core.domain.patient.mapper.Mapper;
+import com.team19.CareConnect.core.domain.patient.mapper.PatientMapper;
 import com.team19.CareConnect.core.domain.patient.repository.IGuardianRepository;
 import com.team19.CareConnect.core.domain.patient.repository.IPatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,7 +49,7 @@ public class PatientAdminService implements IPatientAdminService {
     public PatientResponseDto getPatientById(Long patientId) {
 
         return patientRepository.findById(patientId)
-                .map(Mapper::toDto)
+                .map(PatientMapper::toDto)
                 .orElseThrow(()->new ResourceNotFoundException("El paciente con id: " + patientId + " no existe"));
     }
 
@@ -57,7 +57,7 @@ public class PatientAdminService implements IPatientAdminService {
     public List<PatientResponseDto> getAllPatients() {
 
         return patientRepository.findAll()
-                .stream().map(Mapper::toDto)
+                .stream().map(PatientMapper::toDto)
                 .toList();
     }
 

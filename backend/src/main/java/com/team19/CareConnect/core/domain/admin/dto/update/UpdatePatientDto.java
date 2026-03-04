@@ -1,6 +1,5 @@
-package com.team19.CareConnect.core.domain.admin.dto;
+package com.team19.CareConnect.core.domain.admin.dto.update;
 
-import com.team19.CareConnect.core.domain.patient.domain.Guardian;
 import com.team19.CareConnect.core.domain.patient.domain.PatientStatus;
 import lombok.*;
 
