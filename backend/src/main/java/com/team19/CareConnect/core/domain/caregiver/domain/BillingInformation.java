@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,6 +22,7 @@ public class BillingInformation {
     @Column(name = "billing_information_id")
     private Long id;
     @Enumerated(EnumType.STRING)
+    @JdbcTypeCode(SqlTypes.NAMED_ENUM)
     private PreferredPaymentMethod preferredPaymentMethod;
     private String currency;
     private LocalDateTime updatedAt;
