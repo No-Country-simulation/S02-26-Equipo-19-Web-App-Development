@@ -13,16 +13,11 @@ spring:
       initialization-fail-timeout: 10000
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: validate
     show-sql: true
     properties:
       hibernate:
         format_sql: true
 
-  security:
-    user:
-      name: user
-      password: 1234
-
   flyway:
-    enabled: false
+    enabled: true
