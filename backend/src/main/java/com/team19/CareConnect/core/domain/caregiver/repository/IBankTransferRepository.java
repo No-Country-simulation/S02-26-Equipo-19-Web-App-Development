@@ -8,6 +8,4 @@ import java.util.List;
 
 @Repository
 public interface IBankTransferRepository extends JpaRepository<BankTransfer, Long> {
-    List<BankTransfer> findAllByCaregiverId(Long caregiverId);
-
 }

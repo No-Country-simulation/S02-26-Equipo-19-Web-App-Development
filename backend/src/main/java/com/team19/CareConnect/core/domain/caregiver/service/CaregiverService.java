@@ -33,12 +33,6 @@ public class CaregiverService implements ICaregiverService {
     }
 
     @Override
-    public List<Caregiver> findAllCaregiversByPatientId(Long patientId) {
-
-        return caregiverRepository.findAllByPatientId(patientId);
-    }
-
-    @Override
     public void updateCaregiver(Long caregiverId,
                                 String caregiverDni,
                                 String firstName,

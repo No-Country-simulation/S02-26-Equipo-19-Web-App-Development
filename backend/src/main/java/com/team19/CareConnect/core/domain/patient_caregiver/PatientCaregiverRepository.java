@@ -1,4 +1,4 @@
-package com.team19.CareConnect.core.domain;
+package com.team19.CareConnect.core.domain.patient_caregiver;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

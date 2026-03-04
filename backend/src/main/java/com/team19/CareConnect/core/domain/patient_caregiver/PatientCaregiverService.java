@@ -1,4 +1,4 @@
-package com.team19.CareConnect.core.domain;
+package com.team19.CareConnect.core.domain.patient_caregiver;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

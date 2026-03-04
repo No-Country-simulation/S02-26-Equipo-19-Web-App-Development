@@ -1,5 +1,6 @@
-package com.team19.CareConnect.core.domain;
+package com.team19.CareConnect.core.domain.admin.domain;
 
+import com.team19.CareConnect.core.domain.Role;
 import com.team19.CareConnect.onboarding.domain.CaregiverRequest;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,6 @@
 package com.team19.CareConnect.patientreport.domain;
 
-import com.team19.CareConnect.core.domain.PatientCaregiver;
+import com.team19.CareConnect.core.domain.patient_caregiver.PatientCaregiver;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

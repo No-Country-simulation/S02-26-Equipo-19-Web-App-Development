@@ -7,7 +7,6 @@ import java.util.List;
 public interface IMercadoPagoService {
     public void createMercadoPagoMethod(MercadoPago mercadoPago);
     public MercadoPago findMercadoPagoMethodById(Long mercadoPagoId);
-    public List<MercadoPago>  findAllMercadoPagoMethodsByCaregiverId(Long caregiverId);
     public void updateMercadoPagoMethod(
             Long mercadoPagoId,
             String mpEmail,

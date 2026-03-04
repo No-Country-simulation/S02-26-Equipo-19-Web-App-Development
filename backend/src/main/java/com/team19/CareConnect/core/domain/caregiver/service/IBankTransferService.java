@@ -7,7 +7,6 @@ import java.util.List;
 public interface IBankTransferService {
 
     public BankTransfer findBankTransferById(Long bankId);
-    public List<BankTransfer> findBankTransfersByCaregiverId(Long caregiverId);
     public void createBankTransfer (BankTransfer bankTransfer);
     public void updateBankTransfer(
             Long bankId,

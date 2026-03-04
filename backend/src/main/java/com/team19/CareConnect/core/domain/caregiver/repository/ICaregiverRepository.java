@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface ICaregiverRepository extends JpaRepository<Caregiver, Long> {
-    List<Caregiver> findAllByPatientId(Long patientId);
 }

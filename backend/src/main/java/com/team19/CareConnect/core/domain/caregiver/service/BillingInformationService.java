@@ -27,11 +27,6 @@ public class BillingInformationService implements IBillingInformationService {
     }
 
     @Override
-    public BillingInformation findBillingInformationByCaregiverId(Long caregiverId) {
-        return billingInformationRepository.findByCaregiverId(caregiverId);
-    }
-
-    @Override
     public void updateBillingInformation(Long billingInfoId,
                                          PreferredPaymentMethod preferredPaymentMethod,
                                          String currency,

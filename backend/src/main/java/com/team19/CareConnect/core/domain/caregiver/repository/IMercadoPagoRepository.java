@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface IMercadoPagoRepository extends JpaRepository<MercadoPago, Long> {
-    List<MercadoPago> findAllByCaregiverId(Long caregiverId);
 }

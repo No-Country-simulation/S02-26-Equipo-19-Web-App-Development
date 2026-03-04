@@ -25,11 +25,6 @@ public class FamilyMemberService implements IFamilyMemberService {
     }
 
     @Override
-    public List<FamilyMember> findAllByPatientId(Long patientId) {
-        return familyMemberRepository.findAllByPatientId(patientId);
-    }
-
-    @Override
     public void updateFamilyMember(Long familyMemberId,
                                    String firstName,
                                    String lastName,

@@ -8,7 +8,6 @@ public interface IFamilyMemberService {
 
     public void createFamilyMember(FamilyMember familyMember);
     public FamilyMember findFamilyMemberById(Long familyMemberId);
-    public List<FamilyMember> findAllByPatientId(Long patientId);
     public void updateFamilyMember(
             Long familyMemberId,
             String firstName,

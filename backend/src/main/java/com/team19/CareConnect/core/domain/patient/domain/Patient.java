@@ -2,7 +2,7 @@ package com.team19.CareConnect.core.domain.patient.domain;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.team19.CareConnect.core.domain.PatientCaregiver;
+import com.team19.CareConnect.core.domain.patient_caregiver.PatientCaregiver;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

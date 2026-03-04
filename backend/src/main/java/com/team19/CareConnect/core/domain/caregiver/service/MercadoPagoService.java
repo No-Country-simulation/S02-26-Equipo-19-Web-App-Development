@@ -24,10 +24,6 @@ public class MercadoPagoService implements IMercadoPagoService{
         return mercadoPagoRepository.findById(mercadoPagoId).orElse(null);
     }
 
-    @Override
-    public List<MercadoPago> findAllMercadoPagoMethodsByCaregiverId(Long caregiverId) {
-        return mercadoPagoRepository.findAllByCaregiverId(caregiverId);
-    }
 
     @Override
     public void updateMercadoPagoMethod(Long mercadoPagoId,

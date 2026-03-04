@@ -1,7 +1,7 @@
 package com.team19.CareConnect.core.domain.caregiver.domain;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.team19.CareConnect.core.domain.PatientCaregiver;
+import com.team19.CareConnect.core.domain.patient_caregiver.PatientCaregiver;
 import com.team19.CareConnect.core.domain.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

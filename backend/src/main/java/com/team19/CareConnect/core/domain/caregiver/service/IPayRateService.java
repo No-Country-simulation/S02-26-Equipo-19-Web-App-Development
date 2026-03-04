@@ -7,6 +7,5 @@ import java.util.List;
 public interface IPayRateService {
     public void createPayRate(PayRate payRate);
     public PayRate findPayRateById(Long payRateId);
-    public List<PayRate> findPayRateByCaregiverId(Long caregiverId);
     public void deletePayRate(Long payRateId);
 }

@@ -1,17 +1,15 @@
 package com.team19.CareConnect.core.domain.patient.service;
 
-import com.team19.CareConnect.core.domain.patient.domain.Guardian;
 import com.team19.CareConnect.core.domain.patient.domain.GuardianStatus;
+import com.team19.CareConnect.core.domain.patient.dto.response.GuardianResponseDto;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface IGuardianService {
-    public void createGuardian(Guardian guardian);
-    public Guardian findGuardianById(Long guardianId);
-    public Guardian findGuardianByPatientId(Long patientId);
-    public List<Guardian> findAllGuardians();
+    public GuardianResponseDto findGuardianById(Long guardianId);
+    public List<GuardianResponseDto> findAllGuardians();
     public void updateGuardian(Long guardianId,
                                String guardianDni,
                                String firstName,

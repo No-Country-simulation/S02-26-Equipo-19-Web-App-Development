@@ -20,11 +20,6 @@ public class BankTransferService implements IBankTransferService {
     }
 
     @Override
-    public List<BankTransfer> findBankTransfersByCaregiverId(Long caregiverId) {
-        return bankTransferRepository.findAllByCaregiverId(caregiverId);
-    }
-
-    @Override
     public void createBankTransfer(BankTransfer bankTransfer) {
         bankTransferRepository.save(bankTransfer);
     }

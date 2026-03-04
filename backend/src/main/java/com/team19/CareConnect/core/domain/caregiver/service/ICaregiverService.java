@@ -12,7 +12,6 @@ public interface ICaregiverService {
     public void createCaregiver(Caregiver caregiver);
     public Caregiver findCaregiverById(Long caregiverId);
     public List<Caregiver> findAllCaregivers();
-    public List<Caregiver> findAllCaregiversByPatientId(Long patientId);
     public void updateCaregiver(Long caregiverId,
                                 String caregiverDni,
                                 String firstName,

@@ -24,11 +24,6 @@ public class PayRateService implements IPayRateService {
     }
 
     @Override
-    public List<PayRate> findPayRateByCaregiverId(Long caregiverId) {
-        return payRateRepository.findAllByCaregiverId(caregiverId);
-    }
-
-    @Override
     public void deletePayRate(Long payRateId) {
         payRateRepository.deleteById(payRateId);
     }

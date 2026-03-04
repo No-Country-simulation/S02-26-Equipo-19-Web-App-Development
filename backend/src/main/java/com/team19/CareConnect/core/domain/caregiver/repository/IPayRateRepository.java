@@ -8,5 +8,4 @@ import java.util.List;
 
 @Repository
 public interface IPayRateRepository extends JpaRepository<PayRate, Long> {
-    List<PayRate> findAllByCaregiverId(Long caregiverId);
 }

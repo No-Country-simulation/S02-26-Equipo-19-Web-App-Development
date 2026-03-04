@@ -2,6 +2,8 @@ package com.team19.CareConnect.core.domain.patient.service;
 
 import com.team19.CareConnect.core.domain.patient.domain.Guardian;
 import com.team19.CareConnect.core.domain.patient.domain.GuardianStatus;
+import com.team19.CareConnect.core.domain.patient.dto.response.GuardianResponseDto;
+import com.team19.CareConnect.core.domain.patient.mapper.Mapper;
 import com.team19.CareConnect.core.domain.patient.repository.IGuardianRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,23 +20,14 @@ public class GuardianService implements IGuardianService{
     private IGuardianRepository  guardianRepository;
 
     @Override
-    public void createGuardian(Guardian guardian) {
-        guardianRepository.save(guardian);
+    public GuardianResponseDto findGuardianById(Long guardianId) {
+        return guardianRepository.findById(guardianId).map(Mapper::toDto)
+                .orElse(null);
     }
 
     @Override
-    public Guardian findGuardianById(Long guardianId) { //Revisar y devolver un DTO para evitar enviar el obj completo
-        return guardianRepository.findById(guardianId).orElse(null);
-    }
-
-    @Override
-    public Guardian findGuardianByPatientId(Long patientId) {
-        return guardianRepository.findGuardianByPatientId(patientId);
-    }
-
-    @Override
-    public List<Guardian> findAllGuardians() {
-        return guardianRepository.findAll();
+    public List<GuardianResponseDto> findAllGuardians() {
+        return guardianRepository.findAll().stream().map(Mapper::toDto).toList();
     }
 
     @Override

@@ -1,7 +1,7 @@
 package com.team19.CareConnect.patientreport;
 
-import com.team19.CareConnect.core.domain.PatientCaregiver;
-import com.team19.CareConnect.core.domain.PatientCaregiverRepository;
+import com.team19.CareConnect.core.domain.patient_caregiver.PatientCaregiver;
+import com.team19.CareConnect.core.domain.patient_caregiver.PatientCaregiverRepository;
 import com.team19.CareConnect.patientreport.domain.CaregiverReport;
 import com.team19.CareConnect.patientreport.domain.ReportStatus;
 import lombok.RequiredArgsConstructor;
