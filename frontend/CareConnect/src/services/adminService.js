@@ -290,26 +290,61 @@ export const adminService = {
     },
 
     // ---------------------------------------------------------------------------
-    // Users
+    // Users – aggregates Admins + Caregivers + Patients into one unified list.
     // ---------------------------------------------------------------------------
 
     /**
-     * Fetch all users.
-     * TODO: replace mock with apiFetch("/admin/users") when backend is ready.
+     * Fetch all users by merging three backend endpoints in parallel.
+     * Normalizes each backend shape into { id, name, email, role, status }.
+     *
+     * Sources:
+     *  - GET /api/v1/admin/me          → role "Admin"
+     *  - GET /api/v1/admin/caregiver   → role "Cuidador"
+     *  - GET /api/v1/admin/patient     → role "Paciente"
+     *
      * @returns {Promise<Array<{ id: string, name: string, email: string, role: string, status: string }>>}
      */
-    getUsers: () => {
-        // TODO: replace with apiFetch("/admin/users") when backend is ready
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve([
-                    { id: "u1", name: "Pablo", email: "pablo@gmail.com", role: "Cuidador", status: "Activo" },
-                    { id: "u2", name: "Juan", email: "juan@gmail.com", role: "Admin", status: "Activo" },
-                    { id: "u3", name: "Maria", email: "maria@gmail.com", role: "Familia", status: "Inactivo" },
-                    { id: "u4", name: "Pedro", email: "pedro@gmail.com", role: "Cuidador", status: "Activo" },
-                ]);
-            }, 800);
+    getUsers: async () => {
+        const [admins, caregivers, patients] = await Promise.all([
+            apiFetch("/api/v1/admin/me"),
+            apiFetch("/api/v1/admin/caregiver"),
+            apiFetch("/api/v1/admin/patient"),
+        ]);
+
+        /** @param {Object} a - Raw admin object from backend */
+        const transformAdmin = (a, index) => ({
+            id: `admin-${index}`,
+            name: `${a.firstName} ${a.lastName}`.trim(),
+            email: a.email,
+            role: "Admin",
+            status: "Activo",
         });
+
+        /** @param {Object} c - Raw caregiver object from backend */
+        const transformCaregiver = (c) => ({
+            id: `cg-${c.caregiverDni}`,
+            name: `${c.firstName} ${c.lastName}`.trim(),
+            email: c.email,
+            role: "Cuidador",
+            // caregiverStatus is not returned by GET, default to Activo
+            status: c.caregiverStatus ?? "Activo",
+        });
+
+        /** @param {Object} p - Raw patient object from backend */
+        const transformPatient = (p) => ({
+            id: `p-${p.patientId}`,
+            name: `${p.firstName} ${p.lastName}`.trim(),
+            email: p.email,
+            role: "Paciente",
+            // patientStatus is not returned by GET, default to Activo
+            status: p.patientStatus ?? "Activo",
+        });
+
+        return [
+            ...admins.map(transformAdmin),
+            ...caregivers.map(transformCaregiver),
+            ...patients.map(transformPatient),
+        ];
     },
 
     /**

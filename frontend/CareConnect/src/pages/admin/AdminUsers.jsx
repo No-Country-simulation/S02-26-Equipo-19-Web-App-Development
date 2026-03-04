@@ -23,7 +23,7 @@ const AdminUsers = () => {
         password: ''
     });
 
-    const filters = ['Todos', 'Cuidadores', 'Pacientes', 'Familia'];
+    const filters = ['Todos', 'Admin', 'Cuidadores', 'Pacientes'];
 
     // -----------------------------------------------------------------
     // Derived list: filter by role pill + search input
@@ -31,9 +31,9 @@ const AdminUsers = () => {
     const filteredUsers = users.filter((user) => {
         const matchesFilter =
             selectedFilter === 'Todos' ||
+            (selectedFilter === 'Admin' && user.role === 'Admin') ||
             (selectedFilter === 'Cuidadores' && user.role === 'Cuidador') ||
-            (selectedFilter === 'Pacientes' && user.role === 'Paciente') ||
-            (selectedFilter === 'Familia' && user.role === 'Familia');
+            (selectedFilter === 'Pacientes' && user.role === 'Paciente');
 
         const query = searchQuery.toLowerCase();
         const matchesSearch =
