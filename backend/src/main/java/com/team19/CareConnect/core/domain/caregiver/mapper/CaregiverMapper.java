@@ -26,7 +26,9 @@ public class CaregiverMapper {
                 .birthDate(caregiver.getBirthDate())
                 .phoneNumber(caregiver.getPhoneNumber())
                 .address(caregiver.getAddress())
-                .billingInformation(Optional.of(caregiver.getBillingInformation()).map(CaregiverMapper::toDto).orElse(null))
+                .billingInformation(Optional.ofNullable(caregiver.getBillingInformation())
+                        .map(CaregiverMapper::toDto)
+                        .orElse(null))
                 .payRate(Optional.ofNullable(caregiver.getPayRate()).map(CaregiverMapper::toDto).orElse(null))
                 .build();
     }
@@ -44,10 +46,10 @@ public class CaregiverMapper {
     public static PayRateResponseDto toDto(List<PayRate> payRate) {
         if (payRate == null) return null;
 
-        PayRate currentPayRate = payRate.stream()
-                .sorted(Comparator.comparing(PayRate::getStartDate).reversed())
-                .findFirst()
+        PayRate currentPayRate = payRate.stream().max(Comparator.comparing(PayRate::getStartDate))
                 .orElse(null);
+
+        if (currentPayRate == null) return null;
 
         return PayRateResponseDto.builder()
                 .hourlyPayRate(currentPayRate.getHourlyPayRate())

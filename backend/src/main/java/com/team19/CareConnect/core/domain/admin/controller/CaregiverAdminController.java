@@ -39,7 +39,7 @@ public class CaregiverAdminController {
         return "Caregiver Updated";
     }
 
-    @DeleteMapping("/caregiver")
+    @DeleteMapping("/caregiver/{caregiverId}")
     public String deleteCaregiver(@PathVariable Long caregiverId) {
         caregiverAdminService.deleteCaregiver(caregiverId);
         return "Caregiver Deleted";
