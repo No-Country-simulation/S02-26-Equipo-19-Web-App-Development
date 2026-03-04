@@ -98,6 +98,11 @@ const ReportCard = ({ report, onApprove, onReject }) => {
                 <p className="font-body text-f-primary font-light text-sm leading-relaxed">
                     {report.notes}
                 </p>
+                {report.observations && (
+                    <p className="font-body text-f-secondary font-light text-xs leading-relaxed mt-2 pt-2 border-t border-border">
+                        <strong className="text-f-primary">Observaciones:</strong> {report.observations}
+                    </p>
+                )}
             </div>
 
             {/* Vitals */}

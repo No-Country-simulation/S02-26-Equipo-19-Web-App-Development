@@ -1,4 +1,4 @@
-// import { apiFetch } from "./api"; // Uncomment when api.js is ready
+import { apiFetch } from "./api";
 
 /**
  * adminService – Admin module endpoints.
@@ -27,64 +27,44 @@ const mockWorkedHours = {
     c4: 50,
 };
 
-/** Mock: Table 3 – Caregiver reports (mutable for simulation) */
-let mockReports = [
-    {
-        id: "r1",
-        type: "Medicacion",
-        caregiver: "Ana Garcia",
-        patient: "Roberto Gómez",
-        date: "2026-02-08",
-        time: "8:00",
-        notes: "Medicación matutina administrada correctamente. Paciente se encuentra en buen estado de ánimo.",
-        status: "pending",
-        vitals: { presion: "120/80 mmHg", temperatura: "36.5°C", pulso: "72 bpm" },
-    },
-    {
-        id: "r2",
-        type: "Control General",
-        caregiver: "Pedro Martinez",
-        patient: "Laura Martinez",
-        date: "2026-02-09",
-        time: "10:30",
-        notes: "Control de rutina realizado. El paciente descansó bien durante la noche.",
-        status: "pending",
-        vitals: { presion: "130/85 mmHg", temperatura: "37.0°C", pulso: "80 bpm" },
-    },
-    {
-        id: "r3",
-        type: "Higiene y Aseo",
-        caregiver: "Maria Lopez",
-        patient: "Ana Rodríguez",
-        date: "2026-02-10",
-        time: "9:00",
-        notes: "Aseo personal completo. Sin novedades durante la guardia.",
-        status: "approved",
-        vitals: null,
-    },
-    {
-        id: "r4",
-        type: "Alimentacion",
-        caregiver: "Lucas Rodriguez",
-        patient: "Carlos López",
-        date: "2026-02-11",
-        time: "13:00",
-        notes: "Paciente rechazó la comida al mediodía. Se informó a la familia.",
-        status: "rejected",
-        vitals: { presion: "110/70 mmHg", temperatura: "36.8°C", pulso: "68 bpm" },
-    },
-    {
-        id: "r5",
-        type: "Medicacion",
-        caregiver: "Ana Garcia",
-        patient: "Roberto Gómez",
-        date: "2026-02-12",
-        time: "20:00",
-        notes: "Medicación nocturna administrada sin inconvenientes. Paciente dormido.",
-        status: "pending",
-        vitals: { presion: "118/76 mmHg", temperatura: "36.3°C", pulso: "70 bpm" },
-    },
-];
+// ---------------------------------------------------------------------------
+// Helpers – transform backend shapes into frontend shapes.
+// These transformations live ONLY in the service layer.
+// ---------------------------------------------------------------------------
+
+/**
+ * Transform a backend CaregiverReportResponse into the frontend report shape.
+ * @param {Object} raw - Raw report from the backend.
+ * @returns {Object} Transformed report for UI consumption.
+ */
+const transformReport = (raw) => {
+    const hasVitals = raw.bloodPressure || raw.temperature || raw.pulse;
+
+    return {
+        id: raw.reportId,
+        type: raw.reportContent
+            ? raw.reportContent.split(" ").slice(0, 3).join(" ")
+            : "Reporte",
+        caregiver: raw.caregiverName,
+        patient: raw.patientName,
+        date: raw.reportDateStart,
+        dateEnd: raw.reportDateEnd,
+        time: raw.createdAt
+            ? new Date(raw.createdAt).toLocaleTimeString("es-ES", { hour: "2-digit", minute: "2-digit" })
+            : "",
+        notes: raw.reportContent,
+        observations: raw.observations || null,
+        status: (raw.status || "pending").toLowerCase(),
+        vitals: hasVitals
+            ? {
+                presion: raw.bloodPressure ? `${raw.bloodPressure} mmHg` : "—",
+                temperatura: raw.temperature ? `${raw.temperature}°C` : "—",
+                pulso: raw.pulse ? `${raw.pulse} bpm` : "—",
+            }
+            : null,
+        documents: raw.documents || [],
+    };
+};
 
 export const adminService = {
     /**
@@ -269,63 +249,44 @@ export const adminService = {
     // ---------------------------------------------------------------------------
 
     /**
-     * Fetch all caregiver reports.
-     * TODO: replace mock with apiFetch("/admin/reports") when backend is ready.
+     * Fetch all caregiver reports from the backend.
+     * Transforms backend CaregiverReportResponse into frontend shape.
      * @returns {Promise<Array<{
-     *   id: string,
+     *   id: number,
      *   type: string,
      *   caregiver: string,
      *   patient: string,
      *   date: string,
+     *   dateEnd: string,
      *   time: string,
      *   notes: string,
+     *   observations: string | null,
      *   status: 'pending' | 'approved' | 'rejected',
-     *   vitals?: { presion: string, temperatura: string, pulso: string }
+     *   vitals: { presion: string, temperatura: string, pulso: string } | null,
+     *   documents: Array
      * }>>}
      */
-    getReports: () => {
-        // TODO: replace with apiFetch("/admin/reports") when backend is ready
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve([...mockReports]);
-            }, 800);
-        });
+    getReports: async () => {
+        const raw = await apiFetch("/api/reports");
+        return raw.map(transformReport);
     },
 
     /**
-     * Approve a report.
-     * TODO: replace with apiFetch(`/admin/reports/${id}/approve`, { method: "PATCH" })
-     * @param {string} id
-     * @returns {Promise<void>}
+     * Approve a report by changing its status to APPROVED.
+     * @param {number} id - Report ID.
+     * @returns {Promise<Object>} Updated report from backend.
      */
-    approveReport: (id) => {
-        // TODO: replace with apiFetch(`/admin/reports/${id}/approve`, { method: "PATCH" })
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                mockReports = mockReports.map(r =>
-                    r.id === id ? { ...r, status: 'approved' } : r
-                );
-                resolve();
-            }, 500);
-        });
+    approveReport: async (id) => {
+        return apiFetch(`/api/reports/${id}/status?status=APPROVED`, { method: "PATCH" });
     },
 
     /**
-     * Reject a report.
-     * TODO: replace with apiFetch(`/admin/reports/${id}/reject`, { method: "PATCH" })
-     * @param {string} id
-     * @returns {Promise<void>}
+     * Reject a report by changing its status to REJECTED.
+     * @param {number} id - Report ID.
+     * @returns {Promise<Object>} Updated report from backend.
      */
-    rejectReport: (id) => {
-        // TODO: replace with apiFetch(`/admin/reports/${id}/reject`, { method: "PATCH" })
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                mockReports = mockReports.map(r =>
-                    r.id === id ? { ...r, status: 'rejected' } : r
-                );
-                resolve();
-            }, 500);
-        });
+    rejectReport: async (id) => {
+        return apiFetch(`/api/reports/${id}/status?status=REJECTED`, { method: "PATCH" });
     },
 
     // ---------------------------------------------------------------------------
