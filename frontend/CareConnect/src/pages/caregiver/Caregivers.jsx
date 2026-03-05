@@ -11,7 +11,7 @@ import ModalForm from "./components/ModalForm";
 const Caregivers = () => {
     const [activeId, setActiveId] = useState(1);
     const [modalOpen, setModalOpen] = useState(false);
-
+    
     const [patients, setPatients] = useState([
         {
             id: 1,
@@ -20,22 +20,36 @@ const Caregivers = () => {
             estable: true,
             reports: [
                 {
-                    id: 2,
-                    date: "2026-02-04",
-                    time: "10:30",
-                    caregiver: "Ana Rodríguez",
-                    type: "Medicación",
-                    notes: "Desayuno completo. Buena ingesta de líquidos. Sin dificultad para tragar.",
-                    vitals: null,
+                    reportId: 2,
+                    patientCaregiverId: 1,
+                    caregiverName: "Ana Rodríguez",
+                    patientName: "Maria Garcia",
+                    reportDateStart: "2026-02-04",
+                    reportDateEnd: "2026-02-04",
+                    reportContent:
+                        "Desayuno completo. Buena ingesta de líquidos. Sin dificultad para tragar.",
+                    observations: "Sin novedades relevantes.",
+                    status: "COMPLETED",
+                    createdAt: "2026-02-04T10:30:00Z",
+                    bloodPressure: null,
+                    temperature: null,
+                    pulse: null,
                 },
                 {
-                    id: 3,
-                    date: "2026-02-04",
-                    time: "14:00",
-                    caregiver: "Carlos Martínez",
-                    type: "Medicación",
-                    notes: "Aseo personal realizado. Cambio de ropa. Paciente colaborador durante todo el proceso.",
-                    vitals: null,
+                    reportId: 3,
+                    patientCaregiverId: 1,
+                    caregiverName: "Carlos Martínez",
+                    patientName: "Maria Garcia",
+                    reportDateStart: "2026-02-04",
+                    reportDateEnd: "2026-02-04",
+                    reportContent:
+                        "Aseo personal realizado. Cambio de ropa. Paciente colaborador durante todo el proceso.",
+                    observations: "Paciente cooperativo durante la higiene.",
+                    status: "COMPLETED",
+                    createdAt: "2026-02-04T14:00:00Z",
+                    bloodPressure: null,
+                    temperature: null,
+                    pulse: null,
                 },
             ],
         },
@@ -46,30 +60,34 @@ const Caregivers = () => {
             estable: false,
             reports: [
                 {
-                    id: 1,
-                    date: "2026-02-04",
-                    time: "08:00",
-                    caregiver: "Ana Rodríguez",
-                    type: "Medicación",
-                    notes: "Medicación matutina administrada correctamente. Paciente se encuentra en buen estado de ánimo.",
-                    vitals: {
-                        presion: "120/80 mmHg",
-                        temperatura: "36.5°C",
-                        pulso: "72 bpm",
-                    },
+                    reportId: 1,
+                    patientCaregiverId: 2,
+                    caregiverName: "Ana Rodríguez",
+                    patientName: "Pepe",
+                    reportDateStart: "2026-02-04",
+                    reportDateEnd: "2026-02-04",
+                    reportContent:
+                        "Medicación matutina administrada correctamente. Paciente se encuentra en buen estado de ánimo.",
+                    observations: "Presión normal, pulso estable.",
+                    status: "COMPLETED",
+                    createdAt: "2026-02-04T08:00:00Z",
+                    bloodPressure: "120/80",
+                    temperature: "36.5",
+                    pulse: "72",
                 },
             ],
         },
     ]);
 
     const addReport = (newReport) => {
+        const reportWithObs = { observations: "", ...newReport };
         setPatients((prev) =>
             prev.map((p) =>
                 p.id === activeId
                     ? {
                           ...p,
                           reports: [
-                              { ...newReport, id: Date.now() },
+                              { ...reportWithObs, reportId: Date.now() },
                               ...p.reports,
                           ],
                       }
@@ -122,7 +140,7 @@ const Caregivers = () => {
                         Icon={Calendar}
                     >
                         {activePatient?.reports.map((report) => (
-                            <Report report={report} key={report.id} />
+                            <Report report={report} key={report.reportId} />
                         ))}
                     </ReportSection>
                 </section>
