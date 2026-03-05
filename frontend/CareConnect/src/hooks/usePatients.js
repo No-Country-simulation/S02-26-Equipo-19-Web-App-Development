@@ -17,11 +17,11 @@ import { handleError } from "../utils/handleError";
  *  - Perform async operations outside this hook (Page stays clean).
  *
  * @returns {{
- *   patients: Array<{ id: string, fullName: string, age: number, dni: string, representative: string, status: string }>,
+ *   patients: Array<{ id: number, fullName: string, age: number|string, dni: string, representative: string, status: string }>,
  *   loading: boolean,
  *   createPatient: (data: object) => Promise<void>,
- *   updatePatient: (id: string, data: object) => Promise<void>,
- *   deactivatePatient: (id: string) => Promise<void>,
+ *   updatePatient: (id: number, data: object) => Promise<void>,
+ *   deactivatePatient: (id: number) => Promise<void>,
  *   refetch: () => Promise<void>
  * }}
  */

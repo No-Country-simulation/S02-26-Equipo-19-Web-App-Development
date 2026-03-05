@@ -6,31 +6,59 @@ import { apiFetch } from "./api";
  */
 
 // ---------------------------------------------------------------------------
-// Internal mock data – simulates two separate DB tables.
-// These mocks live ONLY in the service layer.
-// The Page and the Hook must never know about this separation.
-// ---------------------------------------------------------------------------
-
-/** Mock: Table 1 – caregiver base data (fullName, dni, cbu) */
-const mockCaregiversBase = [
-    { id: "c1", fullName: "Pedro Martinez", dni: "25123456", cbu: "0000003100012345678901", status: "Activo" },
-    { id: "c2", fullName: "Ana Garcia", dni: "28654321", cbu: "0000003100098765432109", status: "Activo" },
-    { id: "c3", fullName: "Lucas Rodriguez", dni: "30987654", cbu: "0000003100045612378904", status: "Inactivo" },
-    { id: "c4", fullName: "Maria Lopez", dni: "22111222", cbu: "0000003100078945612307", status: "Activo" },
-];
-
-/** Mock: Table 2 – worked hours per caregiver (keyed by caregiver id) */
-const mockWorkedHours = {
-    c1: 45,
-    c2: 32,
-    c3: 0,
-    c4: 50,
-};
-
-// ---------------------------------------------------------------------------
 // Helpers – transform backend shapes into frontend shapes.
 // These transformations live ONLY in the service layer.
 // ---------------------------------------------------------------------------
+
+/**
+ * Calculate age in years from an ISO date string (YYYY-MM-DD).
+ * @param {string|null} birthDate
+ * @returns {number|string}
+ */
+const calcAge = (birthDate) => {
+    if (!birthDate) return "-";
+    const today = new Date();
+    const birth = new Date(birthDate);
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+    return age;
+};
+
+/**
+ * Transform a backend caregiver (GET /api/v1/admin/caregiver) into the frontend shape.
+ * Note: CBU and workedHours are not returned by the GET endpoint yet.
+ * @param {Object} c - Raw caregiver from backend.
+ * @returns {{ id: string, fullName: string, dni: string, cbu: string, workedHours: number, status: string }}
+ */
+const transformCaregiver = (c) => ({
+    id: c.caregiverDni ?? String(Math.random()),
+    fullName: `${c.firstName} ${c.lastName}`.trim(),
+    dni: c.caregiverDni ?? "-",
+    // billingInformation does not include CBU/CVU in current GET response
+    cbu: c.billingInformation?.cbu ?? "-",
+    // workedHours is not yet returned by this endpoint
+    workedHours: c.workedHours ?? 0,
+    status: c.caregiverStatus ?? "Activo",
+});
+
+/**
+ * Transform a backend patient (GET /api/v1/admin/patient) into the frontend shape.
+ * @param {Object} p - Raw patient from backend.
+ * @returns {{ id: number, fullName: string, age: number|string, dni: string, representative: string, status: string }}
+ */
+const transformPatient = (p) => {
+    return {
+        id: p.patientId,
+        fullName: `${p.firstName} ${p.lastName}`.trim(),
+        age: calcAge(p.birthDate),
+        email: p.email ?? "-",
+        phone: p.phoneNumber ?? "-",
+        status: p.patientStatus ?? "Activo",
+    };
+};
+
+
 
 /**
  * Transform a backend CaregiverReportResponse into the frontend report shape.
@@ -100,23 +128,12 @@ export const adminService = {
     // ---------------------------------------------------------------------------
 
     /**
-     * Fetch all caregivers.
-     * Merges base data (Table 1) with worked hours (Table 2) before returning.
-     * TODO: replace with apiFetch("/admin/caregivers") when backend is ready.
-     * @returns {Promise<Array<{ id: string, fullName: string, dni: string, cbu: string, workedHours: number }>>}
+     * Fetch all caregivers from the backend.
+     * @returns {Promise<Array<{ id: string, fullName: string, dni: string, cbu: string, workedHours: number, status: string }>>}
      */
-    getCaregivers: () => {
-        // TODO: replace with apiFetch("/admin/caregivers") when backend is ready
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // Merge: join the two mock tables on caregiver id
-                const unified = mockCaregiversBase.map((caregiver) => ({
-                    ...caregiver,
-                    workedHours: mockWorkedHours[caregiver.id] ?? 0,
-                }));
-                resolve(unified);
-            }, 800);
-        });
+    getCaregivers: async () => {
+        const raw = await apiFetch("/api/v1/admin/caregiver");
+        return raw.map(transformCaregiver);
     },
 
     /**
@@ -171,22 +188,12 @@ export const adminService = {
     // ---------------------------------------------------------------------------
 
     /**
-     * Fetch all patients.
-     * TODO: replace mock with apiFetch("/admin/patients") when backend is ready.
-     * @returns {Promise<Array<{ id: string, fullName: string, age: number, dni: string, representative: string, status: string }>>}
+     * Fetch all patients from the backend.
+     * @returns {Promise<Array<{ id: number, fullName: string, age: number|string, dni: string, representative: string, status: string }>>}
      */
-    getPatients: () => {
-        // TODO: replace with apiFetch("/admin/patients") when backend is ready
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve([
-                    { id: "p1", fullName: "Roberto Gómez", age: 75, dni: "12345678", representative: "Mariana Pérez", status: "Activo" },
-                    { id: "p2", fullName: "Laura Martinez", age: 68, dni: "23456789", representative: "-", status: "Activo" },
-                    { id: "p3", fullName: "Carlos López", age: 82, dni: "34567890", representative: "Juan Carlos", status: "Inactivo" },
-                    { id: "p4", fullName: "Ana Rodríguez", age: 71, dni: "45678901", representative: "-", status: "Activo" },
-                ]);
-            }, 800);
-        });
+    getPatients: async () => {
+        const raw = await apiFetch("/api/v1/admin/patient");
+        return raw.map(transformPatient);
     },
 
     /**
