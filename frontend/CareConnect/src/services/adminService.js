@@ -32,7 +32,7 @@ const calcAge = (birthDate) => {
  * @returns {{ id: string, fullName: string, dni: string, cbu: string, workedHours: number, status: string }}
  */
 const transformCaregiver = (c) => ({
-    id: c.caregiverDni ?? String(Math.random()),
+    id: c.caregiverId ?? c.caregiverDni ?? String(Math.random()),
     fullName: `${c.firstName} ${c.lastName}`.trim(),
     dni: c.caregiverDni ?? "-",
     email: c.email ?? "-",
@@ -138,48 +138,13 @@ export const adminService = {
 
     /**
      * Create a new caregiver.
-     * TODO: replace with apiFetch("/admin/caregivers", { method: "POST", body: JSON.stringify(data) })
-     * @param {{ fullName: string, dni: string, cbu: string }} data
+     * @param {Object} data - Caregiver data.
      * @returns {Promise<void>}
      */
     createCaregiver: (data) => {
-        // TODO: replace with apiFetch("/admin/caregivers", { method: "POST", body: JSON.stringify(data) })
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                // In real impl, backend handles persistence; mock just resolves
-                resolve();
-            }, 600);
-        });
-    },
-
-    /**
-     * Update an existing caregiver.
-     * TODO: replace with apiFetch(`/admin/caregivers/${id}`, { method: "PUT", body: JSON.stringify(data) })
-     * @param {string} id
-     * @param {{ fullName?: string, dni?: string, cbu?: string }} data
-     * @returns {Promise<void>}
-     */
-    updateCaregiver: (id, data) => {
-        // TODO: replace with apiFetch(`/admin/caregivers/${id}`, { method: "PUT", body: JSON.stringify(data) })
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve();
-            }, 600);
-        });
-    },
-
-    /**
-     * Deactivate a caregiver (soft delete / status change).
-     * TODO: replace with apiFetch(`/admin/caregivers/${id}`, { method: "PATCH" })
-     * @param {string} id
-     * @returns {Promise<void>}
-     */
-    deactivateCaregiver: (id) => {
-        // TODO: replace with apiFetch(`/admin/caregivers/${id}`, { method: "PATCH" })
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve();
-            }, 600);
+        return apiFetch("/api/v1/admin/caregiver", {
+            method: "POST",
+            body: JSON.stringify(data),
         });
     },
 
@@ -198,47 +163,13 @@ export const adminService = {
 
     /**
      * Create a new patient.
-     * TODO: replace with apiFetch("/admin/patients", { method: "POST", body: JSON.stringify(data) })
-     * @param {{ fullName: string, age: number, dni: string, representative?: string }} data
+     * @param {Object} data - Patient data matching backend expectations.
      * @returns {Promise<void>}
      */
     createPatient: (data) => {
-        // TODO: replace with apiFetch("/admin/patients", { method: "POST", body: JSON.stringify(data) })
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve();
-            }, 600);
-        });
-    },
-
-    /**
-     * Update an existing patient.
-     * TODO: replace with apiFetch(`/admin/patients/${id}`, { method: "PUT", body: JSON.stringify(data) })
-     * @param {string} id
-     * @param {{ fullName?: string, age?: number, dni?: string, representative?: string }} data
-     * @returns {Promise<void>}
-     */
-    updatePatient: (id, data) => {
-        // TODO: replace with apiFetch(`/admin/patients/${id}`, { method: "PUT", body: JSON.stringify(data) })
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve();
-            }, 600);
-        });
-    },
-
-    /**
-     * Deactivate a patient (soft delete / status change).
-     * TODO: replace with apiFetch(`/admin/patients/${id}`, { method: "PATCH" })
-     * @param {string} id
-     * @returns {Promise<void>}
-     */
-    deactivatePatient: (id) => {
-        // TODO: replace with apiFetch(`/admin/patients/${id}`, { method: "PATCH" })
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve();
-            }, 600);
+        return apiFetch("/api/v1/admin/patient", {
+            method: "POST",
+            body: JSON.stringify(data),
         });
     },
 
@@ -329,7 +260,7 @@ export const adminService = {
 
         /** @param {Object} c - Raw caregiver object from backend */
         const transformCaregiver = (c) => ({
-            id: `cg-${c.caregiverDni}`,
+            id: `cg-${c.caregiverId ?? c.caregiverDni}`,
             name: `${c.firstName} ${c.lastName}`.trim(),
             email: c.email,
             role: "Cuidador",
@@ -359,32 +290,35 @@ export const adminService = {
      * @param {object} data 
      * @returns {Promise<void>}
      */
-    createUser: (data) => {
-        return new Promise((resolve) => {
-            setTimeout(() => resolve(), 600);
-        });
-    },
-
-    /**
-     * Update an existing user.
-     * @param {string} id 
-     * @param {object} data 
-     * @returns {Promise<void>}
-     */
-    updateUser: (id, data) => {
-        return new Promise((resolve) => {
-            setTimeout(() => resolve(), 600);
-        });
-    },
-
-    /**
-     * Deactivate a user.
-     * @param {string} id 
-     * @returns {Promise<void>}
-     */
-    deactivateUser: (id) => {
-        return new Promise((resolve) => {
-            setTimeout(() => resolve(), 600);
-        });
+    createUser: async (data) => {
+        // Since "User" is a projection, we delegate to specific creators based on role.
+        if (data.role === "Cuidador") {
+            const caregiverData = {
+                caregiverDni: data.dni || data.caregiverDni,
+                firstName: data.name.split(" ")[0],
+                lastName: data.name.split(" ").slice(1).join(" "),
+                email: data.email,
+                password: data.password,
+                phoneNumber: data.phoneNumber || "-",
+                birthDate: data.birthDate || "1900-01-01",
+                address: data.address || "-"
+            };
+            return adminService.createCaregiver(caregiverData);
+        }
+        if (data.role === "Paciente") {
+            const patientData = {
+                patientDni: data.dni || data.patientDni,
+                firstName: data.name.split(" ")[0],
+                lastName: data.name.split(" ").slice(1).join(" "),
+                email: data.email,
+                phoneNumber: data.phoneNumber || "-",
+                birthDate: data.birthDate || "1900-01-01",
+                address: data.address || "-",
+                guardianId: 1
+            };
+            return adminService.createPatient(patientData);
+        }
+        // Admin or fallback
+        throw new Error(`Funcionalidad de creación para el rol ${data.role} no implementada.`);
     },
 };

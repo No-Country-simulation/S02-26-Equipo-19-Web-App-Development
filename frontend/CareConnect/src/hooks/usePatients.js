@@ -57,33 +57,7 @@ export const usePatients = () => {
             await fetchPatients();
         } catch (error) {
             handleError(error);
-        }
-    };
-
-    /**
-     * Update an existing patient and refresh the list.
-     * @param {string} id
-     * @param {{ fullName?: string, age?: number, dni?: string, representative?: string }} formData
-     */
-    const updatePatient = async (id, formData) => {
-        try {
-            await adminService.updatePatient(id, formData);
-            await fetchPatients();
-        } catch (error) {
-            handleError(error);
-        }
-    };
-
-    /**
-     * Deactivate a patient and refresh the list.
-     * @param {string} id
-     */
-    const deactivatePatient = async (id) => {
-        try {
-            await adminService.deactivatePatient(id);
-            await fetchPatients();
-        } catch (error) {
-            handleError(error);
+            throw error;
         }
     };
 
@@ -91,8 +65,6 @@ export const usePatients = () => {
         patients,
         loading,
         createPatient,
-        updatePatient,
-        deactivatePatient,
         refetch: fetchPatients,
     };
 };

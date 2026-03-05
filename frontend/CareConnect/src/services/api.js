@@ -49,5 +49,12 @@ export const apiFetch = async (endpoint, options = {}) => {
         throw new Error(errorMessage);
     }
 
-    return response.json();
+    // Check if response is JSON before parsing
+    const contentType = response.headers.get("content-type");
+    if (contentType && contentType.includes("application/json")) {
+        return response.json();
+    }
+
+    // Return as text if not JSON (e.g. "Patient created")
+    return response.text();
 };
