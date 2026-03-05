@@ -39,7 +39,7 @@ const AdminPatients = () => {
         const matchesSearch =
             !query ||
             p.fullName.toLowerCase().includes(query) ||
-            p.dni.includes(query);
+            (p.email && p.email.toLowerCase().includes(query));
 
         return matchesFilter && matchesSearch;
     });
@@ -54,17 +54,13 @@ const AdminPatients = () => {
             cellClassName: 'font-body text-f-primary font-bold',
         },
         {
-            header: 'Edad',
-            accessor: 'age',
+            header: 'Email',
+            accessor: 'email',
         },
         {
-            header: 'DNI',
-            accessor: 'dni',
-        },
-        {
-            header: 'Representante',
-            accessor: 'representative',
-            render: (row) => row.representative || '-',
+            header: 'Teléfono',
+            accessor: 'phone',
+            render: (row) => row.phone || '-',
         },
         {
             header: 'Estado',

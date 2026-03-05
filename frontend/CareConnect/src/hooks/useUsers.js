@@ -17,7 +17,7 @@ import { handleError } from "../utils/handleError";
  *  - Perform async operations outside this hook (Page stays clean).
  *
  * @returns {{
- *   users: Array<{ id: string, name: string, email: string, role: string, status: string }>,
+ *   users: Array<{ id: string, name: string, email: string, role: 'Admin'|'Cuidador'|'Paciente', status: string }>,
  *   loading: boolean,
  *   createUser: (data: object) => Promise<void>,
  *   updateUser: (id: string, data: object) => Promise<void>,
