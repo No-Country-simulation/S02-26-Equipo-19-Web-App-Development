@@ -35,8 +35,8 @@ const transformCaregiver = (c) => ({
     id: c.caregiverDni ?? String(Math.random()),
     fullName: `${c.firstName} ${c.lastName}`.trim(),
     dni: c.caregiverDni ?? "-",
-    // billingInformation does not include CBU/CVU in current GET response
-    cbu: c.billingInformation?.cbu ?? "-",
+    email: c.email ?? "-",
+    phone: c.phoneNumber ?? "-",
     // workedHours is not yet returned by this endpoint
     workedHours: c.workedHours ?? 0,
     status: c.caregiverStatus ?? "Activo",
