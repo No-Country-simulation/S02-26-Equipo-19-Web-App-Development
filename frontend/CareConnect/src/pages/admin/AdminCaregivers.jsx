@@ -91,7 +91,8 @@ const AdminCaregivers = () => {
         const matchesSearch =
             !query ||
             c.fullName.toLowerCase().includes(query) ||
-            c.dni.includes(query);
+            c.dni.includes(query) ||
+            (c.email && c.email.toLowerCase().includes(query));
 
         return matchesFilter && matchesSearch;
     });
@@ -108,19 +109,13 @@ const AdminCaregivers = () => {
             accessor: 'dni',
         },
         {
-            header: 'CBU/CVU',
-            accessor: 'cbu',
-            cellClassName: 'font-mono text-sm',
+            header: 'Email',
+            accessor: 'email',
         },
         {
-            header: 'Horas Trabajadas',
-            accessor: 'workedHours',
-            cellClassName: 'text-center',
-            render: (row) => (
-                <span className="font-semibold text-f-primary">
-                    {row.workedHours} hs
-                </span>
-            ),
+            header: 'Teléfono',
+            accessor: 'phone',
+            cellClassName: 'font-mono text-sm',
         },
         {
             header: 'Estado',
@@ -134,23 +129,6 @@ const AdminCaregivers = () => {
                 >
                     {row.status}
                 </span>
-            ),
-        },
-        {
-            header: 'Pago',
-            accessor: 'payment',
-            render: (row) => (
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        handlePay(row);
-                    }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-green-50 text-green-700 hover:bg-green-100 transition-colors border border-green-200"
-                    disabled={row.workedHours === 0}
-                >
-                    <CreditCard size={14} />
-                    Pagar
-                </button>
             ),
         },
     ];
