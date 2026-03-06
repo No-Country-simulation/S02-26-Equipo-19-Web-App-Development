@@ -75,3 +75,24 @@ npm run dev
     Disponible en  http://localhost:5173
 
   ##  Desplegado en   https://no-country-care-connect.netlify.app/
+
+
+  Arquitectura:
+
+Es una app full stack con frontend y backend separados
+El frontend en React se comunica con el backend en Spring Boot a través de una API REST
+El backend usa PostgreSQL como base de datos y Flyway para manejar los cambios de esquema con migraciones versionadas
+Todo corre en Docker localmente y está desplegado en Koyeb y Netlify
+
+Estructura del backend:
+
+Está organizado por módulos (core, onboarding, patientreport, billing) cada uno con su propia responsabilidad
+Sigue el patrón Controller → Service → Repository para separar las capas
+
+Seguridad:
+
+Tiene autenticación con roles, cada usuario solo puede ver y hacer lo que le corresponde según su rol
+
+Base de datos:
+
+Las migraciones de Flyway garantizan que todos los entornos (local, producción) tengan siempre el mismo esquema
