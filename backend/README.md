@@ -1,4 +1,4 @@
-# CareConnect — Backend
+# CareConnect — Backend https://no-country-care-connect.netlify.app/
 
 CareConnect es una plataforma web unificada para la gestión de atención domiciliaria de pacientes. Centraliza la coordinación entre cuidadores, pacientes, familias y administradores en un solo sistema, reemplazando procesos manuales y herramientas desconectadas.
 ---
@@ -73,3 +73,5 @@ npm run dev
 ```
 
     Disponible en  http://localhost:5173
+
+  ##  Desplegado en   https://no-country-care-connect.netlify.app/
