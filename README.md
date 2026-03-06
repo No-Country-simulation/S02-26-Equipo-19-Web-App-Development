@@ -2,7 +2,7 @@
 CareConnect es una plataforma web diseñada para gestionar integralmente servicios de acompañamiento domiciliario. Permite la administración de pacientes, cuidadores, reportes y usuarios, además de brindar paneles de métricas y herramientas para facilitar la operación diaria.
 
 ### Tecnologías principales
-- **Backend:** Java 17, Spring Boot, Maven
+- **Backend:** Java 21, Spring Boot, Maven
 - **Base de datos:** PostgreSQL (a través de scripts SQL de migración)
 - **Frontend:** React (Vite + JSX), Tailwind CSS
 - **Contenerización:** Docker y docker-compose para ambientes de desarrollo
@@ -166,5 +166,5 @@ docker-compose up
 | Ezequiel Oliver | Desarrollador Frontend | [LinkedIn](https://www.linkedin.com/in/ezequiel-oliver/) | [Github](https://github.com/Oliver-92) |
 | Judith Diaz | Desarrollador Backend | [LinkedIn](https://www.linkedin.com/in/judithcarolinadiaz/) | [Github](https://github.com/Judith-Diaz) |
 | Fei Mosqueda | Desarrollador Frontend | [LinkedIn](https://www.linkedin.com/in/fei-mosqueda-934036260) | [Github](https://github.com/feimb) |
-| Nombre | Rol | [LinkedIn]() | [Github]() |
+| Yoshua Pariona | Desarrollador Backend | [LinkedIn](https://www.linkedin.com/in/logan-yoshua-pariona/) | [Github](https://github.com/YoshuaPariona) |
 | Nombre | Rol | [LinkedIn]() | [Github]() |
