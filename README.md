@@ -29,6 +29,6 @@ CareConnect es una plataforma web diseñada para gestionar integralmente servici
 |---|---|---|---|
 | Ezequiel Oliver | Desarrollador Frontend | [LinkedIn](https://www.linkedin.com/in/ezequiel-oliver/) | [Github](https://github.com/Oliver-92) |
 | Judith Diaz | Desarrollador Backend | [LinkedIn](https://www.linkedin.com/in/judithcarolinadiaz/) | [Github](https://github.com/Judith-Diaz) |
-| Nombre | Rol | [LinkedIn]() | [Github]() |
+| Fei Mosqueda | Desarrollador Frontend | [LinkedIn](https://www.linkedin.com/in/fei-mosqueda-934036260) | [Github](https://github.com/feimb) |
 | Nombre | Rol | [LinkedIn]() | [Github]() |
 | Nombre | Rol | [LinkedIn]() | [Github]() |
