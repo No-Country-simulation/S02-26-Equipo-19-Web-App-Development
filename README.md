@@ -155,7 +155,7 @@ docker-compose up
 
 ## Video del proyecto
 
-[![Video de presentación de CareConnect](https://img.youtube.com/vi/58vVAb8x57A/maxresdefault.jpg)](https://youtu.be/58vVAb8x57A "Presiona para ver el video completo")
+[![Video de presentación de CareConnect](https://img.youtube.com/vi/58vVAb8x57A/0.jpg)](https://youtu.be/58vVAb8x57A "Presiona para ver el video completo")
 
 **[Ver en YouTube](https://youtu.be/58vVAb8x57A)**
 
