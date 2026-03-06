@@ -1,6 +1,10 @@
 import IconRol from "./../common/IconRol";
-import LogOutButton from "./../common/LogOutButton"
+import LogOutButton from "./../common/LogOutButton";
+import ThemeToggle from "../common/ThemeToggle";
+import { useDarkMode } from "../../hooks/useDarkMode";
+
 const Header = ({ rol = "family" }) => {
+    const [dark, setDark] = useDarkMode();
     const portalRol = {
         family: "Familiar",
         admin: "Administrador",
@@ -24,7 +28,10 @@ const Header = ({ rol = "family" }) => {
                         </p>
                     </div>
                 </div>
-                <LogOutButton />
+                <div className="flex items-center gap-4">
+                    <ThemeToggle dark={dark} toggle={() => setDark((d) => !d)} />
+                    <LogOutButton />
+                </div>
             </div>
         </header>
     );

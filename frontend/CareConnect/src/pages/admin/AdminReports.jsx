@@ -67,14 +67,14 @@ const AdminReports = () => {
                             key={filter}
                             onClick={() => setSelectedFilter(filter)}
                             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors flex items-center gap-1.5 ${selectedFilter === filter
-                                ? "bg-white text-f-primary shadow-sm border border-gray-200"
-                                : "bg-transparent text-f-secondary hover:text-f-primary hover:bg-gray-100"
+                                ? "bg-bg-secondary text-f-primary shadow-sm border border-border"
+                                : "bg-transparent text-f-secondary hover:text-f-primary hover:bg-bg-tertiary"
                                 }`}
                         >
                             {filter}
                             <span className={`inline-flex items-center justify-center w-5 h-5 rounded-full text-xs ${selectedFilter === filter
                                 ? "bg-page-admin text-white"
-                                : "bg-gray-200 text-f-secondary"
+                                : "bg-bg-secondary text-f-secondary dark:bg-bg-tertiary dark:text-f-primary"
                                 }`}>
                                 {counts[filter]}
                             </span>

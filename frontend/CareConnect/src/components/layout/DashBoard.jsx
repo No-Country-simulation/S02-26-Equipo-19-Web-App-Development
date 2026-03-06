@@ -4,8 +4,8 @@ const DashBoard = ({ rol, patients, activeId, setActiveId }) => {
     return (
         <div className=" w-full p-4 bg-bg-secondary border border-border rounded-lg">
             <div className="mb-5 flex gap-3">
-                <User />
-                <h3 className="text-xl font-heading  font-semibold ">
+                <User className="text-f-primary" />
+                <h3 className="text-xl font-heading  font-semibold text-f-primary">
                     Paciente
                 </h3>
             </div>

@@ -40,7 +40,7 @@ const LoadingSpinner = ({ message = "", size = "md" }) => {
 
             {/* Optional message */}
             {message && (
-                <p className="text-sm text-muted-foreground mt-5 tracking-wide animate-pulse">
+                <p className="text-sm text-f-secondary mt-5 tracking-wide animate-pulse">
                     {message}
                 </p>
             )}

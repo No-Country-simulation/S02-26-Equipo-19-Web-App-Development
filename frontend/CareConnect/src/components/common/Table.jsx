@@ -39,11 +39,11 @@ const Table = ({ columns, data, renderActions }) => {
                         {renderActions && <th className="py-4 px-4"></th>}
                     </tr>
                 </thead>
-                <tbody className="divide-y divide-gray-100">
+                <tbody className="divide-y divide-border">
                     {data.map((row, rowIndex) => (
                         <tr
                             key={row.id || rowIndex}
-                            className="group hover:bg-white transition-colors border-b border-gray-100 last:border-0"
+                            className="group hover:bg-bg-secondary transition-colors border-b border-border last:border-0"
                         >
                             {columns.map((col, colIndex) => (
                                 <td
@@ -63,7 +63,7 @@ const Table = ({ columns, data, renderActions }) => {
                                             e.stopPropagation();
                                             toggleMenu(row.id);
                                         }}
-                                        className="p-2 hover:bg-gray-100 rounded-full text-gray-400 hover:text-gray-600 transition-colors"
+                                        className="p-2 hover:bg-bg-tertiary rounded-full text-f-secondary hover:text-f-primary transition-colors"
                                     >
                                         <MoreHorizontal size={20} />
                                     </button>
@@ -72,7 +72,7 @@ const Table = ({ columns, data, renderActions }) => {
                                     {activeMenu === row.id && (
                                         <div
                                             ref={menuRef}
-                                            className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-xl border border-gray-100 z-10 overflow-hidden"
+                                            className="absolute right-0 mt-2 w-48 bg-bg-secondary rounded-lg shadow-xl border border-border z-10 overflow-hidden"
                                         >
                                             {renderActions(row, () => setActiveMenu(null))}
                                         </div>
@@ -85,7 +85,7 @@ const Table = ({ columns, data, renderActions }) => {
                         <tr>
                             <td
                                 colSpan={columns.length + (renderActions ? 1 : 0)}
-                                className="py-8 text-center text-gray-500"
+                                className="py-8 text-center text-f-secondary"
                             >
                                 No hay datos para mostrar
                             </td>

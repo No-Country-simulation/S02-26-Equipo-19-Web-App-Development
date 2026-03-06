@@ -14,15 +14,15 @@ const AdminModal = ({ title, isOpen, onClose, children }) => {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm animate-in fade-in duration-200">
             <div
-                className="bg-white rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200"
+                className="bg-bg-secondary rounded-2xl shadow-xl w-full max-w-lg overflow-hidden animate-in zoom-in-95 duration-200 dark:bg-bg-tertiary"
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                <div className="flex items-center justify-between px-6 py-4 border-b border-border">
                     <h2 className="text-xl font-heading font-semibold text-f-primary">{title}</h2>
                     <button
                         onClick={onClose}
-                        className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-400 hover:text-gray-600"
+                        className="p-2 hover:bg-bg-tertiary rounded-full transition-colors text-f-secondary hover:text-f-primary"
                     >
                         <X size={20} />
                     </button>

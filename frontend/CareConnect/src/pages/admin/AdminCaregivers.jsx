@@ -125,7 +125,7 @@ const AdminCaregivers = () => {
         {
             header: 'Teléfono',
             accessor: 'phone',
-            cellClassName: 'font-mono text-sm',
+            cellClassName: 'font-mono text-sm text-f-primary',
         },
         {
             header: 'Estado',
@@ -133,8 +133,8 @@ const AdminCaregivers = () => {
             render: (row) => (
                 <span
                     className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${row.status === 'Activo'
-                        ? 'bg-green-100 text-green-800'
-                        : 'bg-red-100 text-red-800'
+                        ? 'bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100'
+                        : 'bg-red-100 text-red-800 dark:bg-red-800 dark:text-red-100'
                         }`}
                 >
                     {row.status}
@@ -169,8 +169,8 @@ const AdminCaregivers = () => {
                             key={filter}
                             onClick={() => setSelectedFilter(filter)}
                             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedFilter === filter
-                                ? 'bg-white text-f-primary shadow-sm border border-gray-200'
-                                : 'bg-transparent text-f-secondary hover:text-f-primary hover:bg-gray-100'
+                                ? 'bg-bg-secondary text-f-primary shadow-sm border border-border'
+                                : 'bg-transparent text-f-secondary hover:text-f-primary hover:bg-bg-tertiary'
                                 }`}
                         >
                             {filter}
