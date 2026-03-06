@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Plus, Edit2, Ban, CreditCard } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { toast } from 'react-toastify';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/Table';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
@@ -11,17 +12,6 @@ import AdminModal from './components/AdminModal';
 
 /**
  * AdminCaregivers – Admin view for managing caregivers.
- *
- * Responsibilities:
- *  - Render the caregivers list via the Table component.
- *  - Show LoadingSpinner while data is being fetched.
- *  - Show EmptyState if the list is empty.
- *  - Delegate all async logic to useCaregivers.
- *
- * Does NOT:
- *  - Call the service directly.
- *  - Manipulate caregiver arrays.
- *  - Contain any async logic.
  */
 const AdminCaregivers = () => {
     // ── Server state via hook ──────────────────────────────────────────────
@@ -29,8 +19,6 @@ const AdminCaregivers = () => {
         caregivers,
         loading,
         createCaregiver,
-        updateCaregiver,
-        deactivateCaregiver,
     } = useCaregivers();
 
     // ── Local UI state ─────────────────────────────────────────────────────
@@ -39,10 +27,16 @@ const AdminCaregivers = () => {
 
     // -- Modal and Form State --
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
-        fullName: '',
-        dni: '',
-        cbu: ''
+        caregiverDni: '',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        password: '',
+        birthDate: '',
+        address: ''
     });
 
     const filters = ['Todos', 'Activos', 'Inactivos'];
@@ -54,30 +48,46 @@ const AdminCaregivers = () => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        setFormData({ fullName: '', dni: '', cbu: '' });
+        setFormData({
+            caregiverDni: '',
+            firstName: '',
+            lastName: '',
+            email: '',
+            phoneNumber: '',
+            password: '',
+            birthDate: '',
+            address: ''
+        });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // UI Only - no backend call yet
-        console.log('Creating caregiver:', formData);
-        handleCloseModal();
-    };
 
-    const handleEdit = (caregiver, closeMenu) => {
-        closeMenu();
-        // TODO: open edit modal pre-filled with caregiver data, then call updateCaregiver(caregiver.id, formData)
-        console.log('Edit caregiver:', caregiver.id);
-    };
+        // Basic Validation
+        if (
+            !formData.firstName ||
+            !formData.lastName ||
+            !formData.caregiverDni ||
+            !formData.email ||
+            !formData.password ||
+            !formData.phoneNumber ||
+            !formData.birthDate ||
+            !formData.address
+        ) {
+            toast.error('Por favor completa todos los campos obligatorios');
+            return;
+        }
 
-    const handleDeactivate = (caregiver, closeMenu) => {
-        closeMenu();
-        deactivateCaregiver(caregiver.id);
-    };
-
-    const handlePay = (caregiver) => {
-        // TODO: trigger payment flow via adminService.executePayment (future)
-        console.log('Pay caregiver:', caregiver.id);
+        setIsSubmitting(true);
+        try {
+            await createCaregiver(formData);
+            toast.success('Cuidador agregado correctamente');
+            handleCloseModal();
+        } catch (error) {
+            console.error('Submit error:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     // ── Derived list: filter by status pill + search input ────────────────
@@ -91,7 +101,8 @@ const AdminCaregivers = () => {
         const matchesSearch =
             !query ||
             c.fullName.toLowerCase().includes(query) ||
-            c.dni.includes(query);
+            c.dni.includes(query) ||
+            (c.email && c.email.toLowerCase().includes(query));
 
         return matchesFilter && matchesSearch;
     });
@@ -108,19 +119,13 @@ const AdminCaregivers = () => {
             accessor: 'dni',
         },
         {
-            header: 'CBU/CVU',
-            accessor: 'cbu',
-            cellClassName: 'font-mono text-sm',
+            header: 'Email',
+            accessor: 'email',
         },
         {
-            header: 'Horas Trabajadas',
-            accessor: 'workedHours',
-            cellClassName: 'text-center',
-            render: (row) => (
-                <span className="font-semibold text-f-primary">
-                    {row.workedHours} hs
-                </span>
-            ),
+            header: 'Teléfono',
+            accessor: 'phone',
+            cellClassName: 'font-mono text-sm',
         },
         {
             header: 'Estado',
@@ -136,48 +141,10 @@ const AdminCaregivers = () => {
                 </span>
             ),
         },
-        {
-            header: 'Pago',
-            accessor: 'payment',
-            render: (row) => (
-                <button
-                    onClick={(e) => {
-                        e.stopPropagation();
-                        handlePay(row);
-                    }}
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-green-50 text-green-700 hover:bg-green-100 transition-colors border border-green-200"
-                    disabled={row.workedHours === 0}
-                >
-                    <CreditCard size={14} />
-                    Pagar
-                </button>
-            ),
-        },
     ];
-
-    // ── Row action menu ────────────────────────────────────────────────────
-    const renderActions = (caregiver, closeMenu) => (
-        <>
-            <button
-                onClick={() => handleEdit(caregiver, closeMenu)}
-                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-            >
-                <Edit2 size={16} />
-                Editar
-            </button>
-            <button
-                onClick={() => handleDeactivate(caregiver, closeMenu)}
-                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-            >
-                <Ban size={16} />
-                Desactivar
-            </button>
-        </>
-    );
 
     // ── Render ─────────────────────────────────────────────────────────────
     return (
-
         <div className="max-w-6xl ml-auto mr-auto">
 
             {/* Header Section: Title & Add Button */}
@@ -229,7 +196,6 @@ const AdminCaregivers = () => {
                 <Table
                     columns={columns}
                     data={filteredCaregivers}
-                    renderActions={renderActions}
                 />
             )}
 
@@ -240,32 +206,90 @@ const AdminCaregivers = () => {
                 onClose={handleCloseModal}
             >
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-f-secondary mb-1">Nombre Completo</label>
-                        <Input
-                            placeholder="Ej: Elena Ruiz"
-                            value={formData.fullName}
-                            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                            required
-                        />
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Nombre</label>
+                            <Input
+                                placeholder="Ej: Elena"
+                                value={formData.firstName}
+                                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Apellido</label>
+                            <Input
+                                placeholder="Ej: Ruiz"
+                                value={formData.lastName}
+                                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                                required
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-f-secondary mb-1">DNI</label>
-                        <Input
-                            placeholder="8 dígitos"
-                            value={formData.dni}
-                            onChange={(e) => setFormData({ ...formData, dni: e.target.value })}
-                            required
-                        />
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">DNI</label>
+                            <Input
+                                placeholder="8 dígitos"
+                                value={formData.caregiverDni}
+                                onChange={(e) => setFormData({ ...formData, caregiverDni: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Fecha de Nacimiento</label>
+                            <Input
+                                type="date"
+                                value={formData.birthDate}
+                                onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
+                                required
+                            />
+                        </div>
                     </div>
-                    <div>
-                        <label className="block text-sm font-medium text-f-secondary mb-1">CBU / CVU</label>
-                        <Input
-                            placeholder="22 dígitos"
-                            value={formData.cbu}
-                            onChange={(e) => setFormData({ ...formData, cbu: e.target.value })}
-                            required
-                        />
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Email</label>
+                            <Input
+                                type="email"
+                                placeholder="cuidador@ejemplo.com"
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Teléfono</label>
+                            <Input
+                                placeholder="+5411..."
+                                value={formData.phoneNumber}
+                                onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Contraseña</label>
+                            <Input
+                                type="password"
+                                placeholder="••••••••"
+                                value={formData.password}
+                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Dirección</label>
+                            <Input
+                                placeholder="Calle 123, Ciudad"
+                                value={formData.address}
+                                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                                required
+                            />
+                        </div>
                     </div>
 
                     <div className="flex justify-end gap-3 mt-8">
@@ -274,6 +298,7 @@ const AdminCaregivers = () => {
                             variant="danger"
                             onClick={handleCloseModal}
                             className="h-11"
+                            disabled={isSubmitting}
                         >
                             Cancelar
                         </Button>
@@ -281,8 +306,9 @@ const AdminCaregivers = () => {
                             type="submit"
                             variant="admin"
                             className="h-11"
+                            disabled={isSubmitting}
                         >
-                            Guardar Cuidador
+                            {isSubmitting ? 'Guardando...' : 'Guardar Cuidador'}
                         </Button>
                     </div>
                 </form>

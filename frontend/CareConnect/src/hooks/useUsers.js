@@ -17,7 +17,7 @@ import { handleError } from "../utils/handleError";
  *  - Perform async operations outside this hook (Page stays clean).
  *
  * @returns {{
- *   users: Array<{ id: string, name: string, email: string, role: string, status: string }>,
+ *   users: Array<{ id: string, name: string, email: string, role: 'Admin'|'Cuidador'|'Paciente', status: string }>,
  *   loading: boolean,
  *   createUser: (data: object) => Promise<void>,
  *   updateUser: (id: string, data: object) => Promise<void>,
@@ -57,33 +57,7 @@ export const useUsers = () => {
             await fetchUsers();
         } catch (error) {
             handleError(error);
-        }
-    };
-
-    /**
-     * Update an existing user and refresh the list.
-     * @param {string} id
-     * @param {object} formData
-     */
-    const updateUser = async (id, formData) => {
-        try {
-            await adminService.updateUser(id, formData);
-            await fetchUsers();
-        } catch (error) {
-            handleError(error);
-        }
-    };
-
-    /**
-     * Deactivate a user and refresh the list.
-     * @param {string} id
-     */
-    const deactivateUser = async (id) => {
-        try {
-            await adminService.deactivateUser(id);
-            await fetchUsers();
-        } catch (error) {
-            handleError(error);
+            throw error;
         }
     };
 
@@ -91,8 +65,6 @@ export const useUsers = () => {
         users,
         loading,
         createUser,
-        updateUser,
-        deactivateUser,
         refetch: fetchUsers,
     };
 };

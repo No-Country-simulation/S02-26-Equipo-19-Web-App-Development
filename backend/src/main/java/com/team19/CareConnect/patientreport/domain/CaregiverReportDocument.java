@@ -1,5 +1,4 @@
 package com.team19.CareConnect.patientreport.domain;
-import com.team19.CareConnect.patientreport.domain.CaregiverReport;
 
 import jakarta.persistence.*;
 import lombok.Getter;

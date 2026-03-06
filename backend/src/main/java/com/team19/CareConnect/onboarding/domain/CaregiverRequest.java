@@ -1,7 +1,6 @@
 package com.team19.CareConnect.onboarding.domain;
 
-import com.team19.CareConnect.core.domain.Admin;
-import com.team19.CareConnect.onboarding.enums.ApplicationStatus;
+import com.team19.CareConnect.core.domain.admin.domain.Admin;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +17,6 @@ import java.util.List;
 @Setter @Getter
 @NoArgsConstructor
 public class CaregiverRequest {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "application_id")
@@ -46,10 +44,7 @@ public class CaregiverRequest {
     private Admin reviewedBy;
 
     // Relación con Document
-    @OneToMany(
-            mappedBy = "application",
-            cascade = CascadeType.ALL
-    )
+    @OneToMany(mappedBy = "application")
     private List<Document> documents = new ArrayList<>();
 
     // Relación con FormInformation

@@ -10,7 +10,7 @@ ALTER TABLE billing_information
     ALTER COLUMN updated_at TYPE TIMESTAMPTZ,
     ALTER COLUMN preferred_payment_method TYPE preferred_payment_method USING preferred_payment_method::preferred_payment_method;
 
-          ALTER TABLE caregiver
+ALTER TABLE caregiver
     RENAME COLUMN status TO caregiver_status;
 
 ALTER TABLE caregiver

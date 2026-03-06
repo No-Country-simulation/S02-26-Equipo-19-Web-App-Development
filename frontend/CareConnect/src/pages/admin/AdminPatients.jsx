@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Plus, Edit2, Ban } from 'lucide-react';
+import { Plus } from 'lucide-react';
+import { toast } from 'react-toastify';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/Table';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
@@ -10,18 +11,23 @@ import SearchInput from './components/SearchInput';
 import AdminModal from './components/AdminModal';
 
 const AdminPatients = () => {
-    const { patients, loading, updatePatient, deactivatePatient } = usePatients();
+    const { patients, loading, createPatient } = usePatients();
 
     const [selectedFilter, setSelectedFilter] = useState('Todos');
     const [searchQuery, setSearchQuery] = useState('');
 
     // -- Modal and Form State --
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
-        fullName: '',
-        age: '',
-        dni: '',
-        representative: ''
+        firstName: '',
+        lastName: '',
+        patientDni: '',
+        birthDate: '',
+        email: '',
+        phoneNumber: '',
+        address: '',
+        guardianId: 1
     });
 
     const filters = ['Todos', 'Activos', 'Inactivos'];
@@ -39,7 +45,7 @@ const AdminPatients = () => {
         const matchesSearch =
             !query ||
             p.fullName.toLowerCase().includes(query) ||
-            p.dni.includes(query);
+            p.email?.toLowerCase().includes(query);
 
         return matchesFilter && matchesSearch;
     });
@@ -54,17 +60,13 @@ const AdminPatients = () => {
             cellClassName: 'font-body text-f-primary font-bold',
         },
         {
-            header: 'Edad',
-            accessor: 'age',
+            header: 'Email',
+            accessor: 'email',
         },
         {
-            header: 'DNI',
-            accessor: 'dni',
-        },
-        {
-            header: 'Representante',
-            accessor: 'representative',
-            render: (row) => row.representative || '-',
+            header: 'Teléfono',
+            accessor: 'phone',
+            render: (row) => row.phone || '-',
         },
         {
             header: 'Estado',
@@ -81,24 +83,6 @@ const AdminPatients = () => {
             ),
         },
     ];
-    const renderActions = (row, closeMenu) => (
-        <>
-            <button
-                onClick={() => { console.log('Edit', row); closeMenu(); }}
-                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-            >
-                <Edit2 size={16} />
-                Editar
-            </button>
-            <button
-                onClick={() => { deactivatePatient(row.id); closeMenu(); }}
-                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-            >
-                <Ban size={16} />
-                Desactivar
-            </button>
-        </>
-    );
 
     const handleCreate = () => {
         setIsModalOpen(true);
@@ -106,14 +90,46 @@ const AdminPatients = () => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
-        setFormData({ fullName: '', age: '', dni: '', representative: '' });
+        setFormData({
+            firstName: '',
+            lastName: '',
+            patientDni: '',
+            birthDate: '',
+            email: '',
+            phoneNumber: '',
+            address: '',
+            guardianId: null
+        });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // UI Only - no backend call yet
-        console.log('Creating patient:', formData);
-        handleCloseModal();
+
+        // Basic Validation
+        if (
+            !formData.firstName ||
+            !formData.lastName ||
+            !formData.patientDni ||
+            !formData.birthDate ||
+            !formData.email ||
+            !formData.phoneNumber ||
+            !formData.address
+        ) {
+            toast.error('Por favor completa todos los campos obligatorios');
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            await createPatient(formData);
+            toast.success('Paciente agregado correctamente');
+            handleCloseModal();
+        } catch (error) {
+            // Error handling is centralized in usePatients/handleError
+            console.error('Submit error:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     // -----------------------------------------------------------------
@@ -175,7 +191,6 @@ const AdminPatients = () => {
                 <Table
                     columns={columns}
                     data={filteredPatients}
-                    renderActions={renderActions}
                 />
             )}
 
@@ -186,42 +201,77 @@ const AdminPatients = () => {
                 onClose={handleCloseModal}
             >
                 <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-f-secondary mb-1">Nombre Completo</label>
-                        <Input
-                            placeholder="Ej: Pedro Gómez"
-                            value={formData.fullName}
-                            onChange={(e) => setFormData({ ...formData, fullName: e.target.value })}
-                            required
-                        />
-                    </div>
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <label className="block text-sm font-medium text-f-secondary mb-1">Edad</label>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Nombre</label>
                             <Input
-                                type="number"
-                                placeholder="Ej: 75"
-                                value={formData.age}
-                                onChange={(e) => setFormData({ ...formData, age: e.target.value })}
+                                placeholder="Ej: Pedro"
+                                value={formData.firstName}
+                                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                                 required
                             />
                         </div>
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Apellido</label>
+                            <Input
+                                placeholder="Ej: Gómez"
+                                value={formData.lastName}
+                                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                                required
+                            />
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-4">
                         <div>
                             <label className="block text-sm font-medium text-f-secondary mb-1">DNI</label>
                             <Input
                                 placeholder="8 dígitos"
-                                value={formData.dni}
-                                onChange={(e) => setFormData({ ...formData, dni: e.target.value })}
+                                value={formData.patientDni}
+                                onChange={(e) => setFormData({ ...formData, patientDni: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Fecha de Nacimiento</label>
+                            <Input
+                                type="date"
+                                value={formData.birthDate}
+                                onChange={(e) => setFormData({ ...formData, birthDate: e.target.value })}
                                 required
                             />
                         </div>
                     </div>
+
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Email</label>
+                            <Input
+                                type="email"
+                                placeholder="paciente@ejemplo.com"
+                                value={formData.email}
+                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                required
+                            />
+                        </div>
+                        <div>
+                            <label className="block text-sm font-medium text-f-secondary mb-1">Teléfono</label>
+                            <Input
+                                placeholder="+5411..."
+                                value={formData.phoneNumber}
+                                onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+                                required
+                            />
+                        </div>
+                    </div>
+
                     <div>
-                        <label className="block text-sm font-medium text-f-secondary mb-1">Representante / Familiar</label>
+                        <label className="block text-sm font-medium text-f-secondary mb-1">Dirección</label>
                         <Input
-                            placeholder="Nombre del contacto principal"
-                            value={formData.representative}
-                            onChange={(e) => setFormData({ ...formData, representative: e.target.value })}
+                            placeholder="Calle 123, Ciudad"
+                            value={formData.address}
+                            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                            required
                         />
                     </div>
 
@@ -231,6 +281,7 @@ const AdminPatients = () => {
                             variant="danger"
                             onClick={handleCloseModal}
                             className="h-11"
+                            disabled={isSubmitting}
                         >
                             Cancelar
                         </Button>
@@ -238,8 +289,9 @@ const AdminPatients = () => {
                             type="submit"
                             variant="admin"
                             className="h-11"
+                            disabled={isSubmitting}
                         >
-                            Guardar Paciente
+                            {isSubmitting ? 'Guardando...' : 'Guardar Paciente'}
                         </Button>
                     </div>
                 </form>

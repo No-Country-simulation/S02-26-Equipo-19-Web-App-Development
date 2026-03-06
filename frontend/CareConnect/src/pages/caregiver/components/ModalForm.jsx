@@ -89,7 +89,7 @@ const ModalForm = ({ isOpen, setOpen, onAddReport, patientName }) => {
                         <input
                             type="number"
                             value={presion1}
-                            onChange={(e) => setPresion1(e.target.value +"/")}
+                            onChange={(e) => setPresion1(e.target.value )}
                             placeholder="120"
                             className="w-12 text-sm bg-bg-primary border-border border p-1 rounded-lg outline-none"
                         />
@@ -108,7 +108,7 @@ const ModalForm = ({ isOpen, setOpen, onAddReport, patientName }) => {
                     <input
                         type="number"
                         value={temp}
-                        onChange={(e) => setTemp(e.target.value + "°C")}
+                        onChange={(e) => setTemp(e.target.value)}
                         className="bg-bg-primary border-border border p-2 rounded-lg outline-none"
                         placeholder="36.5"
                     />
@@ -118,7 +118,7 @@ const ModalForm = ({ isOpen, setOpen, onAddReport, patientName }) => {
                     <input
                         type="number"
                         value={pulso}
-                        onChange={(e) => setPulso(e.target.value + " bpm")}
+                        onChange={(e) => setPulso(e.target.value)}
                         className="bg-bg-primary border-border border p-2 rounded-lg outline-none"
                         placeholder="72"
                     />

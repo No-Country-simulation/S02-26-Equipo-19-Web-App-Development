@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Edit2, Ban } from 'lucide-react';
+import { Plus } from 'lucide-react';
 import Button from '../../components/common/Button';
 import Table from '../../components/common/Table';
 import LoadingSpinner from '../../components/common/LoadingSpinner';
@@ -10,12 +10,13 @@ import SearchInput from './components/SearchInput';
 import AdminModal from './components/AdminModal';
 
 const AdminUsers = () => {
-    const { users, loading, deactivateUser } = useUsers();
+    const { users, loading, createUser } = useUsers();
     const [selectedFilter, setSelectedFilter] = useState('Todos');
     const [searchQuery, setSearchQuery] = useState('');
 
     // -- Modal and Form State --
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -23,7 +24,7 @@ const AdminUsers = () => {
         password: ''
     });
 
-    const filters = ['Todos', 'Cuidadores', 'Pacientes', 'Familia'];
+    const filters = ['Todos', 'Admin', 'Cuidadores', 'Pacientes'];
 
     // -----------------------------------------------------------------
     // Derived list: filter by role pill + search input
@@ -31,9 +32,9 @@ const AdminUsers = () => {
     const filteredUsers = users.filter((user) => {
         const matchesFilter =
             selectedFilter === 'Todos' ||
+            (selectedFilter === 'Admin' && user.role === 'Admin') ||
             (selectedFilter === 'Cuidadores' && user.role === 'Cuidador') ||
-            (selectedFilter === 'Pacientes' && user.role === 'Paciente') ||
-            (selectedFilter === 'Familia' && user.role === 'Familia');
+            (selectedFilter === 'Pacientes' && user.role === 'Paciente');
 
         const query = searchQuery.toLowerCase();
         const matchesSearch =
@@ -73,24 +74,6 @@ const AdminUsers = () => {
             )
         }
     ];
-    const renderActions = (user, closeMenu) => (
-        <>
-            <button
-                onClick={() => { console.log('Edit', user); closeMenu(); }}
-                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-            >
-                <Edit2 size={16} />
-                Editar
-            </button>
-            <button
-                onClick={() => { deactivateUser(user.id); closeMenu(); }}
-                className="w-full px-4 py-3 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"
-            >
-                <Ban size={16} />
-                Desactivar
-            </button>
-        </>
-    );
 
     const handleCreate = () => {
         setIsModalOpen(true);
@@ -101,11 +84,22 @@ const AdminUsers = () => {
         setFormData({ name: '', email: '', role: 'Cuidador', password: '' });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // UI Only - no backend call yet
-        console.log('Creating user:', formData);
-        handleCloseModal();
+
+        if (!formData.name || !formData.email || !formData.password) {
+            return;
+        }
+
+        setIsSubmitting(true);
+        try {
+            await createUser(formData);
+            handleCloseModal();
+        } catch (error) {
+            console.error('Submit error:', error);
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     return (
@@ -163,7 +157,6 @@ const AdminUsers = () => {
                 <Table
                     columns={columns}
                     data={filteredUsers}
-                    renderActions={renderActions}
                 />
             )}
 
@@ -230,8 +223,9 @@ const AdminUsers = () => {
                             type="submit"
                             variant="admin"
                             className="h-11"
+                            disabled={isSubmitting}
                         >
-                            Guardar Usuario
+                            {isSubmitting ? 'Guardando...' : 'Guardar Usuario'}
                         </Button>
                     </div>
                 </form>

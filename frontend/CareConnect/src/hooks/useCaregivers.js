@@ -18,13 +18,15 @@ import { handleError } from "../utils/handleError";
  *  - Perform async operations outside this hook (Page stays clean).
  *
  * @returns {{
- *   caregivers: Array<{ id: string, fullName: string, dni: string, cbu: string, workedHours: number }>,
+ *   caregivers: Array<{ id: string, fullName: string, dni: string, cbu: string, workedHours: number, status: string }>,
  *   loading: boolean,
  *   createCaregiver: (data: object) => Promise<void>,
  *   updateCaregiver: (id: string, data: object) => Promise<void>,
  *   deactivateCaregiver: (id: string) => Promise<void>,
  *   refetch: () => Promise<void>
  * }}
+ * @note `cbu` defaults to "-" and `workedHours` to 0 since the GET /api/v1/admin/caregiver
+ *       endpoint does not return those fields currently.
  */
 export const useCaregivers = () => {
     const [caregivers, setCaregivers] = useState([]);
@@ -50,7 +52,7 @@ export const useCaregivers = () => {
 
     /**
      * Create a new caregiver and refresh the list.
-     * @param {{ fullName: string, dni: string, cbu: string }} formData
+     * @param {Object} formData
      */
     const createCaregiver = async (formData) => {
         try {
@@ -58,6 +60,7 @@ export const useCaregivers = () => {
             await fetchCaregivers();
         } catch (error) {
             handleError(error);
+            throw error;
         }
     };
 
@@ -66,34 +69,10 @@ export const useCaregivers = () => {
      * @param {string} id
      * @param {{ fullName?: string, dni?: string, cbu?: string }} formData
      */
-    const updateCaregiver = async (id, formData) => {
-        try {
-            await adminService.updateCaregiver(id, formData);
-            await fetchCaregivers();
-        } catch (error) {
-            handleError(error);
-        }
-    };
-
-    /**
-     * Deactivate a caregiver and refresh the list.
-     * @param {string} id
-     */
-    const deactivateCaregiver = async (id) => {
-        try {
-            await adminService.deactivateCaregiver(id);
-            await fetchCaregivers();
-        } catch (error) {
-            handleError(error);
-        }
-    };
-
     return {
         caregivers,
         loading,
         createCaregiver,
-        updateCaregiver,
-        deactivateCaregiver,
         refetch: fetchCaregivers,
     };
 };
