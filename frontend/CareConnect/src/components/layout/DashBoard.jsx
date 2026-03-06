@@ -12,12 +12,12 @@ const DashBoard = ({ rol, patients, activeId, setActiveId }) => {
             <ul className="gap-1">
                 {patients.map((patient) => (
                     <Patient
-                        name={patient.name}
-                        age={patient.age}
-                        estable={patient.estable}
-                        key={patient.id}
-                        isActive={patient.id === activeId}
-                        onClick={() => setActiveId(patient.id)}
+                        name={patient.patientName}
+                        // age={patient.age}
+                        // estable={patient.estable}
+                        key={patient.patientId}
+                        isActive={patient.patientId === activeId}
+                        onClick={() => setActiveId(patient.patientId)}
                         rol={rol}
                     />
                 ))}

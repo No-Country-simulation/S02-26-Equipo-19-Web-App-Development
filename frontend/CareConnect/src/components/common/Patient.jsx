@@ -1,4 +1,4 @@
-const Patient = ({ name, age, estable, isActive, onClick, rol = "family" }) => {
+const Patient = ({ name, age= 80, estable = false, isActive, onClick, rol = "family" }) => {
     let info;
     if (!estable) {
         info = {
