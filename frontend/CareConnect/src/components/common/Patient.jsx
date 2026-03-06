@@ -12,17 +12,25 @@ const Patient = ({ name, age, estable, isActive, onClick, rol = "family" }) => {
         };
     }
 
-    const getHoverClass = () => {
-        return rol === "family" ? "bg-page-family-hover border-page-family" : "bg-page-caregivers-hover border-page-caregivers";
+    const getFamilyClasses = () => {
+        return "border-transparent hover:border-page-family";
+    };
+
+    const getCaregiverClasses = () => {
+        return "border-transparent hover:border-page-caregivers";
     };
 
     const getBgClass = () => {
-        return isActive ? getHoverClass() : "bg-bg-tertiary border-transparent";
+        return isActive ? "bg-bg-tertiary" : "bg-bg-secondary";
+    };
+
+    const getBorderClass = () => {
+        return rol === "family" ? getFamilyClasses() : getCaregiverClasses();
     };
 
     return (
         <li
-            className={`p-5 ${getBgClass()} mb-3 rounded-xl text-f-secondary hover:${getHoverClass()} border-2 transition-all`}
+            className={`p-5 ${getBgClass()} mb-3 rounded-xl text-f-secondary border-2 ${getBorderClass()} transition-all cursor-pointer`}
             onClick={onClick}
         >
             <h4 className="text-base text-f-primary font-heading">{name}</h4>

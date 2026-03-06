@@ -16,7 +16,7 @@ const Button = ({
 }) => {
 
     const baseStyles =
-        `font-body text-bg-primary font-medium py-4 px-2 rounded-lg
+        `font-body text-white font-medium py-4 px-2 rounded-lg
      inline-flex items-center justify-center gap-2 focus:ring-4 focus:ring-offset-2
      hover:brightness-90 transition-all duration-200 ease-in-out`
 

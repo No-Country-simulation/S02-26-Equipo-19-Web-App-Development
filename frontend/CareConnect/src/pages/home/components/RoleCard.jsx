@@ -6,8 +6,8 @@ const RoleCard = ({ icon, label, isSelected, onClick }) => {
         flex flex-col items-center justify-center gap-3 
         py-6 px-8 rounded-xl border-2 transition-all duration-200
         ${isSelected
-                    ? 'border-page-login bg-blue-50'
-                    : 'border-border bg-bg-secondary hover:border-f-secondary'
+                    ? 'border-page-login bg-bg-tertiary dark:bg-bg-secondary'
+                    : 'border-border bg-bg-secondary hover:border-f-secondary hover:bg-bg-tertiary'
                 }
       `}
         >

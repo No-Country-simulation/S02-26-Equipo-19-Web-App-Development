@@ -1,5 +1,7 @@
 #  Guia de estilos
 
+> **Nota:** la aplicación ahora soporta **modo oscuro**. Un hook (`useDarkMode`) y un botón (`ThemeToggle`) añaden la clase `dark` a `<html>` y todas las variables de color se ajustan automáticamente.
+
 ##  Tipografías
 
 | Variable         | Uso                   |

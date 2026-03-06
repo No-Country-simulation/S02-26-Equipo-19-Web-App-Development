@@ -66,7 +66,7 @@ const AdminUsers = () => {
                 <span
                     className={`inline-flex items-center px-2 py-1 rounded text-xs font-medium ${user.status === 'Activo'
                         ? 'bg-page-caregivers-hover text-page-caregivers'
-                        : 'bg-gray-100 text-gray-500'
+                        : 'bg-bg-secondary text-f-secondary dark:bg-bg-tertiary dark:text-f-primary'
                         }`}
                 >
                     {user.status}
@@ -126,8 +126,8 @@ const AdminUsers = () => {
                             key={filter}
                             onClick={() => setSelectedFilter(filter)}
                             className={`px-4 py-1.5 rounded-full text-sm font-medium transition-colors ${selectedFilter === filter
-                                ? 'bg-white text-f-primary shadow-sm border border-gray-200'
-                                : 'bg-transparent text-f-secondary hover:text-f-primary hover:bg-gray-100'
+                                ? 'bg-bg-secondary text-f-primary shadow-sm border border-border'
+                                : 'bg-transparent text-f-secondary hover:text-f-primary hover:bg-bg-tertiary'
                                 }`}
                         >
                             {filter}
