@@ -1,0 +1,81 @@
+@import "tailwindcss";
+
+body {
+  background-color: var(--color-bg-primary);
+}
+/* Chrome, Safari, Edge */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* Date input calendar icon styling */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  border-radius: 0.375rem;
+  padding: 4px;
+}
+
+.dark input[type="date"]::-webkit-calendar-picker-indicator {
+  filter: invert(1) brightness(0.9);
+}
+
+@theme {
+  --font-heading: "spline-sans", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --color-bg-primary: #F9FAFB;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #ECECF0;
+  
+  --color-f-primary: #0A0A0A;
+  --color-f-secondary: #717182;
+
+  --color-page-family: #9810FA;
+  --color-page-family-hover: #FAF5FF;
+  --color-page-caregivers: #00A63E;
+  --color-page-caregivers-hover: #F0FDF4;
+  --color-page-login: #4F39F6;
+  --color-page-admin: #155DFC;
+  --color-page-reports: #FF8A00;
+
+  --color-border: #E5E5E5;
+  
+  --color-alert:#FEF9C2;
+  --color-main-alert: #F0B100;
+
+  --color-rejected: #E7040E;
+
+}
+
+/* Dark mode overrides */
+.dark {
+  --color-bg-primary: #1A1A1A;
+  --color-bg-secondary: #272727;
+  --color-bg-tertiary: #3A3A3A;
+
+  --color-f-primary: #FFFFFF;
+  --color-f-secondary: #B3B3B3;
+
+  /* border also darkened */
+  --color-border: #444444;
+
+  /* keep page colors as-is or adjust if desired */
+  --color-page-family: #9810FA;
+  --color-page-family-hover: #FAF5FF;
+  --color-page-caregivers: #00A63E;
+  --color-page-caregivers-hover: #F0FDF4;
+  --color-page-login: #4F39F6;
+  --color-page-admin: #155DFC;
+  --color-page-reports: #FF8A00;
+
+  --color-alert:#FEF9C2;
+  --color-main-alert: #F0B100;
+  --color-rejected: #E7040E;
+}
