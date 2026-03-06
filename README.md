@@ -22,6 +22,8 @@ CareConnect es una plataforma web diseñada para gestionar integralmente servici
 - Automatizar procesos de pago
 - Mejorar la comunicacion entre acompañantes, familias , paciente y administradores  
 
+## Video del proyecto
+ [YouTube](https://youtu.be/58vVAb8x57A)
 
 ## Equipo S02-26-E19
 
